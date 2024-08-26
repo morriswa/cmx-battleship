@@ -1,0 +1,54 @@
+@use "variables" as *;
+@use "tools" as *;
+
+.mwa-generic-input {
+
+  @extend .bold-text;
+
+  margin: 0;
+  padding: 10px 20px;
+
+  border: none;
+  border-radius: $border-radius;
+
+  font-size: $font-size;
+  background-color: $surface-color;
+}
+
+.mwa-button {
+
+  @extend .mwa-generic-input;
+
+  &:focus-visible, &:focus-within {
+    outline: solid $border-thickness $primary;
+  }
+}
+
+.mwa-input {
+
+  @extend .mwa-generic-input;
+
+  border: solid $border-thickness $surface-color;
+
+  &:focus-visible, &:focus-within {
+    border: solid $border-thickness $primary !important;
+    outline: none;
+  }
+}
+
+.hold-to-action {
+  background: linear-gradient(to right, $primary 50%, $surface-color 50%) right;
+  background-size: 200% 100%;
+
+  &:focus-visible, &:focus-within {
+    outline: none;
+  }
+
+  &.on-hold {
+    transition: all $hold-to-action-time ease-out;
+  }
+
+  &:active {
+    background-position: left bottom;
+  }
+}
