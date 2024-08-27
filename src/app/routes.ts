@@ -1,6 +1,5 @@
 import {Routes} from "@angular/router";
 import {PlayGameComponent} from "./pages/play-game/play-game.component";
-import {AboutUsComponent} from "./pages/about-us/about-us.component";
 
 
 export const routes: Routes = [
@@ -10,7 +9,11 @@ export const routes: Routes = [
   },
   {
     path: "about",
-    component: AboutUsComponent,
+    loadComponent: () => import('src/app/pages/about-us/about-us.component').then(m=>m.AboutUsComponent)
+  },
+  {
+    path: "gamerules",
+    loadComponent: ()=> import('src/app/pages/game-rules/game-rules.component').then(m=>m.GameRulesComponent)
   },
   {
     path: "",
