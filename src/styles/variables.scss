@@ -8,6 +8,7 @@ $code-font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 monospace;
 
 $bold-font-weight: 700;
+$font-weight: 400;
 
 $font-size-lg: 18px;
 $font-size: 14px;
@@ -16,17 +17,6 @@ $font-size: 14px;
 $primary: #ff78f8;
 $secondary: #2f2f2f;
 
-$header-bg-color: $primary;
 $surface-color: #efefef;
 $error-color: #ff3636;
 
-// surfaces and stuff
-$border-thickness: 2px;
-$border-radius: 8px;
-$column-gap: 10px;
-
-// utils
-.variables {
-  --hold-to-action-time: 2s;
-}
-$hold-to-action-time: var(--hold-to-action-time);

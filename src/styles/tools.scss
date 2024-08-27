@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: row;
 
-  &.space-between {
+  &.space-between-items {
     justify-content: space-between;
   }
 
@@ -14,10 +14,6 @@
 
   &.align-items-center {
     align-items: center;
-  }
-
-  &.col-gap {
-    column-gap: $column-gap;
   }
 }
 
