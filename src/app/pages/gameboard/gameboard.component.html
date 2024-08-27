@@ -1,0 +1,8 @@
+
+@for (row of rows; track row) {
+  <div class="flex-row">
+    @for (col of cols; track col) {
+      <h1 style="border: solid 2px black">{{ row + col }}&nbsp;</h1>
+    }
+  </div>
+}
