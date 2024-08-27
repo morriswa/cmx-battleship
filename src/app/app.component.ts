@@ -1,15 +1,12 @@
 import {Component} from "@angular/core";
 import {RouterOutlet} from "@angular/router";
-import {GameboardComponent} from "./pages/gameboard/gameboard.component";
 
 @Component({
   selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrl: "./app.component.scss",
+  template: "<router-outlet/>",
+  standalone: true,
   imports: [
-    RouterOutlet,
-    GameboardComponent
-  ],
-  standalone: true
+    RouterOutlet
+  ]
 })
-export class AppComponent { }
+export class AppComponent {}
