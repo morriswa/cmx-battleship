@@ -1,9 +1,13 @@
 import {Component} from "@angular/core";
+import {GameTileComponent} from "../../components/game-tile/game-tile.component";
 
 @Component({
   selector: 'app-gameboard',
   templateUrl: './gameboard.component.html',
   standalone: true,
+  imports: [
+    GameTileComponent
+  ],
   styleUrl: "./gameboard.component.scss"
 })
 export class GameboardComponent {
