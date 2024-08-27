@@ -5,6 +5,7 @@ import {GameboardComponent} from "./pages/gameboard/gameboard.component";
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
+  styleUrl: "./app.component.scss",
   imports: [
     RouterOutlet,
     GameboardComponent
