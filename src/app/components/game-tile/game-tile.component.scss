@@ -1,7 +1,10 @@
 @use "src/styles/variables" as *;
 
 .game-tile {
-  border: solid 1px black;
+  cursor: pointer;
+  user-select: none;
+
+  border: solid $game-tile-border-width $game-tile-border-color;
   height: $game-tile-height;
   width: $game-tile-width;
 
