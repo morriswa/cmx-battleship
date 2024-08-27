@@ -16,11 +16,21 @@ $font-size: 14px;
 // colors
 $primary: #ff78f8;
 $secondary: #2f2f2f;
+$clear: rgba(0,0,0,0);
 
 $surface-color: #efefef;
 $error-color: #ff3636;
 
-//
+// game tile & header variables
 $game-tile-width: 50px;
 $game-tile-height: 50px;
+$game-tile-border-width: 1px;
+
+// game tile variables
 $game-tile-font-size: $font-size-lg;
+$game-tile-font-weight: $font-weight;
+$game-tile-border-color: black;
+
+// game tile header variables
+$game-tile-header-font-size: $font-size-lg;
+$game-tile-header-font-weight: $bold-font-weight;

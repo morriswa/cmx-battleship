@@ -1,13 +1,15 @@
-
 @use "src/styles/variables" as *;
 
 .game-tile {
   border: solid 1px black;
   height: $game-tile-height;
   width: $game-tile-width;
-  font-size: $game-tile-font-size;
 
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.game-tile-text {
+  font-size: $game-tile-font-size;
 }

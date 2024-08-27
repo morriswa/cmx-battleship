@@ -1,8 +1,28 @@
+<!-- all gameboard column headers -->
+<div class="flex-row">
+  <!-- Top left corner of the gameboard-->
+  <div class="gameboard-row-header">
+    <span>&nbsp;</span>
+  </div>
+
+  @for (col of cols; track col) {
+    <div class="gameboard-col-header">
+      <span class="gameboard-header-text">{{ col }}</span>
+    </div>
+  }
+</div>
 
 @for (row of rows; track row) {
   <div class="flex-row">
+
+    <!-- all gameboard row headers -->
+    <div class="gameboard-row-header">
+      <span class="gameboard-header-text">{{ row }}</span>
+    </div>
+
     @for (col of cols; track col) {
-      <app-game-tile [tileId]="row+col"/>
+      <app-game-tile [tileId]="col+row"/>
     }
+
   </div>
 }

@@ -1,0 +1,16 @@
+@use "src/styles/variables" as *;
+
+.gameboard-row-header, .gameboard-col-header {
+  width: $game-tile-width;
+  height: $game-tile-height;
+  border: solid $game-tile-border-width $clear;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gameboard-header-text {
+  font-size: $game-tile-header-font-size;
+  font-weight: $game-tile-header-font-weight;
+}
