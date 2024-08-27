@@ -14,5 +14,6 @@ export class GameTileDirective {
   @HostListener('mousedown')
   onClick() {
     console.log(`click detected ${this.tileId}`);
+    
   }
 }

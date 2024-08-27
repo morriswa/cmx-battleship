@@ -6,8 +6,19 @@
   height: $game-tile-height;
   width: $game-tile-width;
   font-size: $game-tile-font-size;
+  cursor: pointer;
 
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &:hover {
+    background-color:#0051ba
+
+  }
+
+  &:active {
+    background-color:red;
+
+  }
 }
