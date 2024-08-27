@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {GameTileComponent} from "../../components/game-tile/game-tile.component";
+import {GameTileComponent} from "../game-tile/game-tile.component";
 
 @Component({
   selector: 'app-gameboard',
@@ -11,8 +11,8 @@ import {GameTileComponent} from "../../components/game-tile/game-tile.component"
   styleUrl: "./gameboard.component.scss"
 })
 export class GameboardComponent {
-  rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-  cols = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+  cols = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+  rows = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
 
 }

@@ -1,4 +1,3 @@
-
 @use "src/styles/variables" as *;
 
 .game-tile {
@@ -21,4 +20,8 @@
     background-color:red;
 
   }
+}
+
+.game-tile-text {
+  font-size: $game-tile-font-size;
 }
