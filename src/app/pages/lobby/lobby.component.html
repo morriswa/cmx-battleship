@@ -1,0 +1,13 @@
+<p>lobby</p>
+
+<span>search for player: </span>
+<input [formControl]="searchedPlayer">
+
+<button (click)="onSubmit()">join</button><br>
+
+<button>random</button>
+
+<p> available players </p>
+@for (player of _testData; track player.player_id) {
+    <p>{{player.player_name}}</p>
+}
