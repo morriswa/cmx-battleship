@@ -1,7 +1,7 @@
 <p>landing page</p>
 
 <span>enter user name: </span>
-<input [formControl]="playerNameForm">
+<input [formControl]="playerNameForm" (keydown.enter)="onSubmit()">
     <!--
     input box created with the <input> tag
     [formControl]= is used to save the user input into the playerNameForm variable

@@ -3,7 +3,7 @@
 <span>search for player: </span>
 <input [formControl]="searchedPlayer">
 
-<button (click)="onSubmit()">join</button><br>
+<button (click)="onSubmit()" (keydown.enter)="onSubmit()">join</button><br>
 
 <button>random</button>
 
