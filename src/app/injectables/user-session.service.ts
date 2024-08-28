@@ -8,6 +8,11 @@ export class UserSessionService {
 
   sessionInfo: WritableSignal<UserSession | undefined> = signal(undefined);
 
+  constructor() {
+    const sessionInfoCache = localStorage.getItem("sessionInfo");
+    if (sessionInfoCache) this.sessionInfo.set(JSON.parse(sessionInfoCache));
+  }
+
   async startSession(request: StartUserSession): Promise<void>  {
     const session = await this.api.startUserSession(request);
     if (!session) throw new Error("failed to start session");
@@ -17,5 +22,13 @@ export class UserSessionService {
       session_id: session.session_id,
       num_ships: request.num_ships,
     });
+    localStorage.setItem("sessionInfo", JSON.stringify(this.sessionInfo()));
+  }
+
+  async endSession() {
+    const sessionInfo = this.sessionInfo();
+    if (!sessionInfo) return;
+    await this.api.endUserSession(sessionInfo.session_id);
+    localStorage.removeItem("sessionInfo");
   }
 }

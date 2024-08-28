@@ -30,6 +30,6 @@ export class ApiClient {
   }
 
   endUserSession(session_id: string): Promise<NewUserSession | undefined> {
-    return this.request<NewUserSession>('POST', `${this.endpoint}/lobby`, { session_id: session_id });
+    return this.request<NewUserSession>('DELETE', `${this.endpoint}/lobby`, { session_id: session_id });
   }
 }
