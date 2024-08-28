@@ -1,40 +1,47 @@
-import { Component, WritableSignal, signal } from "@angular/core";
+import {Component, inject} from "@angular/core";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import {
+  RadioButtonFormControl,
+  RadioButtonGroupComponent
+} from "../../components/radio-button-group/radio-button-group.component";
+import {UserSessionService} from "../../injectables/user-session.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: "app-landing-page",
     standalone: true,
     templateUrl: "./landing-page.component.html",
     styleUrl: "./landing-page.component.scss",
-    imports: [ReactiveFormsModule]
+  imports: [ReactiveFormsModule, RadioButtonGroupComponent]
 })
-
-
 export class LandingPageComponent{
+    // services
+    userSS = inject(UserSessionService);
+    router = inject(Router);
+
     //variables
     playerNameForm = new FormControl(); // new variable of type FormControl(), which will be used to save user input
-    playerLoginMessage = signal(""); // create variable that saves a value that can be changed (thanks to the signal method!)
-    numberOfShips:WritableSignal<number|undefined> = signal(undefined); // variable that will store the chosen number of battleships
-    playerShipMessage = signal("");
+    shipForm = new RadioButtonFormControl([
+        {label: '1', value: 1},
+        {label: '2', value: 2},
+        {label: '3', value: 3},
+        {label: '4', value: 4},
+        {label: '5', value: 5},
+    ]);
 
     //methods
-    onSubmit() { // method that is called when the submit button (in landing-page.component.html) is clicked or enter key is pressed
+    async onSubmit() { // method that is called when the submit button (in landing-page.component.html) is clicked or enter key is pressed
         // 'this.' is like 'self.' in python, it just references the variables in itself
 
-        console.log(`Logged in as ${this.playerNameForm.value}`); //puts playerName into console using console.log(), and prints the statement in quotes. $ is used to refer to a variable 
-        this.playerLoginMessage.set(`Welcome, ${this.playerNameForm.value}`); // .set will set playerLoginMessage to whatever is input when the button is clicked
-        this.playerNameForm.reset(); // reset is a method that will get rid of the input text after submitting it
-    }
-
-    shipSelector(selection:number) {
-
-        this.numberOfShips.set(selection);
-        console.log(`Picked ${this.numberOfShips()}`);
-        if (selection===1) {
-            this.playerShipMessage.set(`You chose 1 ship`);
-        }
-        else {
-            this.playerShipMessage.set(`You chose ${selection} ships`);
+        if (this.playerNameForm.valid && this.shipForm.valid) {
+            await this.userSS.startSession({
+                player_name: this.playerNameForm.value,
+                num_ships: String(this.shipForm.value),
+            });
+            this.playerNameForm.reset(); // reset is a method that will get rid of the input text after submitting it
+            this.shipForm.reset();
+            this.router.navigate(['/play'])
         }
     }
+
 }

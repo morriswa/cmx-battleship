@@ -1,8 +1,7 @@
 import {inject, Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import * as process from "node:process";
 import {firstValueFrom} from "rxjs";
-import {StartUserSession, UserSession} from "../types/user-session.type";
+import {StartUserSession, NewUserSession} from "../types/user-session.type";
 
 
 export type SUPPORTED_METHODS = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -26,11 +25,11 @@ export class ApiClient {
   }
 
   // public api
-  startUserSession(request: StartUserSession): Promise<UserSession | undefined> {
-    return this.request<UserSession>('POST', `${this.endpoint}/lobby`, request);
+  startUserSession(request: StartUserSession): Promise<NewUserSession | undefined> {
+    return this.request<NewUserSession>('POST', `${this.endpoint}/lobby`, request);
   }
 
-  endUserSession(session_id: string): Promise<UserSession | undefined> {
-    return this.request<UserSession>('POST', `${this.endpoint}/lobby`, { session_id: session_id });
+  endUserSession(session_id: string): Promise<NewUserSession | undefined> {
+    return this.request<NewUserSession>('POST', `${this.endpoint}/lobby`, { session_id: session_id });
   }
 }

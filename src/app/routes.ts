@@ -2,6 +2,7 @@ import {Routes} from "@angular/router";
 import {PlayGameComponent} from "./pages/play-game/play-game.component";
 import {AboutUsComponent} from "./pages/about-us/about-us.component";
 import { LandingPageComponent } from "./pages/landing-page/landing-page.component";
+import {UserSessionGuard} from "./guards/user-session.guard";
 
 
 export const routes: Routes = [
@@ -11,6 +12,7 @@ export const routes: Routes = [
   },
   {
     path: "play",
+    canActivate: [UserSessionGuard],
     component: PlayGameComponent,
   },
   {
@@ -20,6 +22,6 @@ export const routes: Routes = [
   {
     path: "",
     pathMatch: "full",
-    redirectTo: "play"
+    redirectTo: "start"
   }
 ]

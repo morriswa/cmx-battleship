@@ -1,4 +1,9 @@
-<div class="app-body">
-    <h1>Welcome to battleship</h1>
+<div class="app-body" *ngIf="uss.sessionInfo() as session">
+    <h1>Welcome to battleship {{ session.player_name }}</h1>
+    <h3>
+      Please begin by placing your
+      {{ session.num_ships === '1'? 'ship' : session.num_ships + ' ships' }}
+      ...
+    </h3>
     <app-gameboard class="app-gameboard"></app-gameboard>
 </div>

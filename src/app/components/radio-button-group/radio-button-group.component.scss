@@ -1,0 +1,14 @@
+@use "src/styles/variables" as *;
+
+.radio-button-group {
+  width: fit-content;
+}
+
+.radio-button {
+  padding: 10px;
+  border: solid 1px blue;
+
+  &.activated-radio-button {
+    background-color: blue;
+  }
+}

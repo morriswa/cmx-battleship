@@ -1,0 +1,15 @@
+
+<div class="flex-col radio-button-group">
+  @for (button of radioButtonFormControl.options; track button.value) {
+    <div
+      class="radio-button"
+      [ngClass]="{
+        'activated-radio-button': radioButtonFormControl.value===button.value
+      }"
+      (keydown)="selectOption(button)"
+      (click)="selectOption(button)"
+    >
+      <span>{{ button.label }}</span>
+    </div>
+  }
+</div>
