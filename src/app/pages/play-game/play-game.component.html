@@ -1,10 +1,21 @@
 <div class="app-body" *ngIf="uss.sessionInfo() as session">
-    <h1>Welcome to battleship {{ session.player_name }}</h1>
+  <div class="example-boundary">
+
+  </div>
+
+  <h1>Welcome to battleship {{ session.player_name }}</h1>
     <h3>
       Please begin by placing your
       {{ session.num_ships === '1'? 'ship' : session.num_ships + ' ships' }}
       ...
     </h3>
+
+    <div class="flex-wrap">
+      @for (ship of [1,2,3,4,5].slice(0, $any(session.num_ships)); track ship) {
+        <app-game-ship [shipLength]="$any(ship)"></app-game-ship>
+      }
+    </div>
     <app-gameboard class="app-gameboard"></app-gameboard>
+
     <button (click)="handleExit()">Exit</button>
 </div>

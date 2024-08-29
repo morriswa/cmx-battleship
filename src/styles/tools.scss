@@ -10,6 +10,12 @@
   flex-direction: column;
 }
 
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
 .space-between-items {
   justify-content: space-between;
 }

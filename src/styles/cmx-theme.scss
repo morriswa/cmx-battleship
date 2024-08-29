@@ -1,4 +1,5 @@
 @use "variables" as *;
+@use "tools";
 
 .error-text {
   color: $error-color;
@@ -8,3 +9,40 @@
   font-weight: $bold-font-weight;
 }
 
+.game-tile {
+  cursor: pointer;
+  user-select: none;
+
+  border: solid $game-tile-border-width $game-tile-border-color;
+  height: $game-tile-height;
+  width: $game-tile-width;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.game-ship {
+
+  @extend .flex-row;
+
+  cursor: grab;
+  user-select: none;
+
+  border: solid $game-tile-border-width $game-tile-border-color;
+}
+
+.game-ship-section {
+
+  background-color: $primary;
+  height: $game-tile-height;
+  width: $game-tile-width;
+
+}
+
+
+
+.game-tile-text {
+  font-size: $game-tile-font-size;
+}

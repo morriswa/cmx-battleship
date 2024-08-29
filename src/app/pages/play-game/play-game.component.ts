@@ -3,6 +3,8 @@ import {GameboardComponent} from "../../components/gameboard/gameboard.component
 import {UserSessionService} from "../../injectables/user-session.service";
 import {DecimalPipe, NgIf} from "@angular/common";
 import {Router} from "@angular/router";
+import {GameShipComponent} from "../../components/game-ship/game-ship.component";
+import {CdkDrag} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: "app-play-game",
@@ -11,7 +13,9 @@ import {Router} from "@angular/router";
   imports: [
     GameboardComponent,
     DecimalPipe,
-    NgIf
+    NgIf,
+    GameShipComponent,
+    CdkDrag
   ],
   standalone: true
 })
@@ -22,5 +26,9 @@ export class PlayGameComponent {
   async handleExit() {
     await this.uss.endSession();
     this.router.navigate(['/'])
+  }
+
+  drop($event: any) {
+    console.log($event);
   }
 }
