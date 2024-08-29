@@ -3,18 +3,6 @@
 .flex-row {
   display: flex;
   flex-direction: row;
-
-  &.space-between-items {
-    justify-content: space-between;
-  }
-
-  &.align-items-flex-start {
-    align-items: flex-start;
-  }
-
-  &.align-items-center {
-    align-items: center;
-  }
 }
 
 .flex-col {
@@ -22,11 +10,14 @@
   flex-direction: column;
 }
 
-.error-text {
-  color: $error-color;
+.space-between-items {
+  justify-content: space-between;
 }
 
-.bold-text {
-  font-weight: $bold-font-weight;
+.align-items-flex-start {
+  align-items: flex-start;
 }
 
+.align-items-center {
+  align-items: center;
+}

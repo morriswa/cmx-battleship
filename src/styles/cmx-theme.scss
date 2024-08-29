@@ -1,0 +1,10 @@
+@use "variables" as *;
+
+.error-text {
+  color: $error-color;
+}
+
+.bold-text {
+  font-weight: $bold-font-weight;
+}
+
