@@ -1,25 +1,29 @@
 import {
-  AfterViewChecked,
   Component,
   ElementRef,
   HostListener,
   inject,
   Input,
-  OnInit,
   ViewChild
 } from "@angular/core";
 import {GameDragAndDropService} from "../../injectables/game-drag-and-drop.service";
+import {NgClass, NgIf} from "@angular/common";
+
 
 @Component({
   selector: 'app-game-tile',
   templateUrl: './game-tile.component.html',
   standalone: true,
-  imports: [],
+  imports: [
+    NgIf,
+    NgClass
+  ],
   styleUrl: "./game-tile.component.scss"
 })
-export class GameTileComponent implements OnInit, AfterViewChecked {
+export class GameTileComponent {
 
   dnd = inject(GameDragAndDropService);
+
 
   @Input() tileId!: string;
 
@@ -28,31 +32,30 @@ export class GameTileComponent implements OnInit, AfterViewChecked {
   gameTileLocX?: number;
   gameTileLocY?: number;
 
-  getGameTileLocation() {
+  detectTileLocationChange() {
     const gameTileLocation = this.gameTile.nativeElement.getBoundingClientRect();
     this.gameTileLocX = gameTileLocation.x;
     this.gameTileLocY = gameTileLocation.y;
+    this.dnd.setTileLocations(this.tileId, {
+      xStart: this.gameTileLocX!,
+      xEnd: this.gameTileLocX!,
+      yStart: this.gameTileLocY!,
+      yEnd: this.gameTileLocY!,
+    });
   }
 
   @HostListener("window:resize", ["$event"])
   onResizeScreen() {
-    this.getGameTileLocation();
+    this.detectTileLocationChange();
   }
-
-  ngOnInit(): void {
-    this.dnd.locationUpdated.subscribe(()=>{
-      this.shipMoved()
-    });
-  }
-
 
   ngAfterViewChecked(): void {
-    this.getGameTileLocation();
+    this.detectTileLocationChange();
   }
 
 
-  private shipMoved() {
-    const shipLocations = this.dnd.blockedLocations.values();
+  constructor() {
+
   }
 
   // detect mousedown events on game-tile

@@ -19,7 +19,15 @@ export class GameShipComponent {
   dnd = inject(GameDragAndDropService);
 
   handleDropEnd() {
-    this.dnd.setBlockedLocations(this.shipLength, this.shipRef.nativeElement.getBoundingClientRect());
+
+    const domRect = this.shipRef.nativeElement.getBoundingClientRect();
+
+    this.dnd.setBlockedLocations(this.shipLength, {
+      xStart: domRect.x,
+      xEnd: domRect.x + domRect.width,
+      yStart: domRect.y,
+      yEnd: domRect.y + domRect.height
+    });
   }
 
 }
