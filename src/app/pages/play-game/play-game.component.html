@@ -10,12 +10,6 @@
       ...
     </h3>
 
-    <div class="flex-wrap">
-      @for (ship of [1,2,3,4,5].slice(0, $any(session.num_ships)); track ship) {
-        <app-game-ship [shipLength]="$any(ship)"></app-game-ship>
-      }
-    </div>
-
     @if (ships.error) {
       <h3 class="error-text">{{ ships.error }}</h3>
     } @else {
@@ -27,4 +21,13 @@
 
     <app-gameboard class="app-gameboard"></app-gameboard>
 
+    <br>
+
+    @if (ships.displayReady) {
+      <div class="flex-wrap">
+        @for (ship of [1,2,3,4,5].slice(0, $any(session.num_ships)); track ship) {
+          <app-game-ship [shipLength]="$any(ship)"></app-game-ship>
+        }
+      </div>
+    }
 </div>

@@ -29,7 +29,7 @@ export class PlayGameComponent {
 
   // internal state
   async handleExit() {
-    this.ships.reset();
+    this.ships.doneCloseDestroy();
     await this.userSessions.endSession();
     this.router.navigate(['/'])
   }
@@ -38,6 +38,6 @@ export class PlayGameComponent {
     for (const [shipNum, tiles] of this.ships.shipLocations) {
       console.log(`ship 1x${shipNum} covers ${tiles}`)
     }
-    this.ships.reset();
+    this.ships.doneCloseDestroy();
   }
 }

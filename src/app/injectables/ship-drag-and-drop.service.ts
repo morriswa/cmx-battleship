@@ -22,38 +22,34 @@ export class ShipDragAndDropService {
   private _blockedLocations: WritableSignal<Map<number, SimplePosition>> = signal(new Map());
   private _tileLocations: WritableSignal<Map<string, SimplePosition>> = signal(new Map());
   private _shipLocations: WritableSignal<Map<number, string[]>> = signal(new Map());
-  private _viewReady: WritableSignal<boolean> = signal(false);
   private _reportShipError: WritableSignal<string|undefined> = signal(undefined);
+  private _viewReset = signal(true);
 
 
   // public state
-  hideSignal = new EventEmitter();
-
-  watch() {
-    this._viewReady.set(true);
-  }
+  placementComplete = new EventEmitter();
 
   resetError() {
     this._reportShipError.set(undefined);
   }
 
-  reset() {
+  resetShipLocations(hide = false) {
+    this._viewReset.set(false);
+    this._blockedLocations.update(()=>new Map());
+    if (!hide) setTimeout(()=>this._viewReset.set(true), 1000)
+  }
+
+  doneCloseDestroy() {
     this._blockedLocations.set(new Map());
-    this._tileLocations.set(new Map());
-    this._shipLocations.set(new Map());
-    this._viewReady.set(false);
     this._reportShipError.set(undefined)
-    this.hideSignal.emit();
+    this.placementComplete.emit();
+    this.resetShipLocations(true);
   }
 
 
   // getters
   get shipLocations() {
     return this._shipLocations();
-  }
-
-  get ready() {
-    return this._viewReady();
   }
 
   get error() {
@@ -65,7 +61,7 @@ export class ShipDragAndDropService {
   }
 
   get readyToPlay(): boolean {
-    return !this.error && this.allShipsPlaced
+    return !this.error && this.allShipsPlaced && this._viewReset()
   };
 
   get allShipsPlaced(): boolean {
@@ -88,6 +84,10 @@ export class ShipDragAndDropService {
         if (countOccurrences(allTilesOccupied, tile) > 1) return true
 
     return false
+  }
+
+  get displayReady(): boolean {
+    return this._viewReset();
   }
 
 

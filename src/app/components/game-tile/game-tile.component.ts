@@ -44,19 +44,17 @@ export class GameTileComponent implements AfterViewInit {
   constructor() {
     this.startWatchingShips()
       .then(()=>this.stopWatchingShips());
-    this.ships.hideSignal.subscribe(()=>this.watchShips.set(false));
+    this.ships.placementComplete.subscribe(()=>this.watchShips.set(false));
   }
 
   ngAfterViewInit(): void {
     this.detectTileLocationChange();
-    // console.log(this.gameTile)
-    this.ships.watch();
   }
 
   // public
   async startWatchingShips() {
     while (this.watchShips()) {
-      if (this.tileId && this.ships.ready && this.gameTile) {
+      if (this.tileId && this.gameTile) {
         this._render.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
 
         if (this.ships.coveredTiles.get(this.tileId)?.covered) {
@@ -76,6 +74,7 @@ export class GameTileComponent implements AfterViewInit {
   // internal logic
   @HostListener("window:resize", ["$event"])
   onResizeScreen() {
+    this.ships.resetShipLocations();
     this.detectTileLocationChange();
   }
 

@@ -26,7 +26,7 @@ export class GameShipComponent implements OnInit{
 
   // lifecycle
   ngOnInit() {
-    this.ships.hideSignal?.subscribe(()=>{
+    this.ships.placementComplete?.subscribe(()=>{
       this.display.set(false);
     })
   }
