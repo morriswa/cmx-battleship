@@ -1,12 +1,5 @@
 
 @if (display()) {
-  <!-- build dock -->
-  <div class="flex-row">
-    @for (shipSection of ['1','2','3','4','5'].slice(0, shipLength); track shipSection;) {
-        <div class="game-ship-initial-location-placeholder"></div>
-    }
-  </div>
-
   <!-- build battleships -->
   <div [ngClass]="{'flex-row':isHorizontal()}" class="game-ship" #shipRef cdkDrag (cdkDragMoved)="handleDropEnd()">
     @for (shipSection of ['1','2','3','4','5'].slice(0, shipLength); track shipSection; let first = $first; let last = $last) {

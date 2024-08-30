@@ -1,7 +1,4 @@
 <div class="app-body" *ngIf="userSessions.sessionInfo() as session">
-  <div class="example-boundary">
-
-  </div>
 
   <h1>Welcome to battleship {{ session.player_name }}</h1>
     <h3>
@@ -10,23 +7,21 @@
       ...
     </h3>
 
-    @if (ships.error) {
-      <h3 class="error-text">{{ ships.error }}</h3>
-    } @else {
-      <h3>&nbsp;</h3>
-    }
+    <div class="flex-row col-gap-1">
+      <button class="game-button" (click)="handleExit()">Exit</button>
+      <button class="game-button" (click)="handleStartGame()" [disabled]="!shipSelection.readyToPlay">Play</button>
+    </div>
 
-    <button (click)="handleStartGame()" [disabled]="!ships.readyToPlay">Play</button>
-    <button (click)="handleExit()">Exit</button>
+    <h3 class="error-text">{{ shipSelection.error ?? '&nbsp;' }}</h3>
 
     <app-gameboard class="app-gameboard"></app-gameboard>
 
     <br>
 
-    @if (ships.displayReady) {
-      <div class="flex-wrap">
+    @if (shipSelection.displayReady) {
+      <div class="flex-wrap vw-90 mx-auto">
         @for (ship of [1,2,3,4,5].slice(0, $any(session.num_ships)); track ship) {
-          <app-game-ship [shipLength]="$any(ship)"></app-game-ship>
+          <app-game-ship [shipLength]="ship"/>
         }
       </div>
     }

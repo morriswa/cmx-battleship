@@ -1,10 +1,12 @@
 import {Component, inject} from "@angular/core";
 import {GameboardComponent} from "../../components/gameboard/gameboard.component";
 import {UserSessionService} from "../../injectables/user-session.service";
-import {DecimalPipe, NgIf} from "@angular/common";
+import {DecimalPipe, NgIf, NgStyle, NgTemplateOutlet} from "@angular/common";
 import {Router} from "@angular/router";
-import {GameShipComponent} from "../../components/game-ship/game-ship.component";
 import {ShipDragAndDropService} from "../../injectables/ship-drag-and-drop.service";
+import {GameShipSpacerComponent} from "../../components/game-ship/spacer/game-ship-spacer.component";
+import {GameShipDraggableComponent} from "../../components/game-ship/draggable/game-ship-draggable.component";
+import {GameShipComponent} from "../../components/game-ship/game-ship.component";
 
 @Component({
   selector: "app-play-game",
@@ -14,6 +16,10 @@ import {ShipDragAndDropService} from "../../injectables/ship-drag-and-drop.servi
     GameboardComponent,
     DecimalPipe,
     NgIf,
+    GameShipDraggableComponent,
+    NgStyle,
+    NgTemplateOutlet,
+    GameShipSpacerComponent,
     GameShipComponent,
   ],
   standalone: true
@@ -24,20 +30,20 @@ export class PlayGameComponent {
   // services
   private router = inject(Router);
   protected userSessions = inject(UserSessionService);
-  protected ships = inject(ShipDragAndDropService);
+  protected shipSelection = inject(ShipDragAndDropService);
 
 
   // internal state
   async handleExit() {
-    this.ships.doneCloseDestroy();
+    this.shipSelection.doneCloseDestroy();
     await this.userSessions.endSession();
     this.router.navigate(['/'])
   }
 
   handleStartGame() {
-    for (const [shipNum, tiles] of this.ships.shipLocations) {
+    for (const [shipNum, tiles] of this.shipSelection.shipLocations) {
       console.log(`ship 1x${shipNum} covers ${tiles}`)
     }
-    this.ships.confirm();
+    this.shipSelection.confirm();
   }
 }

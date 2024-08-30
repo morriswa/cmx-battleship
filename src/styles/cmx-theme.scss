@@ -9,6 +9,21 @@
   font-weight: $bold-font-weight;
 }
 
+.game-button {
+  padding: 10px;
+  background-color: $primary;
+  color: white;
+
+  border: none;
+  outline: none;
+
+  &:disabled {
+    //background-color: darken($primary, 5%);
+    background-color: $surface-color;
+    color: grey;
+  }
+}
+
 .game-tile {
   cursor: pointer;
   user-select: none;
@@ -28,11 +43,10 @@
 
 
 .game-ship {
-  z-index: 100;
-
   cursor: grab;
   user-select: none;
 
+  position: absolute;
   width: min-content;
 
   border: solid $game-tile-border-width $game-tile-border-color;
@@ -40,7 +54,7 @@
 
 .game-ship-initial-location-placeholder {
   background-color: $clear;
-  height: $game-tile-height + $game-tile-border-width + $game-tile-border-width;
+  height: 5px;
   width: $game-tile-width + $game-tile-border-width + $game-tile-border-width;
 }
 

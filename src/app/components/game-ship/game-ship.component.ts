@@ -1,86 +1,47 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   inject,
   Input,
-  OnInit,
+  numberAttribute,
   Renderer2,
-  signal,
   ViewChild
 } from "@angular/core";
-import {CdkDrag} from "@angular/cdk/drag-drop";
-import {ShipDragAndDropService} from "../../injectables/ship-drag-and-drop.service";
-import {NgClass} from "@angular/common";
+import {GameShipDraggableComponent} from "./draggable/game-ship-draggable.component";
+import {GameShipSpacerComponent} from "./spacer/game-ship-spacer.component";
 
 @Component({
   selector: "app-game-ship",
-  templateUrl: "./game-ship.component.html",
-  styleUrl: "./game-ship.component.scss",
+  template: `
+    <div class="flex-col" #containingColumn>
+      <app-game-ship-spacer [shipLength]="this.shipLength"/>
+      <app-game-ship-draggable #draggableComponent [shipLength]="this.shipLength"/>
+    </div>
+  `,
   imports: [
-    CdkDrag,
-    NgClass
+    GameShipDraggableComponent,
+    GameShipSpacerComponent,
   ],
   standalone: true
 })
-export class GameShipComponent implements OnInit {
+export class GameShipComponent implements AfterViewInit {
 
   // io
-  @Input() shipLength!: number;
+  @Input({transform: numberAttribute}) shipLength!: number;
 
   // services
-  private ships = inject(ShipDragAndDropService);
-  private renderer = inject(Renderer2);
+  renderer = inject(Renderer2);
 
   // internal state
-  @ViewChild("shipRef") shipRef!: ElementRef;
-  protected display = signal(true);
-  protected isHorizontal = signal(true);
-  protected rotate() {
-    this.isHorizontal.update(bo=>!bo);
-    setTimeout(()=>this.handleDropEnd(), 100)
-  }
-
+  @ViewChild("draggableComponent") draggableComponent!: GameShipDraggableComponent;
+  @ViewChild("containingColumn") containingColumn!: ElementRef;
 
   // lifecycle
-  ngOnInit() {
-    this.ships.event?.subscribe((e)=>{
-      if (e.type==="SUBMIT") {
-        this.display.set(false);
-      } else if (e.type==="RESET") {
-        this.display.set(true);
-      }
-    })
+  ngAfterViewInit() {
+    if (!(this.draggableComponent && this.containingColumn)) return;
+    const height = window.getComputedStyle(this.draggableComponent.shipRef.nativeElement).height;
+    const computedHeight = 10 + Number(height.substring(0, height.length - 2));
+    this.renderer.setStyle(this.containingColumn.nativeElement, 'height', computedHeight + 'px');
   }
-
-  // internal state
-  protected handleDropEnd() {
-
-    this.ships.removeShip(this.shipLength)
-
-    const domRect = this.shipRef.nativeElement.getBoundingClientRect();
-
-    let coveredIds = this.ships.updateShipLocation(this.shipLength, {
-      xStart: domRect.x,
-      xEnd: domRect.x + domRect.width,
-      yStart: domRect.y,
-      yEnd: domRect.y + domRect.height
-    });
-
-    this.ships.setShipStatus(this.shipLength, coveredIds, this.handleDropEnd);
-
-    if (this.ships.duplicatePlacement) {
-      this.renderer.addClass(this.shipRef.nativeElement, 'game-ship-error')
-      this.ships.raiseError('Ships cannot go on top of each other');
-    }
-    else if (coveredIds.length === this.shipLength) {
-      this.renderer.removeClass(this.shipRef.nativeElement, 'game-ship-error')
-      this.ships.resetError();
-    }
-    else {
-      this.ships.removeShip(this.shipLength);
-      this.renderer.addClass(this.shipRef.nativeElement, 'game-ship-error')
-      this.ships.raiseError(`Ship 1x${this.shipLength} should cover ${this.shipLength} tiles. `);
-    }
-  }
-
 }
