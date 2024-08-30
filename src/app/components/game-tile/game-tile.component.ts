@@ -77,8 +77,10 @@ export class GameTileComponent implements AfterViewInit {
   // internal logic
   @HostListener("window:resize", ["$event"])
   onResizeScreen() {
-    this.ships.resetShipLocations();
     this.detectTileLocationChange();
+    if (this.ships.displayReady) {
+      this.ships.resetShipLocations();
+    }
   }
 
   // detect mousedown events on game-tile
