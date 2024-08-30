@@ -17,7 +17,17 @@
       >Play</button>
     </div>
 
-    <h3 class="error-text">{{ shipSelection.error ?? '&nbsp;' }}</h3>
+    @if (game.active) {
+      <!-- game messages -->
+      <h3 *ngIf="game.waiting">Waiting for other player...</h3>
+    }
+  
+    @if (shipSelection.active) {
+      <!-- ship errors -->
+      <h3 class="error-text">{{ shipSelection.error ?? '&nbsp;' }}</h3>
+    } @else {
+      <h3>&nbsp;</h3>
+    }
 
     <app-gameboard class="app-gameboard"></app-gameboard>
 

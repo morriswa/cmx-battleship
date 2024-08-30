@@ -33,6 +33,19 @@ export class ApiClient {
     return this.request<NewUserSession>('DELETE', `${this.endpoint}/lobby`, { session_id: session_id });
   }
 
+  requestGame(session_id: string, player_id: string) {
+    return this.request<void>('POST', `${this.endpoint}/game/requests`, {
+      session_id: session_id,
+      player_id: player_id,
+    });
+  }
+
+  getGameRequests(session_id: string, player_id: string) {
+    return this.request<void>('GET', `${this.endpoint}/game/requests`, {
+      session_id: session_id,
+    });
+  }
+
   startGame(ships: Map<number, string[]>) {
     return Promise.resolve();
     // return this.request('POST', `${this.endpoint}/active/game/start`, ships);

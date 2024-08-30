@@ -15,9 +15,15 @@ export class ActiveGameService {
 
   // store user's ship
   private _userShips: WritableSignal<Map<number, string[]> | undefined> = signal(undefined);
+  private _waiting = signal(false);
+
   get active(): boolean {
     return !!this._userShips();
   };
+
+  get waiting() {
+    return this._waiting();
+  }
 
   get shipsRemaining(): number {
     return Array.from(this._userShips()!.keys()).length ?? 0
@@ -34,6 +40,7 @@ export class ActiveGameService {
     await this.api.startGame(ships);
     console.log('activating game service')
     this._userShips.set(ships);
+    this._waiting.set(true);
   }
 
   resetActiveGameService() {
