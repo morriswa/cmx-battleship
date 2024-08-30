@@ -1,6 +1,9 @@
 
-<div class="game-ship" #shipRef cdkDrag (cdkDragMoved)="handleDropEnd()">
-  @for (shipSection of ['1','2','3','4','5'].slice(0, shipLength); track shipSection) {
-    <div class="game-ship-section"></div>
-  }
-</div>
+@if (enabled) {
+  <div class="game-ship" #shipRef cdkDrag (cdkDragMoved)="handleDropEnd()">
+    @for (shipSection of ['1','2','3','4','5'].slice(0, shipLength); track shipSection) {
+      <div class="game-ship-section"></div>
+    }
+  </div>
+}
+

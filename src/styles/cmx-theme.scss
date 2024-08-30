@@ -23,18 +23,7 @@
 }
 
 .game-tile-covered {
-  cursor: pointer;
-  user-select: none;
-
-  border: solid $game-tile-border-width $game-tile-border-color;
-  height: $game-tile-height;
-  width: $game-tile-width;
-
   background-color: blue;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 
@@ -49,15 +38,19 @@
 }
 
 .game-ship-section {
-
   background-color: rgba(255, 25, 174, 0.29);
-  height: $game-tile-height;
-  width: $game-tile-width;
-
+  height: $game-tile-height + $game-tile-border-width + $game-tile-border-width;
+  width: $game-tile-width + $game-tile-border-width + $game-tile-border-width;
 }
-
-
 
 .game-tile-text {
   font-size: $game-tile-font-size;
+}
+
+.game-ship-error {
+  background-color: rgba(234, 16, 16, 0.35);
+}
+
+.game-tile-error {
+  background-color: $error-color;
 }

@@ -1,4 +1,6 @@
-import {computed, EventEmitter, Injectable, Signal, signal, WritableSignal} from "@angular/core";
+import {EventEmitter, inject, Injectable, signal, WritableSignal} from "@angular/core";
+import {UserSessionService} from "./user-session.service";
+import {countOccurrences} from "../utils";
 
 
 export type SimplePosition = {
@@ -8,56 +10,148 @@ export type SimplePosition = {
   yEnd: number;
 }
 
-@Injectable()
+@Injectable({ providedIn: "root"})
 export class GameDragAndDropService {
 
+  // service
+  session = inject(UserSessionService);
+
+  // internal state
   private _blockedLocations: WritableSignal<Map<number, SimplePosition>> = signal(new Map());
   private _tileLocations: WritableSignal<Map<string, SimplePosition>> = signal(new Map());
-  // locationUpdated = new EventEmitter();
+  private _shipLocations: WritableSignal<Map<number, string[]>> = signal(new Map());
+  private _viewReady: WritableSignal<boolean> = signal(false);
+  private _reportShipError: WritableSignal<string|undefined> = signal(undefined);
 
-  getIsTileCovered(tileId: string): boolean {
-    const xOffset = 20;
-    const yOffset = 20;
-    const tileLocation = this._tileLocations().get(tileId)!;
-    for (const ship of this._blockedLocations().values()) {
-      if (ship.xStart + xOffset - tileLocation.xStart > 0
-        && ship.xEnd + xOffset - tileLocation.xEnd < 0
-        && (ship.yStart + yOffset) - tileLocation.yStart > 0
-        && ship.yEnd + yOffset - tileLocation.yEnd < 0
-      ||
-        ship.xStart - xOffset - tileLocation.xStart < 0
-        && ship.xEnd - xOffset - tileLocation.xEnd > 0
-        && ship.yStart - yOffset - tileLocation.yStart < 0
-        && ship.yEnd - yOffset - tileLocation.yEnd > 0
-      ) {
-        // console.log('decided ship', ship, 'belongs', tileLocation)
-        return true;
+  resetSignal = new EventEmitter();
+
+  get shipLocations() {
+    return this._shipLocations;
+  }
+
+  get ready() {
+    return this._viewReady;
+  }
+
+  get error() {
+    return this._reportShipError;
+  }
+
+
+
+  computeCoveredTiles = () => {
+    const tileLocations = this._tileLocations();
+    const blockedLocations = this._blockedLocations();
+
+    const offset = -1;
+
+    let mapCoveredTiles = new Map<string, { covered: boolean, coveredByShip: number | undefined }>()
+    for (const [tileId, tileLocation] of tileLocations.entries()) {
+
+      let covered = false;
+      let coveredByShip: number | undefined = undefined;
+
+      for (const [shipNum, ship] of blockedLocations.entries()) {
+
+        const xTileCenter = (tileLocation.xEnd + tileLocation.xStart) / 2;
+        const yTileCenter = (tileLocation.yEnd + tileLocation.yStart) / 2;
+
+        if ((ship.yEnd + offset > yTileCenter && yTileCenter > ship.yStart - offset)
+          &&  (ship.xEnd + offset > xTileCenter && xTileCenter > ship.xStart - offset)) {
+          // console.log('decided ship', ship, 'belongs', tileLocation)
+          covered = true;
+          coveredByShip = shipNum;
+          break;
+        }
+      }
+
+      mapCoveredTiles.set(tileId, {
+        covered: covered,
+        coveredByShip: coveredByShip
+      });
+    }
+
+    return mapCoveredTiles;
+  }
+
+  allShipsPlaced = ()=> {
+    const count = Array.from(this._shipLocations().entries()).length;
+    // console.log(`got count ${count}`)
+    return count === Number(this.session.sessionInfo()?.num_ships);
+  };
+
+  readyToPlay = () => {
+    return !this.error() && this.allShipsPlaced()
+  };
+
+  _getTileIdsCoveredByShip(ship: number) {
+    let tileIds = []
+    for (const [tileId, val] of this.computeCoveredTiles().entries()) {
+      if (val.coveredByShip === ship) {
+        tileIds.push(tileId);
       }
     }
-    return false;
+    return tileIds;
   }
 
   setBlockedLocations(ship: number, location: SimplePosition) {
     this._blockedLocations.update((val)=>{
       return val.set(ship, location)
     });
-
-    // this.locationUpdated.emit(null);
+    return this._getTileIdsCoveredByShip(ship);
   }
 
-  get blockedLocations() {
-    return this._blockedLocations();
-  }
-
-  setTileLocations(ship: string, location: SimplePosition) {
+  setTileLocations(tileId: string, location: SimplePosition) {
     this._tileLocations.update((val)=>{
-      return val.set(ship, location)
+      return val.set(tileId, location)
     });
   }
 
-  printoff() {
-    for (const key of this._blockedLocations().keys()) {
-      console.log(key, this._blockedLocations().get(key));
-    }
+  setShipStatus(shipLength: number, coveredIds: string[], something:any) {
+    this._shipLocations.update((val)=>val.set(shipLength, coveredIds));
+  }
+
+  start() {
+    this._viewReady.set(true);
+  }
+
+  raiseError(msg: string) {
+    this._reportShipError.set(msg);
+  }
+
+  resetError() {
+    this._reportShipError.set(undefined);
+  }
+
+  duplicateScan() {
+
+    let ship = this._shipLocations();
+    let allTilesOccupied: string[] = [];
+
+    for (const occupiedTiles of ship.values())
+      for (const tile of occupiedTiles)
+        allTilesOccupied.push(tile);
+
+    for (const occupiedTiles of ship.values())
+      for (const tile of occupiedTiles)
+        if (countOccurrences(allTilesOccupied, tile) > 1) return true
+
+     return false
+  }
+
+  removeShip(shipLength: number) {
+    this._shipLocations.update((val)=>{
+      val.delete(shipLength)
+      return val;
+    });
+  }
+
+  reset() {
+    this._blockedLocations.set(new Map());
+    this._tileLocations.set(new Map());
+    this._shipLocations.set(new Map());
+    this._viewReady.set(false);
+    this._reportShipError.set(undefined)
+    this.resetSignal.emit();
   }
 }

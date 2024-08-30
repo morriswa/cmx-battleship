@@ -5,6 +5,7 @@ import {DecimalPipe, NgIf} from "@angular/common";
 import {Router} from "@angular/router";
 import {GameShipComponent} from "../../components/game-ship/game-ship.component";
 import {CdkDrag} from "@angular/cdk/drag-drop";
+import {GameDragAndDropService} from "../../injectables/game-drag-and-drop.service";
 
 @Component({
   selector: "app-play-game",
@@ -22,13 +23,19 @@ import {CdkDrag} from "@angular/cdk/drag-drop";
 export class PlayGameComponent {
   uss = inject(UserSessionService);
   router = inject(Router);
+  dnd = inject(GameDragAndDropService);
 
   async handleExit() {
+    this.dnd.reset();
     await this.uss.endSession();
     this.router.navigate(['/'])
   }
 
-  drop($event: any) {
-    console.log($event);
+  handleStartGame() {
+    for (const [shipNum, tiles] of this.dnd.shipLocations()) {
+      console.log(`ship 1x${shipNum} covers ${tiles}`)
+    }
+    this.dnd.reset();
+
   }
 }

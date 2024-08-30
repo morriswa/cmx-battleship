@@ -20,11 +20,9 @@
       <span class="gameboard-header-text">{{ row }}</span>
     </div>
 
-    <div cdkDropList cdkDropListOrientation="horizontal" class="flex-row" (drop)="drop($event)">
-      @for (col of cols; track col) {
-        <app-game-tile [tileId]="col+row"/>
-      }
-    </div>
+    @for (col of cols; track col) {
+      <app-game-tile [tileId]="col+row"/>
+    }
 
   </div>
 }

@@ -15,7 +15,16 @@
         <app-game-ship [shipLength]="$any(ship)"></app-game-ship>
       }
     </div>
+
+    @if (dnd.error()) {
+      <h3 class="error-text">{{ dnd.error() }}</h3>
+    } @else {
+      <h3>&nbsp;</h3>
+    }
+
+    <button (click)="handleStartGame()" [disabled]="!dnd.readyToPlay()">Play</button>
+    <button (click)="handleExit()">Exit</button>
+
     <app-gameboard class="app-gameboard"></app-gameboard>
 
-    <button (click)="handleExit()">Exit</button>
 </div>
