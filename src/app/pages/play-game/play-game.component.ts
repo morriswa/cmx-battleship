@@ -4,8 +4,7 @@ import {UserSessionService} from "../../injectables/user-session.service";
 import {DecimalPipe, NgIf} from "@angular/common";
 import {Router} from "@angular/router";
 import {GameShipComponent} from "../../components/game-ship/game-ship.component";
-import {CdkDrag} from "@angular/cdk/drag-drop";
-import {GameDragAndDropService} from "../../injectables/game-drag-and-drop.service";
+import {ShipDragAndDropService} from "../../injectables/ship-drag-and-drop.service";
 
 @Component({
   selector: "app-play-game",
@@ -16,26 +15,29 @@ import {GameDragAndDropService} from "../../injectables/game-drag-and-drop.servi
     DecimalPipe,
     NgIf,
     GameShipComponent,
-    CdkDrag
   ],
   standalone: true
 })
 export class PlayGameComponent {
-  uss = inject(UserSessionService);
-  router = inject(Router);
-  dnd = inject(GameDragAndDropService);
 
+
+  // services
+  private router = inject(Router);
+  protected userSessions = inject(UserSessionService);
+  protected ships = inject(ShipDragAndDropService);
+
+
+  // internal state
   async handleExit() {
-    this.dnd.reset();
-    await this.uss.endSession();
+    this.ships.reset();
+    await this.userSessions.endSession();
     this.router.navigate(['/'])
   }
 
   handleStartGame() {
-    for (const [shipNum, tiles] of this.dnd.shipLocations()) {
+    for (const [shipNum, tiles] of this.ships.shipLocations) {
       console.log(`ship 1x${shipNum} covers ${tiles}`)
     }
-    this.dnd.reset();
-
+    this.ships.reset();
   }
 }

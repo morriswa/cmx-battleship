@@ -6,9 +6,11 @@ import {
   inject,
   Input,
   Renderer2,
-  ViewChild
+  signal,
+  ViewChild,
+  WritableSignal
 } from "@angular/core";
-import {GameDragAndDropService} from "../../injectables/game-drag-and-drop.service";
+import {ShipDragAndDropService} from "../../injectables/ship-drag-and-drop.service";
 import {NgClass, NgIf} from "@angular/common";
 import {sleep} from "../../utils";
 
@@ -25,58 +27,53 @@ import {sleep} from "../../utils";
 })
 export class GameTileComponent implements AfterViewInit {
 
-  dnd = inject(GameDragAndDropService);
+  // io
+  @Input() tileId!: string;
+
+  // services
+  private ships = inject(ShipDragAndDropService);
   private _render = inject(Renderer2);
 
-  theLoop = true;
+  // internal state
+  @ViewChild("gameTile") gameTile!: ElementRef;
+  private watchShips = signal(true);
+  private gameTileLocX: WritableSignal<number | undefined> = signal(undefined);
+  private gameTileLocY: WritableSignal<number | undefined> = signal(undefined);
+
+  // init / lifecycle
+  constructor() {
+    this.startWatchingShips()
+      .then(()=>this.stopWatchingShips());
+    this.ships.hideSignal.subscribe(()=>this.watchShips.set(false));
+  }
 
   ngAfterViewInit(): void {
     this.detectTileLocationChange();
     // console.log(this.gameTile)
-    this.dnd.start();
+    this.ships.watch();
   }
 
-  constructor() {
-    this.loop();
-    this.dnd.resetSignal.subscribe(()=>this.theLoop = false);
-  }
-
-  async loop() {
-    while (this.theLoop) {
-      if (this.tileId && this.dnd.ready() && this.gameTile) {
+  // public
+  async startWatchingShips() {
+    while (this.watchShips()) {
+      if (this.tileId && this.ships.ready && this.gameTile) {
         this._render.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
 
-        if (this.dnd.computeCoveredTiles().get(this.tileId)?.covered) {
+        if (this.ships.coveredTiles.get(this.tileId)?.covered) {
           this._render.addClass(this.gameTile.nativeElement, 'game-tile-covered');
         }
       }
 
-      // this.dnd.duplicateScan();
-
       await sleep(100);
     }
+  }
+
+  stopWatchingShips() {
+    this.watchShips.set(false);
     this._render.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
   }
 
-  @Input() tileId!: string;
-
-  @ViewChild("gameTile") gameTile!: ElementRef;
-
-  gameTileLocX?: number;
-  gameTileLocY?: number;
-
-  detectTileLocationChange() {
-    const gameTileLocation = this.gameTile.nativeElement.getBoundingClientRect();
-    this.gameTileLocX = gameTileLocation.x;
-    this.gameTileLocY = gameTileLocation.y;
-    this.dnd.setTileLocations(this.tileId, {
-      xStart: this.gameTileLocX!,
-      xEnd: this.gameTileLocX! + 50,
-      yStart: this.gameTileLocY!,
-      yEnd: this.gameTileLocY! + 50,
-    });
-  }
-
+  // internal logic
   @HostListener("window:resize", ["$event"])
   onResizeScreen() {
     this.detectTileLocationChange();
@@ -87,4 +84,20 @@ export class GameTileComponent implements AfterViewInit {
     // execute every click
     console.log(`click detected ${this.tileId}`);
   }
+
+  private detectTileLocationChange() {
+    const gameTileLocation = this.gameTile.nativeElement.getBoundingClientRect();
+    const x = gameTileLocation.x;
+    const y = gameTileLocation.y;
+    this.gameTileLocX.set(x);
+    this.gameTileLocY.set(y);
+    // TODO get '50' offset from scss
+    this.ships.setTileLocations(this.tileId, {
+      xStart: x,
+      xEnd: x + 50,
+      yStart: y,
+      yEnd: y + 50,
+    });
+  }
+
 }

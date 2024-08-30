@@ -1,4 +1,4 @@
-<div class="app-body" *ngIf="uss.sessionInfo() as session">
+<div class="app-body" *ngIf="userSessions.sessionInfo() as session">
   <div class="example-boundary">
 
   </div>
@@ -16,13 +16,13 @@
       }
     </div>
 
-    @if (dnd.error()) {
-      <h3 class="error-text">{{ dnd.error() }}</h3>
+    @if (ships.error) {
+      <h3 class="error-text">{{ ships.error }}</h3>
     } @else {
       <h3>&nbsp;</h3>
     }
 
-    <button (click)="handleStartGame()" [disabled]="!dnd.readyToPlay()">Play</button>
+    <button (click)="handleStartGame()" [disabled]="!ships.readyToPlay">Play</button>
     <button (click)="handleExit()">Exit</button>
 
     <app-gameboard class="app-gameboard"></app-gameboard>

@@ -1,6 +1,6 @@
-import {Component, ElementRef, inject, Input, OnInit, Renderer2, ViewChild} from "@angular/core";
+import {Component, ElementRef, inject, Input, OnInit, Renderer2, signal, ViewChild} from "@angular/core";
 import {CdkDrag} from "@angular/cdk/drag-drop";
-import {GameDragAndDropService} from "../../injectables/game-drag-and-drop.service";
+import {ShipDragAndDropService} from "../../injectables/ship-drag-and-drop.service";
 
 @Component({
   selector: "app-game-ship",
@@ -12,51 +12,54 @@ import {GameDragAndDropService} from "../../injectables/game-drag-and-drop.servi
   standalone: true
 })
 export class GameShipComponent implements OnInit{
+
+  // io
   @Input() shipLength!: number;
 
+  // services
+  private ships = inject(ShipDragAndDropService);
+  private renderer = inject(Renderer2);
+
+  // internal state
   @ViewChild("shipRef") shipRef!: ElementRef;
+  protected display = signal(true);
 
-  _render = inject(Renderer2);
-  dnd = inject(GameDragAndDropService);
-
-  enabled = true;
-
+  // lifecycle
   ngOnInit() {
-    this.dnd.resetSignal?.subscribe(()=>{
-      console.log('got sig')
-      this.enabled = false;
+    this.ships.hideSignal?.subscribe(()=>{
+      this.display.set(false);
     })
   }
 
-  handleDropEnd() {
+  // internal state
+  protected handleDropEnd() {
 
-    this.dnd.removeShip(this.shipLength)
+    this.ships.removeShip(this.shipLength)
 
     const domRect = this.shipRef.nativeElement.getBoundingClientRect();
 
-    let coveredIds = this.dnd.setBlockedLocations(this.shipLength, {
+    let coveredIds = this.ships.updateShipLocation(this.shipLength, {
       xStart: domRect.x,
       xEnd: domRect.x + domRect.width,
       yStart: domRect.y,
       yEnd: domRect.y + domRect.height
     });
 
-    this.dnd.setShipStatus(this.shipLength, coveredIds, this.handleDropEnd);
+    this.ships.setShipStatus(this.shipLength, coveredIds, this.handleDropEnd);
 
-    if (this.dnd.duplicateScan()) {
-      this._render.addClass(this.shipRef.nativeElement, 'game-ship-error')
-      this.dnd.raiseError('Ships cannot go on top of each other');
+    if (this.ships.duplicatePlacement) {
+      this.renderer.addClass(this.shipRef.nativeElement, 'game-ship-error')
+      this.ships.raiseError('Ships cannot go on top of each other');
     }
     else if (coveredIds.length === this.shipLength) {
-      this._render.removeClass(this.shipRef.nativeElement, 'game-ship-error')
-      this.dnd.resetError();
+      this.renderer.removeClass(this.shipRef.nativeElement, 'game-ship-error')
+      this.ships.resetError();
     }
     else {
-      this.dnd.removeShip(this.shipLength);
-      this._render.addClass(this.shipRef.nativeElement, 'game-ship-error')
-      this.dnd.raiseError(`Ship 1x${this.shipLength} should cover ${this.shipLength} tiles. `);
+      this.ships.removeShip(this.shipLength);
+      this.renderer.addClass(this.shipRef.nativeElement, 'game-ship-error')
+      this.ships.raiseError(`Ship 1x${this.shipLength} should cover ${this.shipLength} tiles. `);
     }
-
   }
 
 }
