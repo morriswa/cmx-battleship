@@ -10,7 +10,7 @@ export type SimplePosition = {
   yEnd: number;
 }
 
-@Injectable({ providedIn: "root"})
+@Injectable()
 export class ShipDragAndDropService {
 
 
@@ -23,7 +23,7 @@ export class ShipDragAndDropService {
   private _tileLocations: WritableSignal<Map<string, SimplePosition>> = signal(new Map());
   private _shipLocations: WritableSignal<Map<number, string[]>> = signal(new Map());
   private _reportShipError: WritableSignal<string|undefined> = signal(undefined);
-  private _viewReset = signal(true);
+  private _viewActive = signal(true);
 
 
   // public state
@@ -34,20 +34,19 @@ export class ShipDragAndDropService {
   }
 
   resetShipLocations(hide = false) {
-    this._viewReset.set(false);
+    this._viewActive.set(false);
     this._shipLocations.update(()=>new Map());
     this._blockedLocations.set(new Map());
     this.resetError();
-    if (!hide) setTimeout(()=>this._viewReset.set(true), 1000)
+    if (!hide) setTimeout(()=>this._viewActive.set(true), 1000)
   }
 
-  doneCloseDestroy() {
+  resetShipSelectorService() {
     this.resetShipLocations();
     this.event.emit({type: 'RESET'});
   }
 
-  confirm() {
-    this.resetShipLocations(true);
+  confirmAndHideShips() {
     this.event.emit({type: 'SUBMIT'});
   }
 
@@ -65,7 +64,7 @@ export class ShipDragAndDropService {
   }
 
   get readyToPlay(): boolean {
-    return !this.error && this.allShipsPlaced && this._viewReset()
+    return !this.error && this.allShipsPlaced && this._viewActive()
   };
 
   get allShipsPlaced(): boolean {
@@ -90,8 +89,8 @@ export class ShipDragAndDropService {
     return false
   }
 
-  get displayReady(): boolean {
-    return this._viewReset();
+  get active(): boolean {
+    return this._viewActive();
   }
 
 

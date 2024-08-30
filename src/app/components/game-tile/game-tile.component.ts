@@ -12,6 +12,7 @@ import {
 import {ShipDragAndDropService} from "../../injectables/ship-drag-and-drop.service";
 import {NgClass, NgIf} from "@angular/common";
 import {sleep} from "../../utils";
+import {ActiveGameService} from "../../injectables/active-game.service";
 
 
 @Component({
@@ -31,21 +32,31 @@ export class GameTileComponent implements AfterViewInit {
 
   // services
   private ships = inject(ShipDragAndDropService);
+  private games = inject(ActiveGameService);
   private renderer = inject(Renderer2);
 
   // internal state
   @ViewChild("gameTile") gameTile!: ElementRef;
   private watchShips = signal(true);
+  private watchGame = signal(false);
 
   // init / lifecycle
   constructor() {
-    this.startWatchingShips();
+    // watch for incoming events from ship selection
     this.ships.event.subscribe((e)=>{
       if (e.type==="SUBMIT") {
         this.stopWatchingShips();
+
+        this.startWatchingGameTiles();
+
       } else if (e.type==="RESET") {
         this.startWatchingShips();
       }
+    });
+
+    // watch for incoming events from game runner
+    this.games.event.subscribe((e)=>{
+
     });
   }
 
@@ -69,6 +80,17 @@ export class GameTileComponent implements AfterViewInit {
     }
   }
 
+  async startWatchingGameTiles() {
+    if (!this.watchGame()) this.watchGame.set(true);
+    while (this.watchGame()) {
+      if (this.games.ownTiles.includes(this.tileId)) {
+        this.renderer.addClass(this.gameTile.nativeElement, 'game-tile-ship-permanent');
+      }
+
+      await sleep(100);
+    }
+  }
+
   stopWatchingShips() {
     this.watchShips.set(false);
     this.renderer.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
@@ -78,7 +100,7 @@ export class GameTileComponent implements AfterViewInit {
   @HostListener("window:resize", ["$event"])
   onResizeScreen() {
     this.detectTileLocationChange();
-    if (this.ships.displayReady) {
+    if (this.ships.active) {
       this.ships.resetShipLocations();
     }
   }
@@ -100,5 +122,6 @@ export class GameTileComponent implements AfterViewInit {
       yEnd: y + gameTileLocation.height,
     });
   }
+
 
 }

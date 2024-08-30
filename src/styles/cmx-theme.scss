@@ -68,6 +68,10 @@
   font-size: $game-tile-font-size;
 }
 
+.game-tile-ship-permanent {
+  background-color: orange;
+}
+
 .game-ship-error {
   background-color: rgba(234, 16, 16, 0.35);
 }

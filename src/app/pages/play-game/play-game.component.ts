@@ -1,4 +1,4 @@
-import {Component, inject} from "@angular/core";
+import {AfterViewInit, Component, inject} from "@angular/core";
 import {GameboardComponent} from "../../components/gameboard/gameboard.component";
 import {UserSessionService} from "../../injectables/user-session.service";
 import {DecimalPipe, NgIf, NgStyle, NgTemplateOutlet} from "@angular/common";
@@ -7,6 +7,7 @@ import {ShipDragAndDropService} from "../../injectables/ship-drag-and-drop.servi
 import {GameShipSpacerComponent} from "../../components/game-ship/spacer/game-ship-spacer.component";
 import {GameShipDraggableComponent} from "../../components/game-ship/draggable/game-ship-draggable.component";
 import {GameShipComponent} from "../../components/game-ship/game-ship.component";
+import {ActiveGameService} from "../../injectables/active-game.service";
 
 @Component({
   selector: "app-play-game",
@@ -24,26 +25,32 @@ import {GameShipComponent} from "../../components/game-ship/game-ship.component"
   ],
   standalone: true
 })
-export class PlayGameComponent {
+export class PlayGameComponent implements AfterViewInit {
 
 
   // services
   private router = inject(Router);
   protected userSessions = inject(UserSessionService);
+  protected game = inject(ActiveGameService);
   protected shipSelection = inject(ShipDragAndDropService);
 
 
-  // internal state
-  async handleExit() {
-    this.shipSelection.doneCloseDestroy();
-    await this.userSessions.endSession();
-    this.router.navigate(['/'])
+  // lifecycle
+  ngAfterViewInit(): void {
+    this.shipSelection.resetShipSelectorService();
   }
 
-  handleStartGame() {
-    for (const [shipNum, tiles] of this.shipSelection.shipLocations) {
-      console.log(`ship 1x${shipNum} covers ${tiles}`)
-    }
-    this.shipSelection.confirm();
+
+  // action handlers
+  async handleExit() {
+    this.router.navigate(['/'])
+    this.shipSelection.resetShipSelectorService();
+    this.game.resetActiveGameService();
+    await this.userSessions.endSession();
+  }
+
+  async handleStartGame() {
+    await this.game.markBoardWithShips(this.shipSelection.shipLocations);
+    this.shipSelection.confirmAndHideShips();
   }
 }

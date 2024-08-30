@@ -1,7 +1,7 @@
 <div class="app-body" *ngIf="userSessions.sessionInfo() as session">
 
   <h1>Welcome to battleship {{ session.player_name }}</h1>
-    <h3>
+    <h3 *ngIf="!game.active">
       Please begin by placing your
       {{ session.num_ships === '1'? 'ship' : session.num_ships + ' ships' }}
       ...
@@ -9,7 +9,12 @@
 
     <div class="flex-row col-gap-1">
       <button class="game-button" (click)="handleExit()">Exit</button>
-      <button class="game-button" (click)="handleStartGame()" [disabled]="!shipSelection.readyToPlay">Play</button>
+      <button
+        *ngIf="!game.active"
+        class="game-button"
+        (click)="handleStartGame()"
+        [disabled]="!shipSelection.readyToPlay"
+      >Play</button>
     </div>
 
     <h3 class="error-text">{{ shipSelection.error ?? '&nbsp;' }}</h3>
@@ -18,7 +23,7 @@
 
     <br>
 
-    @if (shipSelection.displayReady) {
+    @if (shipSelection.active) {
       <div class="flex-wrap vw-90 mx-auto">
         @for (ship of [1,2,3,4,5].slice(0, $any(session.num_ships)); track ship) {
           <app-game-ship [shipLength]="ship"/>

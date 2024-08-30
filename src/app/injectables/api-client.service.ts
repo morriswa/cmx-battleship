@@ -32,4 +32,9 @@ export class ApiClient {
   endUserSession(session_id: string): Promise<NewUserSession | undefined> {
     return this.request<NewUserSession>('DELETE', `${this.endpoint}/lobby`, { session_id: session_id });
   }
+
+  startGame(ships: Map<number, string[]>) {
+    return Promise.resolve();
+    // return this.request('POST', `${this.endpoint}/active/game/start`, ships);
+  }
 }
