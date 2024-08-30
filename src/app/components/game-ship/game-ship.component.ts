@@ -43,8 +43,12 @@ export class GameShipComponent implements OnInit {
 
   // lifecycle
   ngOnInit() {
-    this.ships.placementComplete?.subscribe(()=>{
-      this.display.set(false);
+    this.ships.event?.subscribe((e)=>{
+      if (e.type==="SUBMIT") {
+        this.display.set(false);
+      } else if (e.type==="RESET") {
+        this.display.set(true);
+      }
     })
   }
 

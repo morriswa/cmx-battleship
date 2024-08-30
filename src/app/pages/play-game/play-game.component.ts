@@ -38,6 +38,6 @@ export class PlayGameComponent {
     for (const [shipNum, tiles] of this.ships.shipLocations) {
       console.log(`ship 1x${shipNum} covers ${tiles}`)
     }
-    this.ships.doneCloseDestroy();
+    this.ships.confirm();
   }
 }

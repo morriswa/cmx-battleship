@@ -8,7 +8,6 @@ import {
   Renderer2,
   signal,
   ViewChild,
-  WritableSignal
 } from "@angular/core";
 import {ShipDragAndDropService} from "../../injectables/ship-drag-and-drop.service";
 import {NgClass, NgIf} from "@angular/common";
@@ -40,9 +39,14 @@ export class GameTileComponent implements AfterViewInit {
 
   // init / lifecycle
   constructor() {
-    this.startWatchingShips()
-      .then(()=>this.stopWatchingShips());
-    this.ships.placementComplete.subscribe(()=>this.watchShips.set(false));
+    this.startWatchingShips();
+    this.ships.event.subscribe((e)=>{
+      if (e.type==="SUBMIT") {
+        this.stopWatchingShips();
+      } else if (e.type==="RESET") {
+        this.startWatchingShips();
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -51,6 +55,7 @@ export class GameTileComponent implements AfterViewInit {
 
   // public
   async startWatchingShips() {
+    if (!this.watchShips()) this.watchShips.set(true);
     while (this.watchShips()) {
       if (this.tileId && this.gameTile) {
         this.renderer.removeClass(this.gameTile.nativeElement, 'game-tile-covered');

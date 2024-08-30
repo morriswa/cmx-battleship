@@ -27,7 +27,7 @@ export class ShipDragAndDropService {
 
 
   // public state
-  placementComplete = new EventEmitter();
+  event = new EventEmitter<{type: 'SUBMIT' | 'RESET'}>();
 
   resetError() {
     this._reportShipError.set(undefined);
@@ -35,17 +35,21 @@ export class ShipDragAndDropService {
 
   resetShipLocations(hide = false) {
     this._viewReset.set(false);
-    this._blockedLocations.update(()=>new Map());
+    this._shipLocations.update(()=>new Map());
+    this._blockedLocations.set(new Map());
+    this.resetError();
     if (!hide) setTimeout(()=>this._viewReset.set(true), 1000)
   }
 
   doneCloseDestroy() {
-    this._blockedLocations.set(new Map());
-    this._reportShipError.set(undefined)
-    this.placementComplete.emit();
-    this.resetShipLocations(true);
+    this.resetShipLocations();
+    this.event.emit({type: 'RESET'});
   }
 
+  confirm() {
+    this.resetShipLocations(true);
+    this.event.emit({type: 'SUBMIT'});
+  }
 
   // getters
   get shipLocations() {
