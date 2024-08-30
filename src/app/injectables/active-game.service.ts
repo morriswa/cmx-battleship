@@ -31,11 +31,13 @@ export class ActiveGameService {
   }
 
   async markBoardWithShips(ships: Map<number, string[]>) {
-    this._userShips.set(ships);
     await this.api.startGame(ships);
+    console.log('activating game service')
+    this._userShips.set(ships);
   }
 
   resetActiveGameService() {
+    console.log('killing game service')
     this._userShips.set(undefined);
   }
 }

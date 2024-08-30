@@ -37,7 +37,7 @@ export class GameTileComponent implements AfterViewInit {
 
   // internal state
   @ViewChild("gameTile") gameTile!: ElementRef;
-  private watchShips = signal(true);
+  private watchShips = signal(false);
   private watchGame = signal(false);
 
   // init / lifecycle
@@ -67,6 +67,11 @@ export class GameTileComponent implements AfterViewInit {
   // public
   async startWatchingShips() {
     if (!this.watchShips()) this.watchShips.set(true);
+    else {
+      console.log('refused to start watch ships twice');
+      return;
+    }
+    console.log('ship loop init')
     while (this.watchShips()) {
       if (this.tileId && this.gameTile) {
         this.renderer.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
@@ -78,10 +83,16 @@ export class GameTileComponent implements AfterViewInit {
 
       await sleep(100);
     }
+    console.log('ship loop destroyed')
   }
 
   async startWatchingGameTiles() {
     if (!this.watchGame()) this.watchGame.set(true);
+    else {
+      console.log('refused to start game loop twice');
+      return;
+    }
+    console.log('game loop init');
     while (this.watchGame()) {
       if (this.games.ownTiles.includes(this.tileId)) {
         this.renderer.addClass(this.gameTile.nativeElement, 'game-tile-ship-permanent');
@@ -89,6 +100,7 @@ export class GameTileComponent implements AfterViewInit {
 
       await sleep(100);
     }
+    console.log('ship loop destroyed')
   }
 
   stopWatchingShips() {

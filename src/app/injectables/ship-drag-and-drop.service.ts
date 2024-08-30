@@ -23,7 +23,7 @@ export class ShipDragAndDropService {
   private _tileLocations: WritableSignal<Map<string, SimplePosition>> = signal(new Map());
   private _shipLocations: WritableSignal<Map<number, string[]>> = signal(new Map());
   private _reportShipError: WritableSignal<string|undefined> = signal(undefined);
-  private _viewActive = signal(true);
+  private _viewActive = signal(false);
 
 
   // public state
@@ -42,11 +42,14 @@ export class ShipDragAndDropService {
   }
 
   resetShipSelectorService() {
+    console.log('turing on ship selector and resetting all data')
     this.resetShipLocations();
     this.event.emit({type: 'RESET'});
   }
 
   confirmAndHideShips() {
+    console.log('turing off ship selector, data is still available');
+    this._viewActive.set(false);
     this.event.emit({type: 'SUBMIT'});
   }
 
