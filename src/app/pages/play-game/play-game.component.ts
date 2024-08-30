@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, inject} from "@angular/core";
 import {GameboardComponent} from "../../components/gameboard/gameboard.component";
-import {UserSessionService} from "../../injectables/user-session.service";
+import {LobbyService} from "../../injectables/lobby.service";
 import {DecimalPipe, NgIf, NgStyle, NgTemplateOutlet} from "@angular/common";
 import {Router} from "@angular/router";
 import {ShipDragAndDropService} from "../../injectables/ship-drag-and-drop.service";
@@ -30,7 +30,7 @@ export class PlayGameComponent implements AfterViewInit {
 
   // services
   private router = inject(Router);
-  protected userSessions = inject(UserSessionService);
+  protected userSessions = inject(LobbyService);
   protected game = inject(ActiveGameService);
   protected shipSelection = inject(ShipDragAndDropService);
 
@@ -38,6 +38,8 @@ export class PlayGameComponent implements AfterViewInit {
   // lifecycle
   ngAfterViewInit(): void {
     this.shipSelection.resetShipSelectorService();
+    this.userSessions.getAvailablePlayers()
+      .then((players: any) => {console.log(players)})
   }
 
 
@@ -46,7 +48,7 @@ export class PlayGameComponent implements AfterViewInit {
     this.router.navigate(['/'])
     this.shipSelection.resetShipSelectorService();
     this.game.resetActiveGameService();
-    await this.userSessions.endSession();
+    await this.userSessions.leaveLobby();
   }
 
   async handleStartGame() {

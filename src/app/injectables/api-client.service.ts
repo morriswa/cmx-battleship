@@ -1,7 +1,7 @@
 import {inject, Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {firstValueFrom} from "rxjs";
-import {StartUserSession, NewUserSession} from "../types/user-session.type";
+import {JoinLobby, NewUserSession} from "../types/lobby.types";
 
 
 export type SUPPORTED_METHODS = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -25,25 +25,22 @@ export class ApiClient {
   }
 
   // public api
-  startUserSession(request: StartUserSession): Promise<NewUserSession | undefined> {
+  startUserSession(request: JoinLobby): Promise<NewUserSession | undefined> {
     return this.request<NewUserSession>('POST', `${this.endpoint}/lobby`, request);
   }
 
-  endUserSession(session_id: string): Promise<NewUserSession | undefined> {
-    return this.request<NewUserSession>('DELETE', `${this.endpoint}/lobby`, { session_id: session_id });
+  endUserSession() {
+    return this.request<void>('DELETE', `${this.endpoint}/lobby`);
   }
 
-  requestGame(session_id: string, player_id: string) {
+  requestGame(player_id: string) {
     return this.request<void>('POST', `${this.endpoint}/game/requests`, {
-      session_id: session_id,
       player_id: player_id,
     });
   }
 
-  getGameRequests(session_id: string, player_id: string) {
-    return this.request<void>('GET', `${this.endpoint}/game/requests`, {
-      session_id: session_id,
-    });
+  getGameRequests() {
+    return this.request<void>('GET', `${this.endpoint}/game/requests`);
   }
 
   startGame(ships: Map<number, string[]>) {

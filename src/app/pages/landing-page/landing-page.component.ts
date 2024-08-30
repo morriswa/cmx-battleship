@@ -4,7 +4,7 @@ import {
   RadioButtonFormControl,
   RadioButtonGroupComponent
 } from "../../components/radio-button-group/radio-button-group.component";
-import {UserSessionService} from "../../injectables/user-session.service";
+import {LobbyService} from "../../injectables/lobby.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -16,7 +16,7 @@ import {Router} from "@angular/router";
 })
 export class LandingPageComponent{
     // services
-    userSS = inject(UserSessionService);
+    lobby = inject(LobbyService);
     router = inject(Router);
 
     //variables
@@ -34,7 +34,7 @@ export class LandingPageComponent{
         // 'this.' is like 'self.' in python, it just references the variables in itself
 
         if (this.playerNameForm.valid && this.shipForm.valid) {
-            await this.userSS.startSession({
+            await this.lobby.joinLobby({
                 player_name: this.playerNameForm.value,
                 num_ships: String(this.shipForm.value),
             });

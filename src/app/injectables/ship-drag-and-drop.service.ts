@@ -1,5 +1,5 @@
 import {EventEmitter, inject, Injectable, signal, WritableSignal} from "@angular/core";
-import {UserSessionService} from "./user-session.service";
+import {LobbyService} from "./lobby.service";
 import {countOccurrences} from "../utils";
 
 
@@ -15,7 +15,7 @@ export class ShipDragAndDropService {
 
 
   // service
-  session = inject(UserSessionService);
+  session = inject(LobbyService);
 
 
   // internal state

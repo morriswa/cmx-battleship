@@ -1,34 +1,42 @@
 import {inject, Injectable, signal, WritableSignal} from "@angular/core";
 import {ApiClient} from "./api-client.service";
-import {StartUserSession, UserSession} from "../types/user-session.type";
+import {JoinLobby, UserSession} from "../types/lobby.types";
+import {SessionService} from "./session.service";
 
 @Injectable()
-export class UserSessionService {
+export class LobbyService {
+  private session = inject(SessionService);
   private api = inject(ApiClient);
 
   sessionInfo: WritableSignal<UserSession | undefined> = signal(undefined);
 
   constructor() {
-    const sessionInfoCache = localStorage.getItem("sessionInfo");
+    const sessionInfoCache = localStorage.getItem("lobby-service.sessionInfo");
     if (sessionInfoCache) this.sessionInfo.set(JSON.parse(sessionInfoCache));
   }
 
-  async startSession(request: StartUserSession): Promise<void>  {
+  async joinLobby(request: JoinLobby): Promise<void>  {
     const session = await this.api.startUserSession(request);
     if (!session) throw new Error("failed to start session");
+    this.session.start(session.session_id);
     this.sessionInfo.set({
       player_id: session.player_id,
       player_name: request.player_name,
       session_id: session.session_id,
       num_ships: request.num_ships,
     });
-    localStorage.setItem("sessionInfo", JSON.stringify(this.sessionInfo()));
+    localStorage.setItem("lobby-service.sessionInfo", JSON.stringify(this.sessionInfo()));
   }
 
-  async endSession() {
+  async leaveLobby() {
     const sessionInfo = this.sessionInfo();
     if (!sessionInfo) return;
-    await this.api.endUserSession(sessionInfo.session_id);
-    localStorage.removeItem("sessionInfo");
+    await this.api.endUserSession();
+    localStorage.removeItem("lobby-service.sessionInfo");
+    this.session.end();
+  }
+
+  async getAvailablePlayers() {
+    return this.api.getGameRequests()
   }
 }
