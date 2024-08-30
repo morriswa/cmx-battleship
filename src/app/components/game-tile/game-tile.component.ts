@@ -32,13 +32,11 @@ export class GameTileComponent implements AfterViewInit {
 
   // services
   private ships = inject(ShipDragAndDropService);
-  private _render = inject(Renderer2);
+  private renderer = inject(Renderer2);
 
   // internal state
   @ViewChild("gameTile") gameTile!: ElementRef;
   private watchShips = signal(true);
-  private gameTileLocX: WritableSignal<number | undefined> = signal(undefined);
-  private gameTileLocY: WritableSignal<number | undefined> = signal(undefined);
 
   // init / lifecycle
   constructor() {
@@ -55,10 +53,10 @@ export class GameTileComponent implements AfterViewInit {
   async startWatchingShips() {
     while (this.watchShips()) {
       if (this.tileId && this.gameTile) {
-        this._render.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
+        this.renderer.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
 
         if (this.ships.coveredTiles.get(this.tileId)?.covered) {
-          this._render.addClass(this.gameTile.nativeElement, 'game-tile-covered');
+          this.renderer.addClass(this.gameTile.nativeElement, 'game-tile-covered');
         }
       }
 
@@ -68,7 +66,7 @@ export class GameTileComponent implements AfterViewInit {
 
   stopWatchingShips() {
     this.watchShips.set(false);
-    this._render.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
+    this.renderer.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
   }
 
   // internal logic
@@ -88,14 +86,11 @@ export class GameTileComponent implements AfterViewInit {
     const gameTileLocation = this.gameTile.nativeElement.getBoundingClientRect();
     const x = gameTileLocation.x;
     const y = gameTileLocation.y;
-    this.gameTileLocX.set(x);
-    this.gameTileLocY.set(y);
-    // TODO get '50' offset from scss
     this.ships.setTileLocations(this.tileId, {
       xStart: x,
-      xEnd: x + 50,
+      xEnd: x + gameTileLocation.width,
       yStart: y,
-      yEnd: y + 50,
+      yEnd: y + gameTileLocation.height,
     });
   }
 
