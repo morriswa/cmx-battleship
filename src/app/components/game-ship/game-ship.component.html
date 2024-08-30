@@ -1,8 +1,18 @@
 
 @if (display()) {
-  <div class="game-ship" #shipRef cdkDrag (cdkDragMoved)="handleDropEnd()">
-    @for (shipSection of ['1','2','3','4','5'].slice(0, shipLength); track shipSection) {
-      <div class="game-ship-section"></div>
+  <div class="flex-row">
+    @for (shipSection of ['1','2','3','4','5'].slice(0, shipLength); track shipSection;) {
+        <div class="game-ship-initial-location-placeholder"></div>
+    }
+  </div>
+
+  <div [ngClass]="{'flex-row':isHorizontal()}" class="game-ship" #shipRef cdkDrag (cdkDragMoved)="handleDropEnd()">
+    @for (shipSection of ['1','2','3','4','5'].slice(0, shipLength); track shipSection; let first = $first; let last = $last) {
+        <div class="game-ship-section">
+          @if (first && !last) {
+            <button (click)="rotate()">Rotate</button>
+          }
+        </div>
     }
   </div>
 }

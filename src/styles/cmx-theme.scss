@@ -28,13 +28,20 @@
 
 
 .game-ship {
-
-  @extend .flex-row;
+  z-index: 100;
 
   cursor: grab;
   user-select: none;
 
+  width: min-content;
+
   border: solid $game-tile-border-width $game-tile-border-color;
+}
+
+.game-ship-initial-location-placeholder {
+  background-color: $clear;
+  height: $game-tile-height + $game-tile-border-width + $game-tile-border-width;
+  width: $game-tile-width + $game-tile-border-width + $game-tile-border-width;
 }
 
 .game-ship-section {

@@ -1,17 +1,28 @@
-import {Component, ElementRef, inject, Input, OnInit, Renderer2, signal, ViewChild} from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  inject,
+  Input,
+  OnInit,
+  Renderer2,
+  signal,
+  ViewChild
+} from "@angular/core";
 import {CdkDrag} from "@angular/cdk/drag-drop";
 import {ShipDragAndDropService} from "../../injectables/ship-drag-and-drop.service";
+import {NgClass} from "@angular/common";
 
 @Component({
   selector: "app-game-ship",
   templateUrl: "./game-ship.component.html",
   styleUrl: "./game-ship.component.scss",
   imports: [
-    CdkDrag
+    CdkDrag,
+    NgClass
   ],
   standalone: true
 })
-export class GameShipComponent implements OnInit{
+export class GameShipComponent implements OnInit {
 
   // io
   @Input() shipLength!: number;
@@ -23,6 +34,12 @@ export class GameShipComponent implements OnInit{
   // internal state
   @ViewChild("shipRef") shipRef!: ElementRef;
   protected display = signal(true);
+  protected isHorizontal = signal(true);
+  protected rotate() {
+    this.isHorizontal.update(bo=>!bo);
+    setTimeout(()=>this.handleDropEnd(), 100)
+  }
+
 
   // lifecycle
   ngOnInit() {
