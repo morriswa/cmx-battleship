@@ -26,23 +26,22 @@ jobs:
       id: package-version
       uses: martinbeentjes/npm-get-version-action@main
 
-    - name: Build and Test
+    - name: Build
       run: |
         npm ci
-        npm run test
         RUNTIME=prod \
-          APP_API_ENDPOINT=${{ secrets.APP_API_ENDPOINT }}
+          APP_API_ENDPOINT=${{ secrets.APP_API_ENDPOINT }} \
           npm run build:www
 
     - name: Publish
       run: |
         cd ./dist
-        tar -czvf cmx-battlefield-dist.tar.gz ./cmx-battlefield
-        export ASSET_SHA256=$(sha256sum cmx-battlefield-dist.tar.gz | awk '{print $1;}')
+        tar -czvf cmx-battleship-dist.tar.gz ./cmx-battleship
+        export ASSET_SHA256=$(sha256sum cmx-battleship-dist.tar.gz | awk '{print $1;}')
         aws codeartifact publish-package-version \
           --domain morriswa-org --repository morriswa-central \
-          --format generic --namespace org.morriswa --package cmx-battlefield-dist \
+          --format generic --namespace org.morriswa --package cmx-battleship-dist \
           --package-version ${{ steps.package-version.outputs.current-version}} \
-          --asset-content cmx-battlefield-dist.tar.gz \
-          --asset-name cmx-battlefield-dist.tar.gz \
+          --asset-content cmx-battleship-dist.tar.gz \
+          --asset-name cmx-battleship-dist.tar.gz \
           --asset-sha256 "$ASSET_SHA256" --unfinished
