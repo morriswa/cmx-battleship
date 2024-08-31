@@ -81,6 +81,7 @@ export class GameTileComponent implements AfterViewInit {
         }
       }
 
+      this.detectTileLocationChange();
       await sleep(100);
     }
     console.log('ship loop destroyed')

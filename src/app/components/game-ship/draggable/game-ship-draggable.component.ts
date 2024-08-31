@@ -34,7 +34,7 @@ export class GameShipDraggableComponent implements OnInit {
   // internal state
   @ViewChild("shipRef") shipRef!: ElementRef;
   protected display = signal(true);
-  protected isHorizontal = signal(true);
+  protected isHorizontal = signal(false);
   protected rotate() {
     this.isHorizontal.update(bo=>!bo);
     setTimeout(()=>this.handleDropEnd(), 100)

@@ -54,8 +54,8 @@
 
 .game-ship-initial-location-placeholder {
   background-color: $clear;
-  height: 5px;
-  width: $game-tile-width + $game-tile-border-width + $game-tile-border-width;
+  height: $game-tile-height + $game-tile-border-width + $game-tile-border-width;
+  width: 0;
 }
 
 .game-ship-section {

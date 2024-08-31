@@ -14,7 +14,7 @@ import {GameShipSpacerComponent} from "./spacer/game-ship-spacer.component";
 @Component({
   selector: "app-game-ship",
   template: `
-    <div class="flex-col" #containingColumn>
+    <div class="flex-row align-items-flex-start" #containingColumn>
       <app-game-ship-spacer [shipLength]="this.shipLength"/>
       <app-game-ship-draggable #draggableComponent [shipLength]="this.shipLength"/>
     </div>
@@ -40,8 +40,8 @@ export class GameShipComponent implements AfterViewInit {
   // lifecycle
   ngAfterViewInit() {
     if (!(this.draggableComponent && this.containingColumn)) return;
-    const height = window.getComputedStyle(this.draggableComponent.shipRef.nativeElement).height;
-    const computedHeight = 10 + Number(height.substring(0, height.length - 2));
-    this.renderer.setStyle(this.containingColumn.nativeElement, 'height', computedHeight + 'px');
+    const width = window.getComputedStyle(this.draggableComponent.shipRef.nativeElement).width;
+    const computedWidth = 10 + Number(width.substring(0, width.length - 2));
+    this.renderer.setStyle(this.containingColumn.nativeElement, 'width', computedWidth + 'px');
   }
 }
