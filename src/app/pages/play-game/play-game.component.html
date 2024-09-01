@@ -35,15 +35,13 @@
 
   <div class="app-body mx-auto">
 
-    <div class="app-ship-selector">
-      @if (shipSelection.active) {
-        <div class="flex-wrap mx-auto mt-2">
-          @for (ship of [1,2,3,4,5].slice(0, $any(session.num_ships)); track ship) {
-            <app-game-ship [shipLength]="ship"/>
-          }
-        </div>
-      }
-    </div>
+    @if (shipSelection.active) {
+      <div class="app-ship-selector flex-wrap mx-auto mt-2">
+        @for (ship of [1,2,3,4,5].slice(0, $any(session.num_ships)); track ship) {
+          <app-game-ship [shipLength]="ship"/>
+        }
+      </div>
+    }
 
     <app-gameboard class="app-gameboard"></app-gameboard>
 

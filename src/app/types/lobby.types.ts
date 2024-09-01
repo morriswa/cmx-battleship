@@ -15,3 +15,7 @@ export type UserSession = {
   player_name: string;
   num_ships: string;
 }
+
+export type OnlineStats = {
+  playerCount: number;
+}

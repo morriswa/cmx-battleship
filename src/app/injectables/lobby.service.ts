@@ -1,6 +1,6 @@
 import {inject, Injectable, signal, WritableSignal} from "@angular/core";
 import {ApiClient} from "./api-client.service";
-import {JoinLobby, UserSession} from "../types/lobby.types";
+import {JoinLobby, OnlineStats, UserSession} from "../types/lobby.types";
 import {SessionService} from "./session.service";
 
 @Injectable()
@@ -13,6 +13,12 @@ export class LobbyService {
   constructor() {
     const sessionInfoCache = localStorage.getItem("lobby-service.sessionInfo");
     if (sessionInfoCache) this.sessionInfo.set(JSON.parse(sessionInfoCache));
+  }
+
+  async gameStats(): Promise<OnlineStats> {
+    const response = await this.api.getOnlineStats();
+    if (!response) throw new Error('failed to fetch online game stats')
+    else return response;
   }
 
   async joinLobby(request: JoinLobby): Promise<void>  {

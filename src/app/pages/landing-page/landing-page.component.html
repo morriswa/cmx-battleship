@@ -1,6 +1,8 @@
 <div class="landing-page-wrapper">
   <p>landing page</p>
 
+  <p *ngIf="stats() as stats">Currently online players: {{ stats.playerCount }}</p>
+
   <span>enter user name: </span>
   <input [formControl]="playerNameForm">
       <!--

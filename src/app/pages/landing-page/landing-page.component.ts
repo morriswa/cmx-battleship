@@ -1,4 +1,4 @@
-import {Component, inject} from "@angular/core";
+import {Component, inject, OnInit, signal, WritableSignal} from "@angular/core";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import {
   RadioButtonFormControl,
@@ -6,18 +6,21 @@ import {
 } from "../../components/radio-button-group/radio-button-group.component";
 import {LobbyService} from "../../injectables/lobby.service";
 import {Router} from "@angular/router";
+import {AsyncPipe, NgIf} from "@angular/common";
+import {OnlineStats} from "../../types/lobby.types";
 
 @Component({
     selector: "app-landing-page",
     standalone: true,
     templateUrl: "./landing-page.component.html",
     styleUrl: "./landing-page.component.scss",
-  imports: [ReactiveFormsModule, RadioButtonGroupComponent]
+  imports: [ReactiveFormsModule, RadioButtonGroupComponent, NgIf, AsyncPipe]
 })
-export class LandingPageComponent{
+export class LandingPageComponent implements OnInit{
     // services
     lobby = inject(LobbyService);
     router = inject(Router);
+    stats: WritableSignal<OnlineStats | undefined> = signal(undefined);
 
     //variables
     playerNameForm = new FormControl(); // new variable of type FormControl(), which will be used to save user input
@@ -28,6 +31,10 @@ export class LandingPageComponent{
         {label: '4', value: 4},
         {label: '5', value: 5},
     ]);
+
+    ngOnInit(): void {
+        this.lobby.gameStats().then(r=>this.stats.set(r))
+    }
 
     //methods
     async onSubmit() { // method that is called when the submit button (in landing-page.component.html) is clicked or enter key is pressed

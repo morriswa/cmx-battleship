@@ -1,7 +1,7 @@
 import {inject, Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {firstValueFrom} from "rxjs";
-import {JoinLobby, NewUserSession} from "../types/lobby.types";
+import {JoinLobby, NewUserSession, OnlineStats} from "../types/lobby.types";
 
 
 export type SUPPORTED_METHODS = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -25,12 +25,16 @@ export class ApiClient {
   }
 
   // public api
+  getOnlineStats() {
+    return this.request<OnlineStats>('GET', `${this.endpoint}/info`);
+  }
+
   startUserSession(request: JoinLobby): Promise<NewUserSession | undefined> {
-    return this.request<NewUserSession>('POST', `${this.endpoint}/lobby`, request);
+    return this.request<NewUserSession>('POST', `${this.endpoint}/login`, request);
   }
 
   endUserSession() {
-    return this.request<void>('DELETE', `${this.endpoint}/lobby`);
+    return this.request<void>('DELETE', `${this.endpoint}/logout`);
   }
 
   requestGame(player_id: string) {
