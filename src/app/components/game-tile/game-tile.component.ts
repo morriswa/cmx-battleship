@@ -9,10 +9,10 @@ import {
   signal,
   ViewChild,
 } from "@angular/core";
-import {ShipDragAndDropService} from "../../injectables/ship-drag-and-drop.service";
+import {ShipDragAndDropService} from "../../services/ship-drag-and-drop.service";
 import {NgClass, NgIf} from "@angular/common";
 import {sleep} from "../../utils";
-import {ActiveGameService} from "../../injectables/active-game.service";
+import {ActiveGameService} from "../../services/active-game.service";
 
 
 @Component({

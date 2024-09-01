@@ -4,7 +4,7 @@ import {
   RadioButtonFormControl,
   RadioButtonGroupComponent
 } from "../../components/radio-button-group/radio-button-group.component";
-import {LobbyService} from "../../injectables/lobby.service";
+import {LobbyService} from "../../services/lobby.service";
 import {Router} from "@angular/router";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {OnlineStats} from "../../types/lobby.types";

@@ -1,13 +1,13 @@
 import {AfterViewInit, Component, inject} from "@angular/core";
 import {GameboardComponent} from "../../components/gameboard/gameboard.component";
-import {LobbyService} from "../../injectables/lobby.service";
+import {LobbyService} from "../../services/lobby.service";
 import {DecimalPipe, NgIf, NgStyle, NgTemplateOutlet} from "@angular/common";
 import {Router} from "@angular/router";
-import {ShipDragAndDropService} from "../../injectables/ship-drag-and-drop.service";
+import {ShipDragAndDropService} from "../../services/ship-drag-and-drop.service";
 import {GameShipSpacerComponent} from "../../components/game-ship/spacer/game-ship-spacer.component";
 import {GameShipDraggableComponent} from "../../components/game-ship/draggable/game-ship-draggable.component";
 import {GameShipComponent} from "../../components/game-ship/game-ship.component";
-import {ActiveGameService} from "../../injectables/active-game.service";
+import {ActiveGameService} from "../../services/active-game.service";
 
 @Component({
   selector: "app-play-game",

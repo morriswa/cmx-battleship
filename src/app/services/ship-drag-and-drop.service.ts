@@ -15,7 +15,7 @@ export class ShipDragAndDropService {
 
 
   // service
-  session = inject(LobbyService);
+  lobby = inject(LobbyService);
 
 
   // internal state
@@ -73,7 +73,7 @@ export class ShipDragAndDropService {
   get allShipsPlaced(): boolean {
     const count = Array.from(this._shipLocations().entries()).length;
     // console.log(`got count ${count}`)
-    return count === Number(this.session.sessionInfo()?.num_ships);
+    return count === Number(this.lobby.sessionInfo()?.num_ships);
   };
 
   get duplicatePlacement() {

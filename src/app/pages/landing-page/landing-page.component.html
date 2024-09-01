@@ -1,7 +1,7 @@
 <div class="landing-page-wrapper">
   <p>landing page</p>
 
-  <p *ngIf="stats() as stats">Currently online players: {{ stats.playerCount }}</p>
+  <p *ngIf="stats() as stats">Online players: {{ stats.playerCount }} / 10,000</p>
 
   <span>enter user name: </span>
   <input [formControl]="playerNameForm">

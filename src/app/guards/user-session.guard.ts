@@ -1,10 +1,10 @@
 import {CanActivateFn, Router} from "@angular/router";
 import {inject} from "@angular/core";
-import {SessionService} from "../injectables/session.service";
+import {SessionAuthenticationService} from "../services/session-authentication.service";
 
 export const UserSessionGuard: CanActivateFn = () => {
 
-    const lobby = inject(SessionService);
+    const lobby = inject(SessionAuthenticationService);
     const router = inject(Router);
 
     if (!lobby.active) {

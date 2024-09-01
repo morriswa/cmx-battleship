@@ -1,11 +1,11 @@
 import {inject, Injectable, signal, WritableSignal} from "@angular/core";
 import {ApiClient} from "./api-client.service";
 import {JoinLobby, OnlineStats, UserSession} from "../types/lobby.types";
-import {SessionService} from "./session.service";
+import {SessionAuthenticationService} from "./session-authentication.service";
 
 @Injectable()
 export class LobbyService {
-  private session = inject(SessionService);
+  private session = inject(SessionAuthenticationService);
   private api = inject(ApiClient);
 
   sessionInfo: WritableSignal<UserSession | undefined> = signal(undefined);

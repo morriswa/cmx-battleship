@@ -9,7 +9,7 @@ import {
   ViewChild
 } from "@angular/core";
 import {CdkDrag} from "@angular/cdk/drag-drop";
-import {ShipDragAndDropService} from "../../../injectables/ship-drag-and-drop.service";
+import {ShipDragAndDropService} from "../../../services/ship-drag-and-drop.service";
 import {NgClass} from "@angular/common";
 
 @Component({

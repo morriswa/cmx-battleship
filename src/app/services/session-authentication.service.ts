@@ -1,7 +1,7 @@
 import {Injectable, signal, WritableSignal} from "@angular/core";
 
 @Injectable()
-export class SessionService {
+export class SessionAuthenticationService {
   private sessionId: WritableSignal<string|undefined>;
 
   get id() {
@@ -16,6 +16,7 @@ export class SessionService {
     const cachedId = localStorage.getItem("session-service.sessionId");
     this.sessionId = signal(cachedId ?? undefined);
   }
+
   start(sessionId: string) {
     this.sessionId.set(sessionId);
     localStorage.setItem("session-service.sessionId", sessionId);
