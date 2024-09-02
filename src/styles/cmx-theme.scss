@@ -1,0 +1,81 @@
+@use "variables" as *;
+@use "tools";
+
+.error-text {
+  color: $error-color;
+}
+
+.bold-text {
+  font-weight: $bold-font-weight;
+}
+
+.game-button {
+  padding: 10px;
+  background-color: $primary;
+  color: white;
+
+  border: none;
+  outline: none;
+
+  &:disabled {
+    //background-color: darken($primary, 5%);
+    background-color: $surface-color;
+    color: grey;
+  }
+}
+
+.game-tile {
+  cursor: pointer;
+  user-select: none;
+
+  border: solid $game-tile-border-width $game-tile-border-color;
+  height: $game-tile-height;
+  width: $game-tile-width;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-tile-covered {
+  background-color: blue;
+}
+
+
+.game-ship {
+  cursor: grab;
+  user-select: none;
+
+  position: absolute;
+  width: min-content;
+
+  border: solid $game-tile-border-width $game-tile-border-color;
+}
+
+.game-ship-initial-location-placeholder {
+  background-color: $clear;
+  height: $game-tile-height + $game-tile-border-width + $game-tile-border-width;
+  width: 0;
+}
+
+.game-ship-section {
+  background-color: rgba(255, 25, 174, 0.29);
+  height: $game-tile-height + $game-tile-border-width + $game-tile-border-width;
+  width: $game-tile-width + $game-tile-border-width + $game-tile-border-width;
+}
+
+.game-tile-text {
+  font-size: $game-tile-font-size;
+}
+
+.game-tile-ship-permanent {
+  background-color: orange;
+}
+
+.game-ship-error {
+  background-color: rgba(234, 16, 16, 0.35);
+}
+
+.game-tile-error {
+  background-color: $error-color;
+}

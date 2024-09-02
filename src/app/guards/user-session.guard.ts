@@ -1,14 +1,13 @@
 import {CanActivateFn, Router} from "@angular/router";
-import {UserSessionService} from "../injectables/user-session.service";
 import {inject} from "@angular/core";
+import {SessionAuthenticationService} from "../services/session-authentication.service";
 
 export const UserSessionGuard: CanActivateFn = () => {
 
-    const uss = inject(UserSessionService);
+    const lobby = inject(SessionAuthenticationService);
     const router = inject(Router);
 
-    const canAccess = !!uss.sessionInfo();
-    if (!canAccess) {
+    if (!lobby.active) {
         router.navigate(['/'])
         return false;
     }

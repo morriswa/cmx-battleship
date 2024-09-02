@@ -1,16 +1,18 @@
 {
   "name": "cmx-battleship",
-  "version": "0.0.0",
+  "version": "0.0.6.dev1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:www": "ng build --base-href /cmx/battleship/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.1.4",
+    "@angular/cdk": "^18.2.2",
     "@angular/common": "^18.1.4",
     "@angular/compiler": "^18.1.4",
     "@angular/core": "^18.1.4",

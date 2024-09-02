@@ -26,3 +26,8 @@ img {
     left: 50%; // moves image help way to the left on screen / these 2 together put the corner of the image in the center
     transform: translate(-50%, -50%); // moves image left and up by half of its size (centering it!)
   }
+
+.landing-page-wrapper {
+  width: 70vw;
+  margin: 0 auto;
+}

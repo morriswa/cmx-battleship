@@ -1,5 +1,5 @@
 
-export type StartUserSession = {
+export type JoinLobby = {
   player_name: string;
   num_ships: string;
 }
@@ -14,4 +14,8 @@ export type UserSession = {
   player_id: string;
   player_name: string;
   num_ships: string;
+}
+
+export type OnlineStats = {
+  playerCount: number;
 }

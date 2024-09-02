@@ -3,18 +3,6 @@
 .flex-row {
   display: flex;
   flex-direction: row;
-
-  &.space-between-items {
-    justify-content: space-between;
-  }
-
-  &.align-items-flex-start {
-    align-items: flex-start;
-  }
-
-  &.align-items-center {
-    align-items: center;
-  }
 }
 
 .flex-col {
@@ -22,11 +10,37 @@
   flex-direction: column;
 }
 
-.error-text {
-  color: $error-color;
+.col-gap-1 {
+  column-gap: 10px;
 }
 
-.bold-text {
-  font-weight: $bold-font-weight;
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 
+.space-between-items {
+  justify-content: space-between;
+}
+
+.align-items-flex-start {
+  align-items: flex-start;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.vw-90 {
+  width: 90vw;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mt-2 {
+  margin-top: 20px;
+}

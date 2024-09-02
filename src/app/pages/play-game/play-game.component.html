@@ -1,10 +1,50 @@
-<div class="app-body" *ngIf="uss.sessionInfo() as session">
+
+@if (userSessions.sessionInfo(); as session) {
+
+  <div class="app-title">
     <h1>Welcome to battleship {{ session.player_name }}</h1>
-    <h3>
+    <h3 *ngIf="!game.active">
       Please begin by placing your
       {{ session.num_ships === '1'? 'ship' : session.num_ships + ' ships' }}
       ...
     </h3>
+
+    <div class="flex-row col-gap-1">
+      <button class="game-button" (click)="handleExit()">Exit</button>
+      <button
+        *ngIf="!game.active"
+        class="game-button"
+        (click)="handleStartGame()"
+        [disabled]="!shipSelection.readyToPlay"
+      >Play</button>
+    </div>
+
+    @if (game.active) {
+      <!-- game messages -->
+      <h3 *ngIf="game.waiting">Waiting for other player...</h3>
+    }
+
+    @if (shipSelection.active) {
+      <!-- ship errors -->
+      <h3 class="error-text">{{ shipSelection.error ?? '&nbsp;' }}</h3>
+    } @else {
+      <h3>&nbsp;</h3>
+    }
+
+  </div>
+
+  <div class="app-body mx-auto">
+
+    @if (shipSelection.active) {
+      <div class="app-ship-selector flex-wrap mt-2">
+        @for (ship of [1,2,3,4,5].slice(0, $any(session.num_ships)); track ship) {
+          <app-game-ship [shipLength]="ship"/>
+        }
+      </div>
+    }
+
     <app-gameboard class="app-gameboard"></app-gameboard>
-    <button (click)="handleExit()">Exit</button>
-</div>
+
+  </div>
+
+}
