@@ -7,9 +7,14 @@ sans-serif;
 $code-font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 monospace;
 
+// import pixelfy font
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+$pixel-font-family: 'Pixelify Sans', san-serif;
+
 $bold-font-weight: 700;
 $font-weight: 400;
 
+$font-size-xxl: 60px;
 $font-size-lg: 18px;
 $font-size: 14px;
 

@@ -1,15 +1,7 @@
-body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
-
 p, input, button {
     position: relative;
     font-size: 20px;
     z-index: 1;
-    font-family: "Pixelify Sans", sans-serif;
     text-align: center;
 }
 
@@ -17,17 +9,15 @@ p, input, button {
     font-size: 60px;
 }
 
-img {
+.landing-page-image {
     position: absolute;
-    z-index: 0;
-    width: 50%;
-    height: auto;
-    top: 50%; // moves image half way down screen
-    left: 50%; // moves image help way to the left on screen / these 2 together put the corner of the image in the center
-    transform: translate(-50%, -50%); // moves image left and up by half of its size (centering it!)
+    z-index: -10;
+    width: 500px;
+    margin: 50px 0;
+    // width: 50%;
+    // height: auto;
+    // top: 50%; // moves image half way down screen
+    // left: 50%; // moves image help way to the left on screen / these 2 together put the corner of the image in the center
+    // transform: translate(-50%, -50%); // moves image left and up by half of its size (centering it!)
   }
 
-.landing-page-wrapper {
-  width: 70vw;
-  margin: 0 auto;
-}

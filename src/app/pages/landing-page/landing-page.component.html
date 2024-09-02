@@ -1,29 +1,25 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
-<body>
-<p class="title">BATTLESHIP</p>
+<div class="pixel-font flex-col vw-90 mx-auto justify-content-center align-items-center">
+    <!-- flex-col: creates a flex box in column direction  vw-90: content is width of 90% of the screen  mx-auto: make box centered   justify-content-center/align-items-center: center the content inside the flex box in x and y direction -->
+    <p class="title">BATTLESHIP</p>
 
-<p class="instructions">enter user name: </p>
-<input [formControl]="playerNameForm">
-    <!--
-    input box created with the <input> tag
-    [formControl]= is used to save the user input into the playerNameForm variable
-    (keydown.enter) is an event listener that waits for 'return' to be pressed, then it calls onSubmit() (in the landing-page.components.ts file)
-    -->
+    <p class="instructions">enter user name: </p>
+    <input [formControl]="playerNameForm">
+        <!--
+        input box created with the <input> tag
+        [formControl]= is used to save the user input into the playerNameForm variable
+        (keydown.enter) is an event listener that waits for 'return' to be pressed, then it calls onSubmit() (in the landing-page.components.ts file)
+        -->
 
-  <!-- this prints the playerLoginMessage (in landing-page.components.ts)
-      the playerLoginMessage is set in onSubmit() to "Welcome, "-->
+    <!-- this prints the playerLoginMessage (in landing-page.components.ts)
+        the playerLoginMessage is set in onSubmit() to "Welcome, "-->
 
 
-<p class="instructions"> choose your number of ships </p>
-<!-- <app-radio-button-group [radioButtonFormControl]="shipForm"/> -->
-<br>
-<button (click)="onSubmit()" >submit</button> <!-- button created with <button> tag, (click) waits for it to be click, then calls onSubmit() -->
+    <p class="instructions pixel-font"> choose your number of ships </p>
+    <app-radio-button-group [radioButtonFormControl]="shipForm"/>
+    <br>
+    <button class="pixel-font" (click)="onSubmit()" >submit</button> <!-- button created with <button> tag, (click) waits for it to be click, then calls onSubmit() -->
 
 
-<img src="assets/nintendo.jpg">
-<img src="assets/drawing.png">
-
-
-</body>
+    <img class="landing-page-image" src="assets/nintendo.jpg">
+    <img class="landing-page-image" src="assets/drawing.png">
+</div>
