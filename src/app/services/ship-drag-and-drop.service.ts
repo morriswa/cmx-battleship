@@ -39,7 +39,7 @@ export class ShipDragAndDropService {
     this._shipLocations.update(()=>new Map());
     this._blockedLocations.set(new Map());
     this.resetError();
-    if (!hide) setTimeout(()=>this._viewActive.set(true), 1000)
+    if (!hide) setTimeout(()=>this._viewActive.set(true), 250)
   }
 
   showTileStatus() {
