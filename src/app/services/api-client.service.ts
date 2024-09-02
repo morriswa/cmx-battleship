@@ -44,11 +44,15 @@ export class ApiClient {
   }
 
   getGameRequests() {
-    return this.request<void>('GET', `${this.endpoint}/game/requests`);
+    return this.request<any[]>('GET', `${this.endpoint}/game/requests`);
   }
 
   startGame(ships: Map<number, string[]>) {
     return Promise.resolve();
     // return this.request('POST', `${this.endpoint}/active/game/start`, ships);
+  }
+
+  getAvailablePlayers() {
+    return this.request<any[]>('GET', `${this.endpoint}/games`);
   }
 }

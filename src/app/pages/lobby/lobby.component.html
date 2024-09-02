@@ -6,8 +6,9 @@
 
     <div class="flex-col player-col">
         <p>online players</p>
-        @for (player of _testData; track player.player_id) {
+        @for (player of availablePlayerCache(); track player.player_id) {
             <p>{{player.player_name + "#" + player.player_id}}</p>
+            <button>request</button>
         }
         <p>search for player: </p>
         <input [formControl]="searchedPlayer">
@@ -17,7 +18,7 @@
 
     <div class="flex-col player-col">
         <p> requests </p>
-        @for (player of _testRequestData; track player.player_id) {
+        @for (player of gameRequestCache(); track player.player_id) {
             <p>{{player.player_name + " #" + player.player_id}}</p>
         }
     </div>  

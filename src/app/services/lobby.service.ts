@@ -43,6 +43,10 @@ export class LobbyService {
   }
 
   async getAvailablePlayers() {
+    return this.api.getAvailablePlayers()
+  }
+
+  async getGameRequests() {
     return this.api.getGameRequests()
   }
 }
