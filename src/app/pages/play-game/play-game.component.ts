@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, inject} from "@angular/core";
+import {Component, inject, OnInit} from "@angular/core";
 import {GameboardComponent} from "../../components/gameboard/gameboard.component";
 import {LobbyService} from "../../services/lobby.service";
 import {DecimalPipe, NgIf, NgStyle, NgTemplateOutlet} from "@angular/common";
@@ -25,7 +25,7 @@ import {ActiveGameService} from "../../services/active-game.service";
   ],
   standalone: true
 })
-export class PlayGameComponent implements AfterViewInit {
+export class PlayGameComponent implements OnInit {
 
 
   // services
@@ -36,8 +36,8 @@ export class PlayGameComponent implements AfterViewInit {
 
 
   // lifecycle
-  ngAfterViewInit(): void {
-    this.shipSelection.resetShipSelectorService();
+  ngOnInit() {
+    this.shipSelection.showTileStatus();
     this.userSessions.getAvailablePlayers()
       .then((players: any) => {console.log(players)})
   }

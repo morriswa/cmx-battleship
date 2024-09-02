@@ -1,6 +1,7 @@
-import {EventEmitter, inject, Injectable, signal, WritableSignal} from "@angular/core";
+import {inject, Injectable, signal, WritableSignal} from "@angular/core";
 import {LobbyService} from "./lobby.service";
 import {countOccurrences} from "../utils";
+import {BehaviorSubject} from "rxjs";
 
 
 export type SimplePosition = {
@@ -27,7 +28,7 @@ export class ShipDragAndDropService {
 
 
   // public state
-  event = new EventEmitter<{type: 'SUBMIT' | 'RESET'}>();
+  event = new BehaviorSubject<{type: 'SUBMIT' | 'RESET' | 'READYUP'}>({type: "RESET"});
 
   resetError() {
     this._reportShipError.set(undefined);
@@ -41,17 +42,23 @@ export class ShipDragAndDropService {
     if (!hide) setTimeout(()=>this._viewActive.set(true), 1000)
   }
 
+  showTileStatus() {
+    this._viewActive.set(true);
+    this.event.next({type: "READYUP"});
+  }
+
   resetShipSelectorService() {
-    console.log('turing on ship selector and resetting all data')
+    console.log('resetting all ship data')
     this.resetShipLocations();
-    this.event.emit({type: 'RESET'});
+    this.event.next({type: 'RESET'});
   }
 
   confirmAndHideShips() {
     console.log('turing off ship selector, data is still available');
     this._viewActive.set(false);
-    this.event.emit({type: 'SUBMIT'});
+    this.event.next({type: 'SUBMIT'});
   }
+
 
   // getters
   get shipLocations() {
