@@ -128,7 +128,9 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
   @HostListener("window:resize", ["$event"])
   onResizeScreen() {
     if (this.ships.active) {
+      this.ships.hideShips();
       this.ships.resetShipLocations();
+      setTimeout(()=>this.ships.showShips(), 250);
     }
     setTimeout(()=>this.detectTileLocationChange(), 500);
   }

@@ -3,7 +3,6 @@ import {
   ElementRef,
   inject,
   Input,
-  OnInit,
   Renderer2,
   signal,
   ViewChild
@@ -12,6 +11,10 @@ import {CdkDrag} from "@angular/cdk/drag-drop";
 import {ShipDragAndDropService} from "../../../services/ship-drag-and-drop.service";
 import {NgClass} from "@angular/common";
 
+/**
+ * provides a draggable 'ship' instance that reports its location to Ship Drag And Drop Service
+ * enables tile tracking functionality
+ */
 @Component({
   selector: "app-game-ship-draggable",
   templateUrl: "./game-ship-draggable.component.html",
@@ -22,18 +25,21 @@ import {NgClass} from "@angular/common";
   ],
   standalone: true
 })
-export class GameShipDraggableComponent implements OnInit {
+export class GameShipDraggableComponent {
+
 
   // io
   @Input() shipLength!: number;
+
 
   // services
   private ships = inject(ShipDragAndDropService);
   private renderer = inject(Renderer2);
 
+
   // internal state
   @ViewChild("shipRef") shipRef!: ElementRef;
-  protected display = signal(true);
+
   protected isHorizontal = signal(false);
   protected rotate() {
     this.isHorizontal.update(bo=>!bo);
@@ -41,18 +47,11 @@ export class GameShipDraggableComponent implements OnInit {
   }
 
 
-  // lifecycle
-  ngOnInit() {
-    this.ships.event?.subscribe((e)=>{
-      if (e.type==="SUBMIT") {
-        this.display.set(false);
-      } else if (e.type==="RESET") {
-        this.display.set(true);
-      }
-    })
-  }
-
   // internal state
+  /**
+   * called every time ship is moved
+   * @protected
+   */
   protected handleDropEnd() {
 
     this.ships.removeShip(this.shipLength)

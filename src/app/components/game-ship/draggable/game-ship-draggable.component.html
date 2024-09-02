@@ -1,13 +1,11 @@
 
-@if (display()) {
-  <!-- build battleships -->
-  <div [ngClass]="{'flex-row':isHorizontal()}" class="game-ship" #shipRef cdkDrag (cdkDragMoved)="handleDropEnd()">
-    @for (shipSection of ['1','2','3','4','5'].slice(0, shipLength); track shipSection; let first = $first; let last = $last) {
-      <div class="game-ship-section">
-        @if (first && !last) {
-          <button (click)="rotate()">Rotate</button>
-        }
-      </div>
-    }
-  </div>
-}
+<!-- build battleships -->
+<div [ngClass]="{'flex-row':isHorizontal()}" class="game-ship" #shipRef cdkDrag (cdkDragMoved)="handleDropEnd()">
+  @for (shipSection of ['1','2','3','4','5'].slice(0, shipLength); track shipSection; let first = $first; let last = $last) {
+    <div class="game-ship-section">
+      @if (first && !last) {
+        <button (click)="rotate()">Rotate</button>
+      }
+    </div>
+  }
+</div>

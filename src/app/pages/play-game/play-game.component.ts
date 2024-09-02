@@ -37,7 +37,7 @@ export class PlayGameComponent implements OnInit {
 
   // lifecycle
   ngOnInit() {
-    this.shipSelection.showTileStatus();
+    this.shipSelection.showShipsAndEnableTileFeedback();
     this.userSessions.getAvailablePlayers()
       .then((players: any) => {console.log(players)})
   }
@@ -53,6 +53,6 @@ export class PlayGameComponent implements OnInit {
 
   async handleStartGame() {
     await this.game.markBoardWithShips(this.shipSelection.shipLocations);
-    this.shipSelection.confirmAndHideShips();
+    this.shipSelection.submitAndHideShips();
   }
 }

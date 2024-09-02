@@ -1,5 +1,9 @@
 import {Component, Input} from "@angular/core";
 
+/**
+ * provides a blank div with the same dimensions as the ship click-box
+ * maintains reference to ship's original location making reset-location functionality possible
+ */
 @Component({
   selector: "app-game-ship-spacer",
   template: `
@@ -13,7 +17,6 @@ import {Component, Input} from "@angular/core";
   standalone: true
 })
 export class GameShipSpacerComponent {
-
   // io
   @Input() shipLength!: number;
 }

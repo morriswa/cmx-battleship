@@ -30,37 +30,12 @@ export class ShipDragAndDropService {
   // public state
   event = new BehaviorSubject<{type: 'SUBMIT' | 'RESET' | 'READYUP'}>({type: "RESET"});
 
-  resetError() {
-    this._reportShipError.set(undefined);
-  }
-
-  resetShipLocations(hide = false) {
-    this._viewActive.set(false);
-    this._shipLocations.update(()=>new Map());
-    this._blockedLocations.set(new Map());
-    this.resetError();
-    if (!hide) setTimeout(()=>this._viewActive.set(true), 250)
-  }
-
-  showTileStatus() {
-    this._viewActive.set(true);
-    this.event.next({type: "READYUP"});
-  }
-
-  resetShipSelectorService() {
-    console.log('resetting all ship data')
-    this.resetShipLocations();
-    this.event.next({type: 'RESET'});
-  }
-
-  confirmAndHideShips() {
-    console.log('turing off ship selector, data is still available');
-    this._viewActive.set(false);
-    this.event.next({type: 'SUBMIT'});
-  }
-
 
   // getters
+  get active(): boolean {
+    return this._viewActive();
+  }
+
   get shipLocations() {
     return this._shipLocations();
   }
@@ -99,12 +74,54 @@ export class ShipDragAndDropService {
     return false
   }
 
-  get active(): boolean {
-    return this._viewActive();
+
+  // control
+  hideShips() {
+    this._viewActive.set(false);
   }
 
+  showShips() {
+    this._viewActive.set(true);
+  }
 
-  // setters
+  enableTileFeedback() {
+    this.event.next({type: "READYUP"});
+  }
+
+  disableTileFeedback() {
+    this.event.next({type: 'RESET'});
+  }
+
+  submitCurrentSelection() {
+    this.event.next({type: 'SUBMIT'});
+  }
+
+  resetError() {
+    this._reportShipError.set(undefined);
+  }
+
+  resetShipLocations() {
+    this._shipLocations.update(()=>new Map());
+    this._blockedLocations.set(new Map());
+    this.resetError();
+  }
+
+  showShipsAndEnableTileFeedback() {
+    this.showShips();
+    this.enableTileFeedback();
+  }
+
+  resetShipSelectorService() {
+    this.hideShips();
+    this.disableTileFeedback();
+    this.resetShipLocations();
+  }
+
+  submitAndHideShips() {
+    this.hideShips();
+    this.submitCurrentSelection();
+  }
+
   updateShipLocation(ship: number, location: SimplePosition) {
     this._blockedLocations.update((val)=>{
       return val.set(ship, location)
@@ -121,7 +138,6 @@ export class ShipDragAndDropService {
   setShipStatus(shipLength: number, coveredIds: string[], something:any) {
     this._shipLocations.update((val)=>val.set(shipLength, coveredIds));
   }
-
 
   raiseError(msg: string) {
     this._reportShipError.set(msg);
