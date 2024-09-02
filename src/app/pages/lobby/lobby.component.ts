@@ -19,6 +19,14 @@ export class LobbyComponent {
         {player_id: "0005", player_name: "Player Five"}
     ]
 
+    _testRequestData: any[] = [
+        {player_id: "0001", player_name: "Player One"},
+        {player_id: "0002", player_name: "Player Two"},
+        {player_id: "0003", player_name: "Player Three"},
+        {player_id: "0004", player_name: "Player Four"},
+        {player_id: "0005", player_name: "Player Five"}
+    ]
+
    searchedPlayer = new FormControl();
 
    async onSubmit() { 

@@ -1,19 +1,25 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
-<body>
 <p>lobby</p>
-
-<p>search for player: </p>
-<input [formControl]="searchedPlayer">
-
-<button (click)="onSubmit()" (keydown.enter)="onSubmit()">join</button><br>
 
 <button>random</button>
 
-<p> available players </p>
-@for (player of _testData; track player.player_id) {
-    <p>{{player.player_name}}</p>
-}
+<div class="flex-row vw-70 mx-auto align-items-center space-between-items">
 
-</body>
+    <div class="flex-col player-col">
+        <p>online players</p>
+        @for (player of _testData; track player.player_id) {
+            <p>{{player.player_name + "#" + player.player_id}}</p>
+        }
+        <p>search for player: </p>
+        <input [formControl]="searchedPlayer">
+
+        <button (click)="onSubmit()" (keydown.enter)="onSubmit()">join</button><br>
+    </div>
+
+    <div class="flex-col player-col">
+        <p> requests </p>
+        @for (player of _testRequestData; track player.player_id) {
+            <p>{{player.player_name + " #" + player.player_id}}</p>
+        }
+    </div>  
+
+</div>
