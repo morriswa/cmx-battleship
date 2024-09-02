@@ -1,6 +1,10 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+<body>
 <p>lobby</p>
 
-<span>search for player: </span>
+<p>search for player: </p>
 <input [formControl]="searchedPlayer">
 
 <button (click)="onSubmit()" (keydown.enter)="onSubmit()">join</button><br>
@@ -11,3 +15,5 @@
 @for (player of _testData; track player.player_id) {
     <p>{{player.player_name}}</p>
 }
+
+</body>
