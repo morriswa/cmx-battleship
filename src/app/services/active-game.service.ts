@@ -12,13 +12,23 @@ export class ActiveGameService {
 
 
   // state
-  event = new BehaviorSubject<{ type: string } | undefined>(undefined);
+  event = new BehaviorSubject<{ type: string }>({ type: 'init' });
 
 
   // store user's ship
   private _userShips: WritableSignal<GameBoard | undefined> = signal(undefined);
   private _currentPlayerGameState: WritableSignal<any | undefined> = signal(undefined);
   private _waiting = signal(false);
+
+  get state(): any {
+    return this._currentPlayerGameState();
+  }
+
+  get phase(): string | undefined {
+    const state = this._currentPlayerGameState()
+    if (!state) return undefined;
+    return state.game_phase
+  }
 
   get doneWithSelection(): boolean {
     const state = this._currentPlayerGameState()
@@ -30,7 +40,7 @@ export class ActiveGameService {
   };
 
   get active(): boolean {
-    return !!this._userShips();
+    return !!this._currentPlayerGameState();
   };
 
   get waiting() {

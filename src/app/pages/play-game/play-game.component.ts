@@ -35,8 +35,6 @@ export class PlayGameComponent implements OnInit {
   protected game = inject(ActiveGameService);
   protected shipSelection = inject(ShipDragAndDropService);
 
-  waiting = signal(true);
-  gameStatus: WritableSignal<string> = signal('unknown');
   private _currentlyPollingGameStatus: WritableSignal<boolean> = signal(false);
 
   // lifecycle
@@ -80,15 +78,16 @@ export class PlayGameComponent implements OnInit {
       }
       else {
         this.game.setGameState(state);
-
       }
-
 
       if (this.game.doneWithSelection) {
         this.shipSelection.resetShipSelectorService()
       }
 
-      this.gameStatus.set(state.game_phase);
+      if (this.game.phase==='nowin') {
+        this.router.navigate(['/lobby'])
+      }
+
       await sleep(10_000);
     }
   }

@@ -3,45 +3,43 @@
 
   <div class="app-title">
     <h1>Welcome to battleship {{ session.player_name }}</h1>
+      @if (game.active) {
+        <div class="flex-row col-gap-1">
+          <button class="game-button" (click)="handleExit()">Exit</button>
+          <button
+            class="game-button"
+            (click)="handleStartGame()"
+            [disabled]="!shipSelection.readyToPlay"
+          >Play</button>
+        </div>
 
-
-    <div class="flex-row col-gap-1">
-      <button class="game-button" (click)="handleExit()">Exit</button>
-      <button
-        *ngIf="!game.active"
-        class="game-button"
-        (click)="handleStartGame()"
-        [disabled]="!shipSelection.readyToPlay"
-      >Play</button>
+        @if (game.doneWithSelection) {
+          <!-- game messages -->
+          @if (game.phase === 'selct') {
+            <h3>Waiting for other player...</h3>
+          } @else if (game.activeTurn) {
+           <h3>Your turn!</h3>
+          } @else if (!game.activeTurn) {
+            <h3>Your opponents turn!</h3>
+          } @else {
+            <h3>&nbsp;</h3>
+          }
+        } @else if (!game.doneWithSelection && shipSelection.active) {
+          <h3>
+            Please begin by placing your
+            {{ session.num_ships === '1'? 'ship' : session.num_ships + ' ships' }}
+            ...
+          </h3>
+        } @else if (shipSelection.active) {
+          <!-- ship errors -->
+          <h3 class="error-text">{{ shipSelection.error ?? '&nbsp;' }}</h3>
+        } @else {
+          <h3>&nbsp;</h3>
+        }
+      }
     </div>
 
-    @if (game.doneWithSelection) {
-      <!-- game messages -->
-      @if (game.waiting && waiting()) {
-        <h3>Waiting for other player...</h3>
-      } @else if (game.activeTurn) {
-       <h3>Your turn!</h3>
-      } @else if (!game.activeTurn) {
-        <h3>Your opponents turn!</h3>
-      } @else {
-        <h3>&nbsp;</h3>
-      }
-    } @else if (!game.doneWithSelection && shipSelection.active) {
-      <h3 *ngIf="!game.active">
-        Please begin by placing your
-        {{ session.num_ships === '1'? 'ship' : session.num_ships + ' ships' }}
-        ...
-      </h3>
-    } @else if (shipSelection.active) {
-      <!-- ship errors -->
-      <h3 class="error-text">{{ shipSelection.error ?? '&nbsp;' }}</h3>
-    } @else {
-      <h3>&nbsp;</h3>
-    }
-
-  </div>
-
-  <div class="app-body mx-auto">
+  <div *ngIf="game.active" class="app-body mx-auto">
 
     @if (shipSelection.active) {
       <div class="app-ship-selector flex-wrap mt-2">
@@ -56,3 +54,4 @@
   </div>
 
 }
+

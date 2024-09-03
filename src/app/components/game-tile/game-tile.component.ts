@@ -63,7 +63,7 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // watch for incoming events from game runner
     this._activeGameSubscription = this.games.event.subscribe((e)=>{
-      if (e?.type==="updateState") {
+      if (e.type==="updateState") {
         this._update_tile();
       }
     });
@@ -120,7 +120,7 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
   async _update_tile() {
     if (this.gameTile && this.games.ownTiles.includes(this.tileId)) {
       this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-ship-permanent');
-    }
+    } else setTimeout(()=>this._update_tile(), 500)
   }
 
   stopWatchingShips() {
