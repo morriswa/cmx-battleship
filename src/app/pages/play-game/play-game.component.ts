@@ -42,9 +42,14 @@ export class PlayGameComponent implements OnInit {
   // lifecycle
   ngOnInit() {
     this.game.getGameState().then((state)=>{
-      console.log('running game', state)
+      // console.log('running game', state)
+
+      if (!this.game.doneWithSelection) {
+        this.shipSelection.showShipsAndEnableTileFeedback();
+      }
+
     });
-    this.shipSelection.showShipsAndEnableTileFeedback();
+
     setTimeout(()=>this.pollGameStatus(), 1000)
   }
 
@@ -74,9 +79,13 @@ export class PlayGameComponent implements OnInit {
         return;
       }
       else {
-        if (state.game_phase!=='selct')
-          this.waiting.set(false);
+        this.game.setGameState(state);
 
+      }
+
+
+      if (this.game.doneWithSelection) {
+        this.shipSelection.resetShipSelectorService()
       }
 
       this.gameStatus.set(state.game_phase);

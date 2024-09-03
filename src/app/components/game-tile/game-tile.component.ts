@@ -63,9 +63,9 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // watch for incoming events from game runner
     this._activeGameSubscription = this.games.event.subscribe((e)=>{
-      // if (e.type==="READYUP") {
-      //   this.s
-      // }
+      if (e?.type==="updateState") {
+        this._update_tile();
+      }
     });
   }
 
@@ -117,9 +117,15 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('ship loop destroyed')
   }
 
+  async _update_tile() {
+    if (this.gameTile && this.games.ownTiles.includes(this.tileId)) {
+      this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-ship-permanent');
+    }
+  }
+
   stopWatchingShips() {
     this._watchShips.set(false);
-    this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-covered');
+    // this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-covered');
   }
 
   stopWatchingGameTile() {
@@ -134,7 +140,7 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
       this.ships.resetShipLocations();
       setTimeout(()=>this.ships.showShips(), 250);
     }
-    setTimeout(()=>this.detectTileLocationChange(), 500);
+    this.detectTileLocationChange()
   }
 
   // detect mousedown events on game-tile
@@ -144,15 +150,17 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private detectTileLocationChange() {
-    const gameTileLocation = this.gameTile?.nativeElement.getBoundingClientRect();
-    const x = gameTileLocation.x;
-    const y = gameTileLocation.y;
-    this.ships.setTileLocations(this.tileId, {
-      xStart: x,
-      xEnd: x + gameTileLocation.width,
-      yStart: y,
-      yEnd: y + gameTileLocation.height,
-    });
+    setTimeout(()=>{
+      const gameTileLocation = this.gameTile?.nativeElement.getBoundingClientRect();
+      const x = gameTileLocation.x;
+      const y = gameTileLocation.y;
+      this.ships.setTileLocations(this.tileId, {
+        xStart: x,
+        xEnd: x + gameTileLocation.width,
+        yStart: y,
+        yEnd: y + gameTileLocation.height,
+      });
+    }, 500)
   }
 
 }

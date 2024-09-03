@@ -1,6 +1,7 @@
 import {EventEmitter, inject, Injectable, signal, WritableSignal} from "@angular/core";
 import {ApiClient} from "./api-client.service";
 import {GameBoard} from "../types/game.types";
+import {BehaviorSubject} from "rxjs";
 
 @Injectable()
 export class ActiveGameService {
@@ -11,12 +12,22 @@ export class ActiveGameService {
 
 
   // state
-  event = new EventEmitter<{type: string}>();
+  event = new BehaviorSubject<{ type: string } | undefined>(undefined);
 
 
   // store user's ship
   private _userShips: WritableSignal<GameBoard | undefined> = signal(undefined);
+  private _currentPlayerGameState: WritableSignal<any | undefined> = signal(undefined);
   private _waiting = signal(false);
+
+  get doneWithSelection(): boolean {
+    const state = this._currentPlayerGameState()
+    if (!state) return false;
+    else if (state.game_state?.board) {
+      return true;
+    }
+    else return state.game_phase!=='selct'
+  };
 
   get active(): boolean {
     return !!this._userShips();
@@ -30,11 +41,21 @@ export class ActiveGameService {
     return this._userShips()!.keys().length ?? 0
   }
 
+  get activeTurn() {
+    const state = this._currentPlayerGameState()
+    if (!state) return false;
+    return this._currentPlayerGameState().player_one_or_two === this._currentPlayerGameState().active_turn;
+  }
+
   get ownTiles(): string[] {
     let allTiles = [];
-    for (const tiles of (this._userShips() ??[]).values())
-      for (const tile of tiles ?? []) allTiles.push(tile);
-    return allTiles;
+    const ships = this._userShips()
+    if (!ships) return []
+    else{
+      for (const tiles of ships.values())
+        for (const tile of tiles ?? []) allTiles.push(tile);
+      return allTiles;
+    }
   }
 
   async startGame(ships: GameBoard) {
@@ -54,5 +75,13 @@ export class ActiveGameService {
 
   forfeitGame() {
     return this.api.forfeitGame()
+  }
+
+  setGameState(state: any) {
+    this._currentPlayerGameState.set(state);
+    if (state.game_state) {
+      this._userShips.set(new GameBoard(state.game_state.board));
+      this.event.next({type: 'updateState'})
+    }
   }
 }
