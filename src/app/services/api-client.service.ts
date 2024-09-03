@@ -72,4 +72,8 @@ export class ApiClient {
   forfeitGame() {
     return this.request<void>('DELETE', `${this.endpoint}/game/active`);
   }
+
+  makeMove(currentTileSelection: string) {
+    return this.request('POST', `${this.endpoint}/game/active`, {'tile_id': currentTileSelection});
+  }
 }

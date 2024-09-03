@@ -1,4 +1,4 @@
-import {EventEmitter, inject, Injectable, signal, WritableSignal} from "@angular/core";
+import {inject, Injectable, signal, WritableSignal} from "@angular/core";
 import {ApiClient} from "./api-client.service";
 import {GameBoard} from "../types/game.types";
 import {BehaviorSubject} from "rxjs";
@@ -19,6 +19,11 @@ export class ActiveGameService {
   private _userShips: WritableSignal<GameBoard | undefined> = signal(undefined);
   private _currentPlayerGameState: WritableSignal<any | undefined> = signal(undefined);
   private _waiting = signal(false);
+  private _currentTileSelection: WritableSignal<string|undefined> = signal(undefined);
+
+  get currentSelection(): string | undefined{
+    return this._currentTileSelection()
+  };
 
   get state(): any {
     return this._currentPlayerGameState();
@@ -93,5 +98,14 @@ export class ActiveGameService {
       this._userShips.set(new GameBoard(state.game_state.board));
       this.event.next({type: 'updateState'})
     }
+  }
+
+  updateTileSelection(tileId: string) {
+    this._currentTileSelection.set(tileId);
+    this.event.next({type: 'updateState'})
+  }
+
+  commitMove() {
+    this.api.makeMove(this._currentTileSelection()!)
   }
 }

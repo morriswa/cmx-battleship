@@ -6,12 +6,21 @@
       @if (game.active) {
         <div class="flex-row col-gap-1">
           <button class="game-button" (click)="handleExit()">Exit</button>
+
           <button
             class="game-button"
             (click)="handleStartGame()"
             [disabled]="!shipSelection.readyToPlay"
           >Play</button>
+
+          <button
+            *ngIf="game.phase==='goodg'"
+            class="game-button"
+            (click)="handleMakeSelection()"
+            [disabled]="!game.currentSelection || !game.activeTurn"
+          >Hit</button>
         </div>
+
 
         @if (game.doneWithSelection) {
           <!-- game messages -->

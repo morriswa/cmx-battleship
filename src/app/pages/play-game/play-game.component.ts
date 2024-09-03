@@ -96,4 +96,14 @@ export class PlayGameComponent implements OnInit {
     this._currentlyPollingGameStatus.set(false);
   }
 
+  handleMakeSelection() {
+    console.log(`selected ${this.game.currentSelection}`)
+    if (this.game.currentSelection && this.game.activeTurn) {
+      this.game.commitMove()
+    } else {
+      throw new Error('cannot play if its not your turn')
+    }
+
+
+  }
 }

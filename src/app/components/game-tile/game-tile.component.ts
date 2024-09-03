@@ -93,6 +93,8 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.ships.coveredTiles.get(this.tileId)?.covered) {
           this.renderer.addClass(this.gameTile.nativeElement, 'game-tile-covered');
         }
+
+
       }
 
       await sleep(100);
@@ -118,8 +120,17 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async _update_tile() {
-    if (this.gameTile && this.games.ownTiles.includes(this.tileId)) {
-      this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-ship-permanent');
+    if (this.gameTile) {
+      if (this.games.ownTiles.includes(this.tileId)) {
+        this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-ship-permanent');
+      }
+
+      if (this.games.currentSelection===this.tileId) {
+        this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-ship-targeted');
+      } else {
+        this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-ship-targeted');
+      }
+
     } else setTimeout(()=>this._update_tile(), 500)
   }
 
@@ -146,7 +157,8 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
   // detect mousedown events on game-tile
   @HostListener('mousedown') onClick() {
     // execute every click
-    console.log(`click detected ${this.tileId}`);
+    // console.log(`click detected ${this.tileId}`);
+    this.games.updateTileSelection(this.tileId);
   }
 
   private detectTileLocationChange() {
