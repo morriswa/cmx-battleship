@@ -1,6 +1,14 @@
-<p>lobby {{ lobbyService.sessionInfo()?.player_name + "#" + lobbyService.sessionInfo()?.player_id}}</p>
 
-<button>random</button>
+<div class="flex-col vw-70 mx-auto align-items-center space-between-items">
+  <h4>lobby</h4>
+<!--  <h5>Online: {{s}} / 10,000</h5>-->
+  <p>{{ lobbyService.sessionInfo()?.player_name + "#" + lobbyService.sessionInfo()?.player_id}}</p>
+  <div class="flex-row">
+    <button>random</button>
+    <button (click)="handleLogout()">logout</button>
+  </div>
+</div>
+
 
 <div class="flex-row vw-70 mx-auto align-items-center space-between-items">
 

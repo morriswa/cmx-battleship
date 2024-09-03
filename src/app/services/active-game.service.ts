@@ -51,4 +51,8 @@ export class ActiveGameService {
   getGameState() {
     return this.api.getGameState()
   }
+
+  forfeitGame() {
+    return this.api.forfeitGame()
+  }
 }

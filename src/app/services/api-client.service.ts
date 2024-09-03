@@ -68,4 +68,8 @@ export class ApiClient {
   getGameState() {
     return this.request<any>('GET', `${this.endpoint}/game/active`);
   }
+
+  forfeitGame() {
+    return this.request<void>('DELETE', `${this.endpoint}/game/active`);
+  }
 }

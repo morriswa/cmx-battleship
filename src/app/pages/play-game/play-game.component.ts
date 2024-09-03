@@ -51,10 +51,10 @@ export class PlayGameComponent implements OnInit {
 
   // action handlers
   async handleExit() {
-    this.router.navigate(['/'])
+    await this.game.forfeitGame()
+    this.router.navigate(['/lobby'])
     this.shipSelection.resetShipSelectorService();
     this.game.resetActiveGameService();
-    await this.userSessions.leaveLobby();
   }
 
   async handleStartGame() {
@@ -69,7 +69,16 @@ export class PlayGameComponent implements OnInit {
     }
     while (this._currentlyPollingGameStatus()) {
       const state = await this.game.getGameState()
-      if (state.game_phase!=='selct') this.waiting.set(false);
+      if (!state) {
+        this.router.navigate(['/lobby']);
+        return;
+      }
+      else {
+        if (state.game_phase!=='selct')
+          this.waiting.set(false);
+
+      }
+
       this.gameStatus.set(state.game_phase);
       await sleep(10_000);
     }
