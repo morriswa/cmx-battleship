@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, signal, WritableSignal} from "@angular/core";
+import {Component, computed, inject, OnInit, signal, WritableSignal} from "@angular/core";
 import {GameboardComponent} from "../../components/gameboard/gameboard.component";
 import {LobbyService} from "../../services/lobby.service";
 import {DecimalPipe, NgIf, NgStyle, NgTemplateOutlet} from "@angular/common";
@@ -7,7 +7,7 @@ import {ShipDragAndDropService} from "../../services/ship-drag-and-drop.service"
 import {GameShipSpacerComponent} from "../../components/game-ship/spacer/game-ship-spacer.component";
 import {GameShipDraggableComponent} from "../../components/game-ship/draggable/game-ship-draggable.component";
 import {GameShipComponent} from "../../components/game-ship/game-ship.component";
-import {ActiveGameService} from "../../services/active-game.service";
+import {ActiveGameService, GamePhaseType} from "../../services/active-game.service";
 import {sleep} from "../../utils";
 
 @Component({
@@ -36,11 +36,23 @@ export class PlayGameComponent implements OnInit {
   protected shipSelection = inject(ShipDragAndDropService);
 
   private _currentlyPollingGameStatus: WritableSignal<boolean> = signal(false);
+  endGameMessage = computed(() => {
+    if (this.game.phase === `${this.game.state.player_one_or_two}win`) {
+      return "You win!"
+    } else if (this.game.phase === 'nowin') {
+      return "Incomplete Match"
+    } else {
+      return "You Lose"
+    }
+  });
+
 
   // lifecycle
   ngOnInit() {
     this.game.getGameState().then((state)=>{
       // console.log('running game', state)
+
+      this.game.setGameState(state);
 
       if (!this.game.doneWithSelection) {
         this.shipSelection.showShipsAndEnableTileFeedback();
@@ -48,7 +60,7 @@ export class PlayGameComponent implements OnInit {
 
     });
 
-    setTimeout(()=>this.pollGameStatus(), 1000)
+    this.pollGameStatus();
   }
 
 
@@ -71,28 +83,24 @@ export class PlayGameComponent implements OnInit {
       return;
     }
     while (this._currentlyPollingGameStatus()) {
-      this.updateGameStatus();
+      const state = await this.game.getGameState();
+      if (!state) {
+        this.router.navigate(['/lobby']);
+        return;
+      }
+      else {
+        this.game.setGameState(state);
+      }
+
+      if (this.game.doneWithSelection) {
+        this.shipSelection.resetShipSelectorService()
+      }
+
+      if (this.game.phase==='nowin') {
+        this.router.navigate(['/lobby'])
+      }
 
       await sleep(10_000);
-    }
-  }
-
-  private async updateGameStatus() {
-    const state = await this.game.getGameState()
-    if (!state) {
-      this.router.navigate(['/lobby']);
-      return;
-    }
-    else {
-      this.game.setGameState(state);
-    }
-
-    if (this.game.doneWithSelection) {
-      this.shipSelection.resetShipSelectorService()
-    }
-
-    if (this.game.phase==='nowin') {
-      this.router.navigate(['/lobby'])
     }
   }
 

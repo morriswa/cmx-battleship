@@ -3,8 +3,14 @@ import {ApiClient} from "./api-client.service";
 import {GameBoard} from "../types/game.types";
 import {BehaviorSubject} from "rxjs";
 
+
+export type GamePhaseType = 'new' | 'selct' | 'goodg' | 'p1win' | 'p2win' | 'nowin' | 'killd'
+
+
 @Injectable()
 export class ActiveGameService {
+
+  ACTIVE_PHASES = ['new', 'selct', 'goodg']
 
 
   // services
@@ -21,7 +27,7 @@ export class ActiveGameService {
   private _waiting = signal(false);
   private _currentTileSelection: WritableSignal<string|undefined> = signal(undefined);
 
-  get currentSelection(): string | undefined{
+  get currentSelection(): string | undefined {
     return this._currentTileSelection()
   };
 
@@ -29,7 +35,12 @@ export class ActiveGameService {
     return this._currentPlayerGameState();
   }
 
-  get phase(): string | undefined {
+  get loading(): boolean {
+    const state = this._currentPlayerGameState()
+    return !state;
+  }
+
+  get phase(): GamePhaseType | undefined {
     const state = this._currentPlayerGameState()
     if (!state) return undefined;
     return state.game_phase
@@ -45,7 +56,9 @@ export class ActiveGameService {
   };
 
   get active(): boolean {
-    return !!this._currentPlayerGameState();
+    const phase = this.phase;
+    if (!phase) return true;
+    return this.ACTIVE_PHASES.includes(phase);
   };
 
   get waiting() {

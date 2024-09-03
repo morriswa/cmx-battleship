@@ -3,7 +3,11 @@
 
   <div class="app-title">
     <h1>Welcome to battleship {{ session.player_name }}</h1>
-      @if (game.active) {
+
+      @if (game.loading) {
+        <p>get info</p>
+      } @else if (game.active && !game.loading) {
+
         <div class="flex-row col-gap-1">
           <button class="game-button" (click)="handleExit()">Exit</button>
 
@@ -45,12 +49,17 @@
         } @else {
           <h3>&nbsp;</h3>
         }
+
+
+      } @else {
+        <h1>{{ endGameMessage() }}</h1>
+        <button class="game-button" (click)="handleExit()">Exit</button>
       }
     </div>
 
   <div *ngIf="game.active" class="app-body mx-auto">
 
-    @if (shipSelection.active) {
+    @if (shipSelection.active && !game.loading) {
       <div class="app-ship-selector flex-wrap mt-2">
         @for (ship of [1,2,3,4,5].slice(0, $any(session.num_ships)); track ship) {
           <app-game-ship [shipLength]="ship"/>
