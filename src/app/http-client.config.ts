@@ -7,7 +7,6 @@ const SessionHeaderInterceptor: HttpInterceptorFn = (req, next) => {
   const session = inject(SessionAuthenticationService);
 
   if (session.active&&session.id) {
-    console.log('adding headers', session.id);
     req = req.clone({
       headers: req.headers.set('session-id', session.id)
     });
