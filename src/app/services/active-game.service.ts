@@ -105,7 +105,7 @@ export class ActiveGameService {
     this.event.next({type: 'updateState'})
   }
 
-  commitMove() {
-    this.api.makeMove(this._currentTileSelection()!)
+  async commitMove() {
+    return this.api.makeMove(this._currentTileSelection()!)
   }
 }

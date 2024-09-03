@@ -71,24 +71,28 @@ export class PlayGameComponent implements OnInit {
       return;
     }
     while (this._currentlyPollingGameStatus()) {
-      const state = await this.game.getGameState()
-      if (!state) {
-        this.router.navigate(['/lobby']);
-        return;
-      }
-      else {
-        this.game.setGameState(state);
-      }
-
-      if (this.game.doneWithSelection) {
-        this.shipSelection.resetShipSelectorService()
-      }
-
-      if (this.game.phase==='nowin') {
-        this.router.navigate(['/lobby'])
-      }
+      this.updateGameStatus();
 
       await sleep(10_000);
+    }
+  }
+
+  private async updateGameStatus() {
+    const state = await this.game.getGameState()
+    if (!state) {
+      this.router.navigate(['/lobby']);
+      return;
+    }
+    else {
+      this.game.setGameState(state);
+    }
+
+    if (this.game.doneWithSelection) {
+      this.shipSelection.resetShipSelectorService()
+    }
+
+    if (this.game.phase==='nowin') {
+      this.router.navigate(['/lobby'])
     }
   }
 
@@ -96,14 +100,13 @@ export class PlayGameComponent implements OnInit {
     this._currentlyPollingGameStatus.set(false);
   }
 
-  handleMakeSelection() {
+  async handleMakeSelection() {
     console.log(`selected ${this.game.currentSelection}`)
     if (this.game.currentSelection && this.game.activeTurn) {
-      this.game.commitMove()
+      const state = await this.game.commitMove();
+      this.game.setGameState(state);
     } else {
       throw new Error('cannot play if its not your turn')
     }
-
-
   }
 }

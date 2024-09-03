@@ -53,7 +53,6 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
     this._shipSelectorSubscription = this.ships.event.subscribe(async (e)=>{
       if (e.type==="SUBMIT") {
         this.stopWatchingShips();
-        await this.startWatchingGameTile();
       } else if (e.type==="RESET") {
         this.stopWatchingShips()
       } else if (e.type==="READYUP") {
@@ -87,50 +86,83 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     console.log('ship loop init')
     while (this._watchShips()) {
-      if (this.tileId && this.gameTile) {
-        this.renderer.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
+      // if (this.tileId && this.gameTile) {
+      //   this.renderer.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
+      //
+      //   if (this.ships.coveredTiles.get(this.tileId)?.covered) {
+      //     this.renderer.addClass(this.gameTile.nativeElement, 'game-tile-covered');
+      //   }
+      //
+      //
+      // }
 
-        if (this.ships.coveredTiles.get(this.tileId)?.covered) {
-          this.renderer.addClass(this.gameTile.nativeElement, 'game-tile-covered');
-        }
-
-
-      }
-
+      await this._update_tile();
       await sleep(100);
     }
     console.log('ship loop destroyed')
   }
 
-  async startWatchingGameTile() {
-    if (!this._watchGameTile()) this._watchGameTile.set(true);
-    else {
-      console.log('refused to start game loop twice');
-      return;
-    }
-    console.log('game loop init');
-    while (this._watchGameTile()) {
-      if (this.gameTile && this.games.ownTiles.includes(this.tileId)) {
-        this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-ship-permanent');
-      }
-
-      await sleep(100);
-    }
-    console.log('ship loop destroyed')
-  }
+  // async startWatchingGameTile() {
+  //   if (!this._watchGameTile()) this._watchGameTile.set(true);
+  //   else {
+  //     console.log('refused to start game loop twice');
+  //     return;
+  //   }
+  //   console.log('game loop init');
+  //   while (this._watchGameTile()) {
+  //     if (this.gameTile && this.games.ownTiles.includes(this.tileId)) {
+  //       this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-ship-permanent');
+  //     }
+  //
+  //     await sleep(100);
+  //   }
+  //   console.log('ship loop destroyed')
+  // }
 
   async _update_tile() {
     if (this.gameTile) {
-      if (this.games.ownTiles.includes(this.tileId)) {
-        this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-ship-permanent');
-      }
 
-      if (this.games.currentSelection===this.tileId) {
-        this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-ship-targeted');
-      } else {
-        this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-ship-targeted');
-      }
+      if (this.ships.active) {
+        if (this.tileId && this.gameTile) {
+          if (this.ships.coveredTiles.get(this.tileId)?.covered) {
+            this.renderer.addClass(this.gameTile.nativeElement, 'game-tile-covered');
+          } else {
+            this.renderer.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
+          }
+        }
+      } else if (this.games.doneWithSelection) {
 
+        this.renderer.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
+
+        if (this.games.ownTiles.includes(this.tileId)) {
+          this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-your-ship');
+        }
+
+        if (this.games.currentSelection===this.tileId) {
+          this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-targeted');
+        } else {
+          this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-targeted');
+        }
+
+        if (this.games.state.game_state?.hit_tile_ids?.includes(this.tileId)) {
+          this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-struck-enemy-ship');
+        } else {
+          this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-struck-enemy-ship');
+        }
+
+        if (this.games.state.game_state?.miss_tile_ids?.includes(this.tileId)) {
+          this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-missed-enemy-ship');
+        } else {
+          this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-missed-enemy-ship');
+        }
+
+        if (this.games.state.game_state?.my_hit_tile_ids?.includes(this.tileId)) {
+          this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-your-ship');
+          this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-your-ship-sank');
+        } else {
+          this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-your-ship-sank');
+        }
+      }
     } else setTimeout(()=>this._update_tile(), 500)
   }
 
