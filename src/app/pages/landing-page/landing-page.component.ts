@@ -47,7 +47,7 @@ export class LandingPageComponent implements OnInit{
             });
             this.playerNameForm.reset(); // reset is a method that will get rid of the input text after submitting it
             this.shipForm.reset();
-            this.router.navigate(['/play'])
+            this.router.navigate(['/lobby'])
         }
     }
 

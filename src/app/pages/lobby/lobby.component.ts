@@ -2,6 +2,7 @@ import {Component, OnInit, WritableSignal, inject, signal} from "@angular/core";
 import { FormControl, ReactiveFormsModule} from "@angular/forms";
 import { LobbyService } from "src/app/services/lobby.service";
 import { sleep } from "src/app/utils";
+import {Router} from "@angular/router";
 
 @Component ({
     selector: "app-lobby",
@@ -15,6 +16,7 @@ export class LobbyComponent implements OnInit {
 
     // get only lobby service[]
     lobbyService = inject(LobbyService) // create variable, inject is used to access methods in lobby.service.ts
+    router = inject(Router);
     availablePlayerCache: WritableSignal<any[]|undefined> = signal(undefined);
     gameRequestCache: WritableSignal<any[] |undefined> = signal(undefined);
 
@@ -37,7 +39,12 @@ export class LobbyComponent implements OnInit {
 
     searchedPlayer = new FormControl();
 
-    async onSubmit() { 
-        console.log("Submitted")
+    handleCreateRequest(player_id: string) {
+        this.lobbyService.createGameRequest(player_id)
+    }
+
+    async handleJoinGame(game_request_id: number) {
+        await this.lobbyService.joinGame(game_request_id);
+        this.router.navigate(['/play'])
     }
 }

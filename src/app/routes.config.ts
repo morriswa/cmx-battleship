@@ -13,6 +13,11 @@ const routesConfig: Routes = [
     component: LandingPageComponent,
   },
   {
+    path: "lobby",
+    canActivate: [UserSessionGuard],
+    component: LobbyComponent,
+  },
+  {
     path: "play",
     canActivate: [UserSessionGuard],
     component: PlayGameComponent,
@@ -20,10 +25,6 @@ const routesConfig: Routes = [
   {
     path: "about",
     component: AboutUsComponent,
-  },
-  {
-    path: "lobby",
-    component: LobbyComponent,
   },
   {
     path: "",

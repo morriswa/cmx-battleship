@@ -49,4 +49,12 @@ export class LobbyService {
   async getGameRequests() {
     return this.api.getGameRequests()
   }
+
+  createGameRequest(player_id: string) {
+    return this.api.createGameRequest(player_id)
+  }
+
+  async joinGame(game_request_id: number) {
+    return this.api.joinGame(game_request_id)
+  }
 }

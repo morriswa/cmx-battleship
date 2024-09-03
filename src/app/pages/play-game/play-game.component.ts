@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from "@angular/core";
+import {Component, inject, OnInit, signal, WritableSignal} from "@angular/core";
 import {GameboardComponent} from "../../components/gameboard/gameboard.component";
 import {LobbyService} from "../../services/lobby.service";
 import {DecimalPipe, NgIf, NgStyle, NgTemplateOutlet} from "@angular/common";
@@ -8,6 +8,7 @@ import {GameShipSpacerComponent} from "../../components/game-ship/spacer/game-sh
 import {GameShipDraggableComponent} from "../../components/game-ship/draggable/game-ship-draggable.component";
 import {GameShipComponent} from "../../components/game-ship/game-ship.component";
 import {ActiveGameService} from "../../services/active-game.service";
+import {sleep} from "../../utils";
 
 @Component({
   selector: "app-play-game",
@@ -34,12 +35,15 @@ export class PlayGameComponent implements OnInit {
   protected game = inject(ActiveGameService);
   protected shipSelection = inject(ShipDragAndDropService);
 
+  waiting = signal(true);
+  gameStatus: WritableSignal<string> = signal('unknown');
 
   // lifecycle
   ngOnInit() {
+    this.game.getGameState().then((state)=>{
+      console.log('running game', state)
+    });
     this.shipSelection.showShipsAndEnableTileFeedback();
-    this.userSessions.getAvailablePlayers()
-      .then((players: any) => {console.log(players)})
   }
 
 
@@ -54,5 +58,16 @@ export class PlayGameComponent implements OnInit {
   async handleStartGame() {
     await this.game.markBoardWithShips(this.shipSelection.shipLocations);
     this.shipSelection.submitAndHideShips();
+    this.pollGameStatus();
   }
+
+  async pollGameStatus() {
+    while (true) {
+      const state = await this.game.getGameState()
+      if (state.game_status!=='selct') this.waiting.set(false);
+      this.gameStatus.set(state.game_status);
+      await sleep(10_000);
+    }
+  }
+
 }
