@@ -1,4 +1,4 @@
-import {computed, EventEmitter, inject, Injectable, signal, WritableSignal} from "@angular/core";
+import {EventEmitter, inject, Injectable, signal, WritableSignal} from "@angular/core";
 import {ApiClient} from "./api-client.service";
 import {GameBoard} from "../types/game.types";
 
@@ -27,17 +27,17 @@ export class ActiveGameService {
   }
 
   get shipsRemaining(): number {
-    return Array.from(Object(this._userShips()!).keys()).length ?? 0
+    return this._userShips()!.keys().length ?? 0
   }
 
   get ownTiles(): string[] {
     let allTiles = [];
-    for (const tiles of Object(this._userShips())?.values() ?? [])
-      for (const tile of tiles) allTiles.push(tile);
+    for (const tiles of (this._userShips() ??[]).values())
+      for (const tile of tiles ?? []) allTiles.push(tile);
     return allTiles;
   }
 
-  async markBoardWithShips(ships: GameBoard) {
+  async startGame(ships: GameBoard) {
     await this.api.startGame(ships);
     console.log('activating game service')
     this._userShips.set(ships);

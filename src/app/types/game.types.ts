@@ -7,11 +7,11 @@ export class GameBoard {
   ship_5?: string[];
 
   constructor(data: any) {
-    this.ship_1 = data.ship1;
-    this.ship_2 = data.ship2;
-    this.ship_3 = data.ship3;
-    this.ship_4 = data.ship4;
-    this.ship_5 = data.ship5;
+    this.ship_1 = data.ship_1;
+    this.ship_2 = data.ship_2;
+    this.ship_3 = data.ship_3;
+    this.ship_4 = data.ship_4;
+    this.ship_5 = data.ship_5;
   }
 
   keys() {

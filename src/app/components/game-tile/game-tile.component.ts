@@ -63,7 +63,9 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // watch for incoming events from game runner
     this._activeGameSubscription = this.games.event.subscribe((e)=>{
-
+      // if (e.type==="READYUP") {
+      //   this.s
+      // }
     });
   }
 

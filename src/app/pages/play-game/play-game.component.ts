@@ -37,6 +37,7 @@ export class PlayGameComponent implements OnInit {
 
   waiting = signal(true);
   gameStatus: WritableSignal<string> = signal('unknown');
+  private _currentlyPollingGameStatus: WritableSignal<boolean> = signal(false);
 
   // lifecycle
   ngOnInit() {
@@ -44,6 +45,7 @@ export class PlayGameComponent implements OnInit {
       console.log('running game', state)
     });
     this.shipSelection.showShipsAndEnableTileFeedback();
+    setTimeout(()=>this.pollGameStatus(), 1000)
   }
 
 
@@ -56,18 +58,25 @@ export class PlayGameComponent implements OnInit {
   }
 
   async handleStartGame() {
-    await this.game.markBoardWithShips(this.shipSelection.shipLocations);
+    await this.game.startGame(this.shipSelection.shipLocations);
     this.shipSelection.submitAndHideShips();
-    this.pollGameStatus();
   }
 
   async pollGameStatus() {
-    while (true) {
+    if (!this._currentlyPollingGameStatus()) this._currentlyPollingGameStatus.set(true);
+    else {
+      return;
+    }
+    while (this._currentlyPollingGameStatus()) {
       const state = await this.game.getGameState()
-      if (state.game_status!=='selct') this.waiting.set(false);
-      this.gameStatus.set(state.game_status);
+      if (state.game_phase!=='selct') this.waiting.set(false);
+      this.gameStatus.set(state.game_phase);
       await sleep(10_000);
     }
+  }
+
+  stopPollingGameStatus() {
+    this._currentlyPollingGameStatus.set(false);
   }
 
 }

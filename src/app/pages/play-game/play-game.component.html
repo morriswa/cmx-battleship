@@ -25,7 +25,7 @@
       <h3 *ngIf="!waiting() && gameStatus()!=='selct'">Good to go</h3>
     }
 
-    @if (shipSelection.active && gameStatus()!=='selct') {
+    @if (shipSelection.active) {
       <!-- ship errors -->
       <h3 class="error-text">{{ shipSelection.error ?? '&nbsp;' }}</h3>
     } @else {
@@ -36,7 +36,7 @@
 
   <div class="app-body mx-auto">
 
-    @if (shipSelection.active && gameStatus()==='selct') {
+    @if (shipSelection.active) {
       <div class="app-ship-selector flex-wrap mt-2">
         @for (ship of [1,2,3,4,5].slice(0, $any(session.num_ships)); track ship) {
           <app-game-ship [shipLength]="ship"/>
