@@ -1,7 +1,7 @@
 import {inject, Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {firstValueFrom} from "rxjs";
-import {JoinLobby, NewUserSession, OnlineStats} from "../types/lobby.types";
+import {AvailablePlayer, GameRequest, JoinLobby, NewUserSession, OnlineStats} from "../types/lobby.types";
 import {GameBoard, GameSession} from "../types/game.types";
 
 
@@ -38,23 +38,16 @@ export class ApiClient {
     return this.request<void>('DELETE', `${this.endpoint}/logout`);
   }
 
-  requestGame(player_id: string) {
-    return this.request<void>('POST', `${this.endpoint}/game/requests`, {
-      player_id: player_id,
-    });
-  }
-
   getGameRequests() {
-    return this.request<any[]>('GET', `${this.endpoint}/game/requests`);
+    return this.request<GameRequest[]>('GET', `${this.endpoint}/game/requests`);
   }
 
   startGame(ships: GameBoard) {
-    // return Promise.resolve();
-    return this.request('POST', `${this.endpoint}/game/active/start`, ships);
+    return this.request<void>('POST', `${this.endpoint}/game/active/start`, ships);
   }
 
   getAvailablePlayers() {
-    return this.request<any[]>('GET', `${this.endpoint}/games`);
+    return this.request<AvailablePlayer[]>('GET', `${this.endpoint}/games`);
   }
 
   createGameRequest(player_id: string) {

@@ -19,3 +19,14 @@ export type UserSession = {
 export type OnlineStats = {
   playerCount: number;
 }
+
+export type AvailablePlayer = {
+  player_id: string;
+  player_name: string;
+}
+
+export type GameRequest = {
+  game_request_id: string;
+  player_id: string;
+  player_name: string;
+}

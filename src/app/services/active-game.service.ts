@@ -59,13 +59,13 @@ export class ActiveGameService {
     return this.ACTIVE_PHASES.includes(phase);
   };
 
-  get activeTurn() {
+  get activeTurn(): boolean {
     const state = this._gameSession()
     if (!state) return false;
     return this._gameSession()!.player_one_or_two === this._gameSession()!.active_turn;
   }
 
-  async startGame(ships: GameBoard) {
+  async startGame(ships: GameBoard): Promise<void> {
     await this.api.startGame(ships);
     const game_state = await this.api.getGameSession();
     this._gameSession.set(game_state);
@@ -86,7 +86,7 @@ export class ActiveGameService {
     this.event.next({type: 'updateState'})
   }
 
-  async commitMove() {
+  async commitMove(): Promise<GameSession | undefined> {
     const currentTile = this._currentTileSelection();
     if (!currentTile) throw new Error('need to select a tile to attack')
 
