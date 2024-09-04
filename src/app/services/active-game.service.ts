@@ -1,16 +1,15 @@
 import {inject, Injectable, signal, WritableSignal} from "@angular/core";
 import {ApiClient} from "./api-client.service";
-import {GameBoard} from "../types/game.types";
+import {GameBoard, GamePhase, GameSession} from "../types/game.types";
 import {BehaviorSubject} from "rxjs";
-
-
-export type GamePhaseType = 'new' | 'selct' | 'goodg' | 'p1win' | 'p2win' | 'nowin' | 'killd'
 
 
 @Injectable()
 export class ActiveGameService {
 
-  ACTIVE_PHASES = ['new', 'selct', 'goodg']
+
+  // declare
+  ACTIVE_PHASES = ['new', 'wait', 'selct', 'goodg']
 
 
   // services
@@ -22,9 +21,7 @@ export class ActiveGameService {
 
 
   // store user's ship
-  private _userShips: WritableSignal<GameBoard | undefined> = signal(undefined);
-  private _currentPlayerGameState: WritableSignal<any | undefined> = signal(undefined);
-  private _waiting = signal(false);
+  private _gameSession: WritableSignal<GameSession | undefined> = signal(undefined);
   private _currentTileSelection: WritableSignal<string|undefined> = signal(undefined);
 
   get currentSelection(): string | undefined {
@@ -32,69 +29,46 @@ export class ActiveGameService {
   };
 
   get state(): any {
-    return this._currentPlayerGameState();
+    return this._gameSession();
   }
 
   get loading(): boolean {
-    const state = this._currentPlayerGameState()
+    const state = this._gameSession()
     return !state;
   }
 
-  get phase(): GamePhaseType | undefined {
-    const state = this._currentPlayerGameState()
+  get phase(): GamePhase | undefined {
+    const state = this._gameSession()
     if (!state) return undefined;
     return state.game_phase
   }
 
   get doneWithSelection(): boolean {
-    const state = this._currentPlayerGameState()
-    if (!state) return false;
-    else if (state.game_state?.board) {
-      return true;
-    }
-    else return state.game_phase!=='selct'
+    const state = this._gameSession();
+    return !!(state?.game_state?.my_miss_tile_ids);
   };
 
   get active(): boolean {
-    const phase = this.phase;
-    if (!phase) return true;
+    const phase = this.phase ?? 'wait';
     return this.ACTIVE_PHASES.includes(phase);
   };
 
-  get waiting() {
-    return this._waiting();
-  }
-
-  get shipsRemaining(): number {
-    return this._userShips()!.keys().length ?? 0
-  }
-
   get activeTurn() {
-    const state = this._currentPlayerGameState()
+    const state = this._gameSession()
     if (!state) return false;
-    return this._currentPlayerGameState().player_one_or_two === this._currentPlayerGameState().active_turn;
-  }
-
-  get ownTiles(): string[] {
-    let allTiles = [];
-    const ships = this._userShips()
-    if (!ships) return []
-    else{
-      for (const tiles of ships.values())
-        for (const tile of tiles ?? []) allTiles.push(tile);
-      return allTiles;
-    }
+    return this._gameSession()!.player_one_or_two === this._gameSession()!.active_turn;
   }
 
   async startGame(ships: GameBoard) {
     await this.api.startGame(ships);
+    const game_state = await this.api.getGameState();
     console.log('activating game service')
-    this._userShips.set(ships);
+    this._gameSession.set(game_state);
   }
 
   resetActiveGameService() {
     console.log('killing game service')
-    this._userShips.set(undefined);
+    this._gameSession.set(undefined);
   }
 
   getGameState() {
@@ -106,9 +80,8 @@ export class ActiveGameService {
   }
 
   setGameState(state: any) {
-    this._currentPlayerGameState.set(state);
+    this._gameSession.set(state);
     if (state.game_state) {
-      this._userShips.set(new GameBoard(state.game_state.board));
       this.event.next({type: 'updateState'})
     }
   }

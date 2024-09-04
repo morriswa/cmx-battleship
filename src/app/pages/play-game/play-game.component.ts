@@ -7,7 +7,7 @@ import {ShipDragAndDropService} from "../../services/ship-drag-and-drop.service"
 import {GameShipSpacerComponent} from "../../components/game-ship/spacer/game-ship-spacer.component";
 import {GameShipDraggableComponent} from "../../components/game-ship/draggable/game-ship-draggable.component";
 import {GameShipComponent} from "../../components/game-ship/game-ship.component";
-import {ActiveGameService, GamePhaseType} from "../../services/active-game.service";
+import {ActiveGameService} from "../../services/active-game.service";
 import {sleep} from "../../utils";
 
 @Component({
@@ -49,20 +49,20 @@ export class PlayGameComponent implements OnInit {
 
   // lifecycle
   ngOnInit() {
+    this.game.resetActiveGameService();
+
     this.game.getGameState().then((state)=>{
-      // console.log('running game', state)
-
       this.game.setGameState(state);
-
-      if (!this.game.doneWithSelection) {
-        this.shipSelection.showShipsAndEnableTileFeedback();
-      }
-
     });
 
     this.pollGameStatus();
-  }
 
+    setTimeout(()=>{
+      if (!this.game.doneWithSelection) {
+        this.shipSelection.showShipsAndEnableTileFeedback();
+      }
+    }, 1000)
+  }
 
   // action handlers
   async handleExit() {
@@ -100,7 +100,7 @@ export class PlayGameComponent implements OnInit {
         this.router.navigate(['/lobby'])
       }
 
-      await sleep(10_000);
+      await sleep(3_000);
     }
   }
 

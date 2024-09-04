@@ -5,7 +5,7 @@ import {BehaviorSubject} from "rxjs";
 import {GameBoard} from "../types/game.types";
 
 
-export type SimplePosition = {
+type SimplePosition = {
   xStart: number;
   xEnd: number;
   yStart: number;
@@ -143,7 +143,7 @@ export class ShipDragAndDropService {
     });
   }
 
-  setShipStatus(shipLength: number, coveredIds: string[], something:any) {
+  setShipStatus(shipLength: number, coveredIds: string[]) {
     this._shipLocations.update((val)=>val.set(shipLength, coveredIds));
   }
 
