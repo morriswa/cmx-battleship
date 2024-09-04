@@ -1,13 +1,14 @@
 {
   "name": "cmx-battleship",
-  "version": "0.1.1.dev2",
+  "version": "0.1.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "build:www": "ng build --base-href /cmx/battleship/",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test --no-watch --progress --browsers ChromeHeadless",
+    "test:interactive": "ng test"
   },
   "private": true,
   "dependencies": {

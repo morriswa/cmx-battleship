@@ -16,5 +16,8 @@ const SessionHeaderInterceptor: HttpInterceptorFn = (req, next) => {
 };
 
 
+/**
+ * provides an angular http client modified with Session Header Auth Interceptor
+ */
 export const AppHttpClient: EnvironmentProviders
   = provideHttpClient(withInterceptors([SessionHeaderInterceptor]));

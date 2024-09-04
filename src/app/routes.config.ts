@@ -34,5 +34,8 @@ const routesConfig: Routes = [
   }
 ]
 
+/**
+ * provides application routing
+ */
 export const AppRouter: EnvironmentProviders
   = provideRouter(routesConfig);
