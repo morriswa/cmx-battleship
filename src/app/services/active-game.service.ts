@@ -68,12 +68,12 @@ export class ActiveGameService {
   async startGame(ships: GameBoard) {
     await this.api.startGame(ships);
     const game_state = await this.api.getGameSession();
-    console.log('activating game service')
     this._gameSession.set(game_state);
+    this._currentTileSelection.set(undefined);
+    this.event.next({type: 'updateState'})
   }
 
   resetActiveGameService() {
-    console.log('killing game service')
     this._gameSession.set(undefined);
   }
 
