@@ -7,7 +7,7 @@ export const ActiveGameGuard: CanActivateFn = async () => {
     const gameService = inject(ActiveGameService);
     const router = inject(Router);
 
-    const gameState = await gameService.getGameState();
+    const gameState = await gameService.refreshGameSession();
     if (!gameState) {
         router.navigate(['/lobby'])
         return false;

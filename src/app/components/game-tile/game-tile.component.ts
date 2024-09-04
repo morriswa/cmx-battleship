@@ -26,7 +26,7 @@ import {Subscription} from "rxjs";
   ],
   styleUrl: "./game-tile.component.scss"
 })
-export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
+export class GameTileComponent implements OnInit, OnDestroy {
 
 
   // io
@@ -68,7 +68,7 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.detectTileLocationChange();
+    this.updateTile();
   }
 
   ngOnDestroy(): void {
@@ -98,12 +98,12 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
   // internal logic
   @HostListener("window:resize", ["$event"])
   onResizeScreen() {
+    this.detectTileLocationChange()
     if (this.ships.active) {
       this.ships.hideShips();
       this.ships.resetShipLocations();
       setTimeout(()=>this.ships.showShips(), 250);
     }
-    this.detectTileLocationChange()
   }
 
   // detect mousedown events on game-tile
@@ -113,21 +113,20 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private detectTileLocationChange() {
-    setTimeout(()=>{
-      const gameTileLocation = this.gameTile?.nativeElement.getBoundingClientRect();
-      const x = gameTileLocation.x;
-      const y = gameTileLocation.y;
-      this.ships.setTileLocations(this.tileId, {
-        xStart: x,
-        xEnd: x + gameTileLocation.width,
-        yStart: y,
-        yEnd: y + gameTileLocation.height,
-      });
-    }, 500)
+    const gameTileLocation = this.gameTile?.nativeElement.getBoundingClientRect();
+    const x = gameTileLocation.x;
+    const y = gameTileLocation.y;
+    this.ships.setTileLocations(this.tileId, {
+      xStart: x,
+      xEnd: x + gameTileLocation.width,
+      yStart: y,
+      yEnd: y + gameTileLocation.height,
+    });
   }
 
-  private async updateTile() {
-    if (this.gameTile) {
+  private async updateTile(retry=true, timeout=100) {
+    this.detectTileLocationChange();
+    if (this.gameTile&&this.games.session) {
 
       if (this.ships.active) {
         if (this.tileId && this.gameTile) {
@@ -137,29 +136,30 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
             this.renderer.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
           }
         }
-      } else if (this.games.doneWithSelection) {
+      }
 
-        this.renderer.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
+      if (this.games.doneWithSelection) {
+        this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-covered');
 
-        if (this.games.currentSelection===this.tileId) {
+        if (this.games.currentSelection&&this.tileId&&this.games.currentSelection===this.tileId) {
           this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-targeted');
         } else {
           this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-targeted');
         }
 
-        if (this.games.state.game_state?.hit_tile_ids?.includes(this.tileId)) {
+        if (this.games.session.game_state?.hit_tile_ids?.includes(this.tileId)) {
           this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-struck-enemy-ship');
         } else {
           this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-struck-enemy-ship');
         }
 
-        if (this.games.state.game_state?.miss_tile_ids?.includes(this.tileId)) {
+        if (this.games.session.game_state?.miss_tile_ids?.includes(this.tileId)) {
           this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-missed-enemy-ship');
         } else {
           this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-missed-enemy-ship');
         }
       }
-    } else setTimeout(()=>this.updateTile(), 500)
+    } else setTimeout(()=>this.updateTile(retry, timeout), timeout)
   }
 
 }

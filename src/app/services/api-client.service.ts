@@ -2,7 +2,7 @@ import {inject, Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {firstValueFrom} from "rxjs";
 import {JoinLobby, NewUserSession, OnlineStats} from "../types/lobby.types";
-import {GameBoard} from "../types/game.types";
+import {GameBoard, GameSession} from "../types/game.types";
 
 
 export type SUPPORTED_METHODS = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -65,8 +65,8 @@ export class ApiClient {
     return this.request<void>('POST', `${this.endpoint}/game/request/${game_request_id}`);
   }
 
-  getGameState() {
-    return this.request<any>('GET', `${this.endpoint}/game/active`);
+  getGameSession() {
+    return this.request<GameSession>('GET', `${this.endpoint}/game/active`);
   }
 
   forfeitGame() {
@@ -74,6 +74,6 @@ export class ApiClient {
   }
 
   makeMove(currentTileSelection: string) {
-    return this.request('POST', `${this.endpoint}/game/active`, {'tile_id': currentTileSelection});
+    return this.request<void>('POST', `${this.endpoint}/game/active`, {'tile_id': currentTileSelection});
   }
 }

@@ -6,11 +6,11 @@
 
     <div class="flex-row">
 
-      <div *ngIf="game.state.game_state" class="flex-col">
-        <span>Ships remaining: {{ game.state.game_state.my_ships_remaining }}</span>
-        <span>Enemy ships remaining: {{ game.state.game_state.ships_remaining }}</span>
-        <span>Your hit tiles: {{ game.state.game_state.my_hit_tile_ids }}</span>
-        <span>Your healthy tiles: {{ game.state.game_state.my_miss_tile_ids }}</span>
+      <div *ngIf="game.session?.game_state as state" class="flex-col">
+        <span>Ships remaining: {{ state.my_ships_remaining }}</span>
+        <span>Enemy ships remaining: {{ state.ships_remaining }}</span>
+        <span>Your hit tiles: {{ state.my_hit_tile_ids }}</span>
+        <span>Your healthy tiles: {{ state.my_miss_tile_ids }}</span>
 
       </div>
 
@@ -54,9 +54,10 @@
               {{ session.num_ships === '1'? 'ship' : session.num_ships + ' ships' }}
               ...
             </h3>
-          } @else if (shipSelection.active) {
             <!-- ship errors -->
             <h3 class="error-text">{{ shipSelection.error ?? '&nbsp;' }}</h3>
+          } @else if (game.phase==='selct') {
+            <h3>&nbsp;</h3>
           } @else {
             <h3>Firing</h3>
           }

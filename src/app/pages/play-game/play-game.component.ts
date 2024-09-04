@@ -36,32 +36,32 @@ export class PlayGameComponent implements OnInit {
   protected shipSelection = inject(ShipDragAndDropService);
 
   private _currentlyPollingGameStatus: WritableSignal<boolean> = signal(false);
-  endGameMessage = computed(() => {
-    if (this.game.phase === `${this.game.state.player_one_or_two}win`) {
+  endGameMessage = () => {
+    if (this.game.session && this.game.phase === `${this.game.session.player_one_or_two}win`) {
       return "You win!"
     } else if (this.game.phase === 'nowin') {
       return "Incomplete Match"
     } else {
       return "You Lose"
     }
-  });
+  };
 
 
   // lifecycle
   ngOnInit() {
     this.game.resetActiveGameService();
 
-    this.game.getGameState().then((state)=>{
-      this.game.setGameState(state);
-    });
-
     this.pollGameStatus();
 
-    setTimeout(()=>{
-      if (!this.game.doneWithSelection) {
+    const tnt = () => {
+      if (this.game.phase==='selct'&&!this.game.doneWithSelection) {
         this.shipSelection.showShipsAndEnableTileFeedback();
+      } else {
+        setTimeout(tnt, 1000)
       }
-    }, 1000)
+    };
+
+    tnt();
   }
 
   // action handlers
@@ -83,13 +83,10 @@ export class PlayGameComponent implements OnInit {
       return;
     }
     while (this._currentlyPollingGameStatus()) {
-      const state = await this.game.getGameState();
+      const state = await this.game.refreshGameSession();
       if (!state) {
         this.router.navigate(['/lobby']);
         return;
-      }
-      else {
-        this.game.setGameState(state);
       }
 
       if (this.game.doneWithSelection) {
@@ -111,8 +108,7 @@ export class PlayGameComponent implements OnInit {
   async handleMakeSelection() {
     console.log(`selected ${this.game.currentSelection}`)
     if (this.game.currentSelection && this.game.activeTurn) {
-      const state = await this.game.commitMove();
-      this.game.setGameState(state);
+      await this.game.commitMove();
     } else {
       throw new Error('cannot play if its not your turn')
     }

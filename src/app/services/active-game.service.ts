@@ -28,8 +28,14 @@ export class ActiveGameService {
     return this._currentTileSelection()
   };
 
-  get state(): any {
+  get session(): GameSession | undefined {
     return this._gameSession();
+  }
+
+  async refreshGameSession(): Promise<GameSession | undefined> {
+    const response = await this.api.getGameSession();
+    this._gameSession.set(response);
+    return response;
   }
 
   get loading(): boolean {
@@ -61,7 +67,7 @@ export class ActiveGameService {
 
   async startGame(ships: GameBoard) {
     await this.api.startGame(ships);
-    const game_state = await this.api.getGameState();
+    const game_state = await this.api.getGameSession();
     console.log('activating game service')
     this._gameSession.set(game_state);
   }
@@ -71,27 +77,25 @@ export class ActiveGameService {
     this._gameSession.set(undefined);
   }
 
-  getGameState() {
-    return this.api.getGameState()
-  }
-
   forfeitGame() {
     return this.api.forfeitGame()
   }
 
-  setGameState(state: any) {
-    this._gameSession.set(state);
-    if (state.game_state) {
-      this.event.next({type: 'updateState'})
-    }
-  }
-
-  updateTileSelection(tileId: string) {
+  updateTileSelection(tileId: string | undefined) {
     this._currentTileSelection.set(tileId);
     this.event.next({type: 'updateState'})
   }
 
   async commitMove() {
-    return this.api.makeMove(this._currentTileSelection()!)
+    const currentTile = this._currentTileSelection();
+    if (!currentTile) throw new Error('need to select a tile to attack')
+
+    await this.api.makeMove(currentTile);
+    const response = await this.api.getGameSession();
+    this._gameSession.set(response);
+    this._currentTileSelection.set(undefined);
+    // call to reload tile styles
+    this.event.next({type: 'updateState'})
+    return response
   }
 }

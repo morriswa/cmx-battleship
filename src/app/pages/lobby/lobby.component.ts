@@ -24,10 +24,7 @@ export class LobbyComponent implements OnInit {
 
 
     ngOnInit(): void {
-        this.pollGameRequests()
-        this.lobbyService.getAvailablePlayers().then((players: any[] | undefined)=>{
-            this.availablePlayerCache.set(players)
-        })
+        this.pollGameRequests();
     }
 
     async pollGameRequests() {
@@ -35,12 +32,17 @@ export class LobbyComponent implements OnInit {
             const games = await this.lobbyService.getGameRequests();
             this.gameRequestCache.set(games);
 
-            const gameState = await this.gameService.getGameState()
+            const gameState = await this.gameService.refreshGameSession();
             if (gameState?.game_phase==='selct') {
-              this.router.navigate(['/play'])
+                this.router.navigate(['/play']);
+                return;
             }
 
-            await sleep(10_000)
+            this.lobbyService.getAvailablePlayers().then((players: any[] | undefined)=>{
+                this.availablePlayerCache.set(players)
+            });
+
+            await sleep(5_000)
         }
     }
 
