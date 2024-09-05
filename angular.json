@@ -80,7 +80,7 @@
               "namedChunks": true
             }
           },
-          "defaultConfiguration": "lightsail"
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -95,7 +95,7 @@
               "buildTarget": "cmx-battleship:build:development"
             }
           },
-          "defaultConfiguration": "lightsail"
+          "defaultConfiguration": "production"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
