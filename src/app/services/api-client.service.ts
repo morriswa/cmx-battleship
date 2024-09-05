@@ -3,13 +3,14 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {firstValueFrom} from "rxjs";
 import {AvailablePlayer, GameRequest, JoinLobby, NewUserSession, OnlineStats} from "../types/lobby.types";
 import {GameBoard, GameSession} from "../types/game.types";
+import {environment} from "../../environments/environment";
 
 
 export type SUPPORTED_METHODS = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 @Injectable()
 export class ApiClient {
-  private endpoint = process.env['APP_API_ENDPOINT']
+  private endpoint = environment.APP_API_ENDPOINT
   private http = inject(HttpClient);
 
   // internal methods

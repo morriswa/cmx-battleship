@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "vet-app-ng": {
+    "cmx-battleship": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -18,11 +18,8 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "customWebpackConfig": {
-              "path": "environment.config.js"
-            },
             "outputPath": "dist/cmx-battleship",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -52,7 +49,27 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "lightsail": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.lightsail.ts"
+                }
+              ]
             },
             "development": {
               "buildOptimizer": false,
@@ -63,32 +80,32 @@
               "namedChunks": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "lightsail"
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "vet-app-ng:build:production"
+              "buildTarget": "cmx-battleship:build:production"
+            },
+            "lightsail": {
+              "buildTarget": "cmx-battleship:build:lightsail"
             },
             "development": {
-              "buildTarget": "vet-app-ng:build:development"
+              "buildTarget": "cmx-battleship:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "lightsail"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "vet-app-ng:build"
+            "buildTarget": "cmx-battleshipg:build"
           }
         },
         "test": {
-          "builder": "@angular-builders/custom-webpack:karma",
+          "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "customWebpackConfig": {
-              "path": "test-environment.config.js"
-            },
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
