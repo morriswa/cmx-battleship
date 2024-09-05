@@ -3,7 +3,7 @@
   "version": "0.1.4.dev0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve -c development",
     "start:lightsail": "ng serve -c lightsail",
     "build": "ng build",
     "build:www": "ng build --base-href /cmx/battleship/",
@@ -31,7 +31,6 @@
     "@angular/cli": "^18.1.4",
     "@angular/compiler-cli": "^18.1.4",
     "@types/jasmine": "~4.0.0",
-    "@types/node": "^22.3.0",
     "dotenv": "^16.4.5",
     "jasmine-core": "~4.1.0",
     "karma": "~6.3.0",
