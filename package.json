@@ -3,8 +3,8 @@
   "version": "0.1.4.dev0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -c development",
-    "start:lightsail": "ng serve -c lightsail",
+    "start": "ng serve -c lightsail",
+    "start:local-service": "ng serve -c development",
     "build": "ng build",
     "build:www": "ng build --base-href /cmx/battleship/",
     "watch": "ng build --watch --configuration development",
