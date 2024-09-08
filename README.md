@@ -13,11 +13,6 @@
 - Install project dependencies with Node Package Manager
 
       npm install
-- Create local app environment file '.env' in project root directory
-- Include values in .env
-
-      APP_API_ENDPOINT=http://127.0.0.1:8000
-      RUNTIME=local
 - Compile angular project and run on local machine http://localhost:4200
       
-      npm run start
+      npm run start:local-service
