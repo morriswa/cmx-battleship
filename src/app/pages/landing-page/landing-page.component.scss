@@ -1,23 +1,29 @@
-p, input, button {
-    position: relative;
-    font-size: 20px;
-    z-index: 1;
-    text-align: center;
-}
-
-.title {
-    font-size: 60px;
-}
-
 .landing-page-image {
-    position: absolute;
-    z-index: -10;
-    width: 500px;
-    margin: 50px 0;
-    // width: 50%;
-    // height: auto;
-    // top: 50%; // moves image half way down screen
-    // left: 50%; // moves image help way to the left on screen / these 2 together put the corner of the image in the center
-    // transform: translate(-50%, -50%); // moves image left and up by half of its size (centering it!)
-  }
+    width: 1300px;
+    z-index: -1;
+    position: fixed;
+    margin-top: -20px;
+    margin-left: 50px;
+}
 
+.dot {
+    height: 900px;
+    width: 1100px;
+    background-color: #bbb;
+    position: fixed;
+    z-index: -2;
+    margin-top: 20px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dot2 {
+    height: 900px;
+    width: 1100px;
+    background-color: #909090;
+    position: fixed;
+    z-index: -3;
+    margin-top: 40px;
+    margin-right: 20px;
+    border-radius: 50%;
+    display: inline-block;
+  }

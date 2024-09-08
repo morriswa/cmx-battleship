@@ -1,7 +1,7 @@
 
-<div class="flex-col radio-button-group">
+<div class="flex-row radio-button-group">
   @for (button of radioButtonFormControl.options; track button.value) {
-    <div class="flex-row align-items-center">
+    <div class="radio-button-wrapper flex-row align-items-center">
       <div
         class="radio-button"
         [ngClass]="{
