@@ -100,3 +100,12 @@
 .pixel-font {
   font-family: $pixel-font-family;
 }
+
+.game-title {
+  font-size: $font-size-xxl;
+  text-shadow: -5px 4px rgba(16, 161, 234, 0.35);
+}
+
+.landing-page-text {
+  font-size: $font-size-landing-page;
+}
