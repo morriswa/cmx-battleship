@@ -65,7 +65,7 @@ export class GameShipDraggableComponent {
       yEnd: domRect.y + domRect.height
     });
 
-    this.ships.setShipStatus(this.shipLength, coveredIds, this.handleDropEnd);
+    this.ships.setShipStatus(this.shipLength, coveredIds);
 
     if (this.ships.duplicatePlacement) {
       this.renderer.addClass(this.shipRef.nativeElement, 'game-ship-error')

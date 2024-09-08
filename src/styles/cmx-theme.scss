@@ -68,8 +68,26 @@
   font-size: $game-tile-font-size;
 }
 
-.game-tile-ship-permanent {
+.game-tile-your-ship {
   background-color: orange;
+}
+
+.game-tile-your-ship-sank {
+  color: white;
+  background-color: #000000;
+}
+
+.game-tile-targeted {
+  background-color: #af0707;
+}
+
+.game-tile-struck-enemy-ship {
+  color: white;
+  background-color: #050559
+}
+
+.game-tile-missed-enemy-ship {
+  background-color: #8f8f8f
 }
 
 .game-ship-error {

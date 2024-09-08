@@ -1,6 +1,14 @@
-<p>lobby</p>
 
-<button>random</button>
+<div class="flex-col vw-70 mx-auto align-items-center space-between-items">
+  <h4>lobby</h4>
+<!--  <h5>Online: {{s}} / 10,000</h5>-->
+  <p>{{ lobbyService.sessionInfo()?.player_name + "#" + lobbyService.sessionInfo()?.player_id}}</p>
+  <div class="flex-row">
+    <button>random</button>
+    <button (click)="handleLogout()">logout</button>
+  </div>
+</div>
+
 
 <div class="flex-row vw-70 mx-auto align-items-center space-between-items">
 
@@ -8,19 +16,20 @@
         <p>online players</p>
         @for (player of availablePlayerCache(); track player.player_id) {
             <p>{{player.player_name + "#" + player.player_id}}</p>
-            <button>request</button>
+            <button (click)="handleCreateRequest(player.player_id)">request</button>
         }
         <p>search for player: </p>
         <input [formControl]="searchedPlayer">
 
-        <button (click)="onSubmit()" (keydown.enter)="onSubmit()">join</button><br>
+        <button>search</button><br>
     </div>
 
     <div class="flex-col player-col">
         <p> requests </p>
-        @for (player of gameRequestCache(); track player.player_id) {
-            <p>{{player.player_name + " #" + player.player_id}}</p>
+        @for (game of gameRequestCache(); track game.game_request_id) {
+            <p>{{game.player_name + " #" + game.player_id}}</p>
+            <button (click)="handleJoinGame(game.game_request_id)">request</button>
         }
-    </div>  
+    </div>
 
 </div>

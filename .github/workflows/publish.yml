@@ -29,6 +29,7 @@ jobs:
     - name: Build
       run: |
         npm ci
+        npm run test
         RUNTIME=prod \
           APP_API_ENDPOINT=${{ secrets.APP_API_ENDPOINT }} \
           npm run build:www

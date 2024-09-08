@@ -2,9 +2,10 @@ import {inject, Injectable, signal, WritableSignal} from "@angular/core";
 import {LobbyService} from "./lobby.service";
 import {countOccurrences} from "../utils";
 import {BehaviorSubject} from "rxjs";
+import {GameBoard} from "../types/game.types";
 
 
-export type SimplePosition = {
+type SimplePosition = {
   xStart: number;
   xEnd: number;
   yStart: number;
@@ -37,7 +38,14 @@ export class ShipDragAndDropService {
   }
 
   get shipLocations() {
-    return this._shipLocations();
+    const locationMap = this._shipLocations();
+    return new GameBoard({
+      'ship_1': locationMap.get(1),
+      'ship_2': locationMap.get(2),
+      'ship_3': locationMap.get(3),
+      'ship_4': locationMap.get(4),
+      'ship_5': locationMap.get(5)
+    })
   }
 
   get error() {
@@ -135,7 +143,7 @@ export class ShipDragAndDropService {
     });
   }
 
-  setShipStatus(shipLength: number, coveredIds: string[], something:any) {
+  setShipStatus(shipLength: number, coveredIds: string[]) {
     this._shipLocations.update((val)=>val.set(shipLength, coveredIds));
   }
 

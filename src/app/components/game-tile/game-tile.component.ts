@@ -26,7 +26,7 @@ import {Subscription} from "rxjs";
   ],
   styleUrl: "./game-tile.component.scss"
 })
-export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
+export class GameTileComponent implements OnInit, OnDestroy {
 
 
   // io
@@ -42,7 +42,6 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
   // internal state
   @ViewChild("gameTile") gameTile?: ElementRef;
   private _watchShips = signal(false);
-  private _watchGameTile = signal(false);
   private _shipSelectorSubscription?: Subscription;
   private _activeGameSubscription?: Subscription;
 
@@ -50,25 +49,26 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
   // init / lifecycle
   ngOnInit() {
     // watch for incoming events from ship selector
-    this._shipSelectorSubscription = this.ships.event.subscribe(async (e)=>{
+    this._shipSelectorSubscription = this.ships.event.subscribe((e)=>{
       if (e.type==="SUBMIT") {
         this.stopWatchingShips();
-        await this.startWatchingGameTile();
       } else if (e.type==="RESET") {
         this.stopWatchingShips()
       } else if (e.type==="READYUP") {
-        await this.startWatchingShips();
+        this.startWatchingShips();
       }
     });
 
     // watch for incoming events from game runner
     this._activeGameSubscription = this.games.event.subscribe((e)=>{
-
+      if (e.type==="updateState") {
+        this.updateTile();
+      }
     });
   }
 
   ngAfterViewInit() {
-    this.detectTileLocationChange();
+    this.updateTile();
   }
 
   ngOnDestroy(): void {
@@ -80,65 +80,36 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
   async startWatchingShips() {
     if (!this._watchShips()) this._watchShips.set(true);
     else {
-      console.log('refused to start watch ships twice');
+      console.debug('refused to start watch ships twice');
       return;
     }
-    console.log('ship loop init')
+    console.debug('ship loop init')
     while (this._watchShips()) {
-      if (this.tileId && this.gameTile) {
-        this.renderer.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
-
-        if (this.ships.coveredTiles.get(this.tileId)?.covered) {
-          this.renderer.addClass(this.gameTile.nativeElement, 'game-tile-covered');
-        }
-      }
-
+      await this.updateTile();
       await sleep(100);
     }
-    console.log('ship loop destroyed')
-  }
-
-  async startWatchingGameTile() {
-    if (!this._watchGameTile()) this._watchGameTile.set(true);
-    else {
-      console.log('refused to start game loop twice');
-      return;
-    }
-    console.log('game loop init');
-    while (this._watchGameTile()) {
-      if (this.gameTile && this.games.ownTiles.includes(this.tileId)) {
-        this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-ship-permanent');
-      }
-
-      await sleep(100);
-    }
-    console.log('ship loop destroyed')
+    console.debug('ship loop destroyed')
   }
 
   stopWatchingShips() {
     this._watchShips.set(false);
-    this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-covered');
-  }
-
-  stopWatchingGameTile() {
-    this._watchGameTile.set(false);
   }
 
   // internal logic
   @HostListener("window:resize", ["$event"])
   onResizeScreen() {
+    this.detectTileLocationChange()
     if (this.ships.active) {
       this.ships.hideShips();
       this.ships.resetShipLocations();
       setTimeout(()=>this.ships.showShips(), 250);
     }
-    setTimeout(()=>this.detectTileLocationChange(), 500);
   }
 
   // detect mousedown events on game-tile
   @HostListener('mousedown') onClick() {
     // execute every click
-    console.log(`click detected ${this.tileId}`);
+    this.games.updateTileSelection(this.tileId);
   }
 
   private detectTileLocationChange() {
@@ -151,6 +122,44 @@ export class GameTileComponent implements OnInit, AfterViewInit, OnDestroy {
       yStart: y,
       yEnd: y + gameTileLocation.height,
     });
+  }
+
+  private async updateTile(retry=true, timeout=100) {
+    this.detectTileLocationChange();
+    if (this.gameTile&&this.games.session) {
+
+      if (this.ships.active) {
+        if (this.tileId && this.gameTile) {
+          if (this.ships.coveredTiles.get(this.tileId)?.covered) {
+            this.renderer.addClass(this.gameTile.nativeElement, 'game-tile-covered');
+          } else {
+            this.renderer.removeClass(this.gameTile.nativeElement, 'game-tile-covered');
+          }
+        }
+      }
+
+      if (this.games.doneWithSelection) {
+        this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-covered');
+
+        if (this.games.currentSelection&&this.tileId&&this.games.currentSelection===this.tileId) {
+          this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-targeted');
+        } else {
+          this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-targeted');
+        }
+
+        if (this.games.session.game_state?.hit_tile_ids?.includes(this.tileId)) {
+          this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-struck-enemy-ship');
+        } else {
+          this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-struck-enemy-ship');
+        }
+
+        if (this.games.session.game_state?.miss_tile_ids?.includes(this.tileId)) {
+          this.renderer.addClass(this.gameTile?.nativeElement, 'game-tile-missed-enemy-ship');
+        } else {
+          this.renderer.removeClass(this.gameTile?.nativeElement, 'game-tile-missed-enemy-ship');
+        }
+      }
+    } else setTimeout(()=>this.updateTile(retry, timeout), timeout)
   }
 
 }

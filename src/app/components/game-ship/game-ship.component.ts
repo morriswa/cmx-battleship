@@ -32,6 +32,7 @@ export class GameShipComponent implements AfterViewInit {
 
   // io
   @Input({transform: numberAttribute}) shipLength!: number;
+  // @Input() enabled = false;
 
   // services
   renderer = inject(Renderer2);

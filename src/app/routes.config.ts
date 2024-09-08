@@ -5,6 +5,7 @@ import { LandingPageComponent } from "./pages/landing-page/landing-page.componen
 import {UserSessionGuard} from "./guards/user-session.guard";
 import { LobbyComponent } from "./pages/lobby/lobby.component";
 import {EnvironmentProviders} from "@angular/core";
+import {ActiveGameGuard} from "./guards/active-game.guard";
 
 
 const routesConfig: Routes = [
@@ -13,17 +14,18 @@ const routesConfig: Routes = [
     component: LandingPageComponent,
   },
   {
-    path: "play",
+    path: "lobby",
     canActivate: [UserSessionGuard],
+    component: LobbyComponent,
+  },
+  {
+    path: "play",
+    canActivate: [UserSessionGuard, ActiveGameGuard],
     component: PlayGameComponent,
   },
   {
     path: "about",
     component: AboutUsComponent,
-  },
-  {
-    path: "lobby",
-    component: LobbyComponent,
   },
   {
     path: "",
@@ -32,5 +34,8 @@ const routesConfig: Routes = [
   }
 ]
 
+/**
+ * provides application routing
+ */
 export const AppRouter: EnvironmentProviders
   = provideRouter(routesConfig);

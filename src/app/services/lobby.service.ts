@@ -1,6 +1,6 @@
 import {inject, Injectable, signal, WritableSignal} from "@angular/core";
 import {ApiClient} from "./api-client.service";
-import {JoinLobby, OnlineStats, UserSession} from "../types/lobby.types";
+import {AvailablePlayer, GameRequest, JoinLobby, OnlineStats, UserSession} from "../types/lobby.types";
 import {SessionAuthenticationService} from "./session-authentication.service";
 
 @Injectable()
@@ -42,11 +42,19 @@ export class LobbyService {
     this.session.end();
   }
 
-  async getAvailablePlayers() {
+  async getAvailablePlayers(): Promise<AvailablePlayer[] | undefined> {
     return this.api.getAvailablePlayers()
   }
 
-  async getGameRequests() {
+  async getGameRequests(): Promise<GameRequest[] | undefined> {
     return this.api.getGameRequests()
+  }
+
+  createGameRequest(player_id: string): Promise<void> {
+    return this.api.createGameRequest(player_id)
+  }
+
+  async joinGame(game_request_id: number): Promise<void> {
+    return this.api.joinGame(game_request_id)
   }
 }

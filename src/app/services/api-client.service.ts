@@ -1,14 +1,16 @@
 import {inject, Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {firstValueFrom} from "rxjs";
-import {JoinLobby, NewUserSession, OnlineStats} from "../types/lobby.types";
+import {AvailablePlayer, GameRequest, JoinLobby, NewUserSession, OnlineStats} from "../types/lobby.types";
+import {GameBoard, GameSession} from "../types/game.types";
+import {environment} from "../../environments/environment";
 
 
 export type SUPPORTED_METHODS = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 @Injectable()
 export class ApiClient {
-  private endpoint = process.env['APP_API_ENDPOINT']
+  private endpoint = environment.APP_API_ENDPOINT
   private http = inject(HttpClient);
 
   // internal methods
@@ -37,22 +39,35 @@ export class ApiClient {
     return this.request<void>('DELETE', `${this.endpoint}/logout`);
   }
 
-  requestGame(player_id: string) {
-    return this.request<void>('POST', `${this.endpoint}/game/requests`, {
-      player_id: player_id,
-    });
-  }
-
   getGameRequests() {
-    return this.request<any[]>('GET', `${this.endpoint}/game/requests`);
+    return this.request<GameRequest[]>('GET', `${this.endpoint}/game/requests`);
   }
 
-  startGame(ships: Map<number, string[]>) {
-    return Promise.resolve();
-    // return this.request('POST', `${this.endpoint}/active/game/start`, ships);
+  startGame(ships: GameBoard) {
+    return this.request<void>('POST', `${this.endpoint}/game/active/start`, ships);
   }
 
   getAvailablePlayers() {
-    return this.request<any[]>('GET', `${this.endpoint}/games`);
+    return this.request<AvailablePlayer[]>('GET', `${this.endpoint}/games`);
+  }
+
+  createGameRequest(player_id: string) {
+    return this.request<void>('POST', `${this.endpoint}/game/requests`, {'player_id': player_id});
+  }
+
+  joinGame(game_request_id: number) {
+    return this.request<void>('POST', `${this.endpoint}/game/request/${game_request_id}`);
+  }
+
+  getGameSession() {
+    return this.request<GameSession>('GET', `${this.endpoint}/game/active`);
+  }
+
+  forfeitGame() {
+    return this.request<void>('DELETE', `${this.endpoint}/game/active`);
+  }
+
+  makeMove(currentTileSelection: string) {
+    return this.request<void>('POST', `${this.endpoint}/game/active`, {'tile_id': currentTileSelection});
   }
 }

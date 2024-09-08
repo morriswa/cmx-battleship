@@ -1,13 +1,15 @@
 {
   "name": "cmx-battleship",
-  "version": "0.0.6.dev1",
+  "version": "0.1.4.dev0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve -c lightsail",
+    "start:local-service": "ng serve -c development",
     "build": "ng build",
     "build:www": "ng build --base-href /cmx/battleship/",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test --no-watch --progress --browsers ChromeHeadless",
+    "test:interactive": "ng test"
   },
   "private": true,
   "dependencies": {
@@ -25,12 +27,10 @@
     "zone.js": "~0.14.10"
   },
   "devDependencies": {
-    "@angular-builders/custom-webpack": "^18.0.0",
     "@angular-devkit/build-angular": "^18.1.4",
     "@angular/cli": "^18.1.4",
     "@angular/compiler-cli": "^18.1.4",
     "@types/jasmine": "~4.0.0",
-    "@types/node": "^22.3.0",
     "dotenv": "^16.4.5",
     "jasmine-core": "~4.1.0",
     "karma": "~6.3.0",

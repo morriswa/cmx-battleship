@@ -1,5 +1,5 @@
 import {Component, inject, OnInit, signal, WritableSignal} from "@angular/core";
-import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import {FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
 import {
   RadioButtonFormControl,
   RadioButtonGroupComponent
@@ -23,7 +23,11 @@ export class LandingPageComponent implements OnInit{
     stats: WritableSignal<OnlineStats | undefined> = signal(undefined);
 
     //variables
-    playerNameForm = new FormControl(); // new variable of type FormControl(), which will be used to save user input
+    playerNameForm = new FormControl("", [
+      Validators.required,
+      Validators.minLength(4),
+      Validators.maxLength(32),
+    ]); // new variable of type FormControl(), which will be used to save user input
     shipForm = new RadioButtonFormControl([
         {label: '1', value: 1},
         {label: '2', value: 2},
@@ -42,12 +46,12 @@ export class LandingPageComponent implements OnInit{
 
         if (this.playerNameForm.valid && this.shipForm.valid) {
             await this.lobby.joinLobby({
-                player_name: this.playerNameForm.value,
+                player_name: this.playerNameForm.value!,
                 num_ships: String(this.shipForm.value),
             });
             this.playerNameForm.reset(); // reset is a method that will get rid of the input text after submitting it
             this.shipForm.reset();
-            this.router.navigate(['/play'])
+            this.router.navigate(['/lobby'])
         }
     }
 
