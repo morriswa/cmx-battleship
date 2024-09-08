@@ -2,7 +2,7 @@
 @if (userSessions.sessionInfo(); as session) {
 
   <div class="app-title">
-    <h1>Welcome to battleship {{ session.player_name }}</h1>
+    <h1 class="game-subtitle">{{ currentMessage() }}</h1>
 
     <div class="flex-row">
 
@@ -16,7 +16,7 @@
 
       <div class="flex-col">
         @if (game.loading) {
-          <p>get info</p>
+<!--          <p>get info</p>-->
         } @else if (game.active && !game.loading) {
 
           <div class="flex-row col-gap-1">
@@ -37,30 +37,6 @@
           </div>
 
 
-          @if (game.doneWithSelection) {
-            <!-- game messages -->
-            @if (game.phase === 'selct') {
-              <h3>Waiting for other player...</h3>
-            } @else if (game.activeTurn) {
-             <h3>Your turn!</h3>
-            } @else if (!game.activeTurn) {
-              <h3>Your opponents turn!</h3>
-            } @else {
-              <h3>&nbsp;</h3>
-            }
-          } @else if (!game.doneWithSelection && shipSelection.active) {
-            <h3>
-              Please begin by placing your
-              {{ session.num_ships === '1'? 'ship' : session.num_ships + ' ships' }}
-              ...
-            </h3>
-            <!-- ship errors -->
-            <h3 class="error-text">{{ shipSelection.error ?? '&nbsp;' }}</h3>
-          } @else if (game.phase==='selct') {
-            <h3>&nbsp;</h3>
-          } @else {
-            <h3>Firing</h3>
-          }
 
 
         } @else {

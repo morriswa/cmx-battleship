@@ -15,8 +15,11 @@ $bold-font-weight: 700;
 $font-weight: 400;
 
 $font-size-xxl: 100px;
+$font-size-xl: 64px;
+$font-size-lg: 32px;
+$font-size-subtitle: 24px;
 $font-size-landing-page: 25px;
-$font-size-lg: 18px;
+$font-size-med: 18px;
 $font-size: 14px;
 
 // colors
@@ -29,15 +32,18 @@ $surface-color: #efefef;
 $error-color: #ff3636;
 
 // game tile & header variables
-$game-tile-width: 50px;
-$game-tile-height: 50px;
+$game-tile-width: 40px;
+$game-tile-height: 40px;
 $game-tile-border-width: 1px;
 
 // game tile variables
-$game-tile-font-size: $font-size-lg;
+$game-tile-font-size: $font-size-med;
 $game-tile-font-weight: $font-weight;
 $game-tile-border-color: black;
 
 // game tile header variables
-$game-tile-header-font-size: $font-size-lg;
+$game-tile-header-font-size: $font-size-subtitle;
 $game-tile-header-font-weight: $bold-font-weight;
+
+$game-text-shadow: -5px 4px rgba(16, 161, 234, 0.35);
+$game-text-shadow-small: -3px 2px rgba(16, 161, 234, 0.35);

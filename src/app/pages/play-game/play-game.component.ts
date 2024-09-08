@@ -1,4 +1,4 @@
-import {Component, computed, inject, OnInit, signal, WritableSignal} from "@angular/core";
+import {Component, inject, OnInit, signal, WritableSignal} from "@angular/core";
 import {GameboardComponent} from "../../components/gameboard/gameboard.component";
 import {LobbyService} from "../../services/lobby.service";
 import {DecimalPipe, NgIf, NgStyle, NgTemplateOutlet} from "@angular/common";
@@ -112,5 +112,22 @@ export class PlayGameComponent implements OnInit {
     } else {
       throw new Error('cannot play if its not your turn')
     }
+  }
+
+  currentMessage() {
+    if (this.game.doneWithSelection) {
+      if (this.game.phase === 'selct')
+        return "Waiting for other player..."
+      else if (this.game.activeTurn)
+        return "Your turn!"
+      else if (!this.game.activeTurn) return "Your opponents turn!"
+      else return " ";
+    } else if (!this.game.doneWithSelection && this.shipSelection.active) {
+      return `Please begin by placing your ${this.userSessions.sessionInfo()?.num_ships === '1' ? 'ship' : this.userSessions.sessionInfo()?.num_ships + ' ships'}...`
+    }
+        // <h3 class="error-text">{{ shipSelection.error ?? '&nbsp;' }}</h3>
+    else if (this.game.phase==='goodg')
+      return "Firing"
+    else return " "
   }
 }

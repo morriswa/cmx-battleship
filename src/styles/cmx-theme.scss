@@ -36,6 +36,16 @@
   align-items: center;
 }
 
+.gameboard-row-header, .gameboard-col-header {
+  width: $game-tile-width;
+  height: $game-tile-height;
+  border: solid $game-tile-border-width $clear;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .game-tile-covered {
   background-color: blue;
 }
@@ -103,9 +113,22 @@
 
 .game-title {
   font-size: $font-size-xxl;
-  text-shadow: -5px 4px rgba(16, 161, 234, 0.35);
+  text-shadow: $game-text-shadow;
+}
+
+.game-subtitle {
+  font-size: $font-size-xl;
+  text-shadow: $game-text-shadow;
 }
 
 .landing-page-text {
   font-size: $font-size-landing-page;
+}
+
+
+
+.gameboard-header-text {
+  font-size: $game-tile-header-font-size;
+  font-weight: $game-tile-header-font-weight;
+  text-shadow: $game-text-shadow-small;
 }
