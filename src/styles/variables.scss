@@ -14,6 +14,15 @@ $pixel-font-family: 'Pixelify Sans', san-serif;
 $bold-font-weight: 700;
 $font-weight: 400;
 
+:root {
+  // makes props available within ts after view init
+  --app-min-window-height: 700px;
+  --app-min-window-width: 600px;
+}
+
+$min-window-height: var(--app-min-window-height);
+$min-window-width: var(--app-min-window-width);
+
 $font-size-xxl: 100px;
 $font-size-xl: 64px;
 $font-size-lg: 32px;
