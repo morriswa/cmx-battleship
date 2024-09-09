@@ -67,10 +67,18 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
 
     const scssValY = window.getComputedStyle(this.host.nativeElement).getPropertyValue('--app-min-window-height');
-    this.minWindowHeightPx = Number(scssValY.substring(0, scssValY.indexOf('p')))
+    if (scssValY.length === 0) throw new Error('css property --app-min-window-height must be set')
+    if (!scssValY.includes('px')) throw new Error('css property --app-min-window-height must have a pixel value')
+    const heightPx = Number(scssValY.substring(0, scssValY.indexOf('p')))
+    if (heightPx <= 0) throw new Error('css property --app-min-window-height must be a positive integer')
+    this.minWindowHeightPx = heightPx;
 
     const scssValX = window.getComputedStyle(this.host.nativeElement).getPropertyValue('--app-min-window-width')
-    this.minWindowWidthPx = Number(scssValX.substring(0, scssValX.indexOf('p')))
+    if (scssValX.length === 0) throw new Error('css property --app-min-window-width must be set')
+    if (!scssValX.includes('px')) throw new Error('css property --app-min-window-width must have a pixel value')
+    const widthPx = Number(scssValX.substring(0, scssValX.indexOf('p')))
+    if (widthPx <= 0) throw new Error('css property --app-min-window-width must be a positive integer')
+    this.minWindowWidthPx = widthPx;
 
     this.refreshMobileSignal();
   }
