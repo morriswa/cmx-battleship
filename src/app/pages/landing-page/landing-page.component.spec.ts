@@ -26,6 +26,9 @@ describe('LandingPageComponent', () => {
           },
           startUserSession(): Promise<NewUserSession|undefined> {
             return Promise.resolve({ session_id: "session-id", player_id: "123" });
+          },
+          confirmValidSession(): Promise<boolean> {
+            return Promise.resolve(true);
           }
         }
       }
