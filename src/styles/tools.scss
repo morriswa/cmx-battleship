@@ -10,18 +10,28 @@
   flex-direction: column;
 }
 
+.flex-grow {
+  flex-grow: 1;
+}
+
 .col-gap-1 {
   column-gap: 10px;
 }
 
+.col-gap-2 {
+  column-gap: 20px;
+}
+
 .flex-wrap {
-  display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
 }
 
 .space-between-items {
   justify-content: space-between;
+}
+
+.stretch-items {
+  justify-content: stretch;
 }
 
 .align-items-flex-start {
@@ -45,6 +55,13 @@
   margin-right: auto;
 }
 
+.ml-1 {
+  margin-left: 10px;
+}
+
+.mr-2 {
+  margin-right: 20px;
+}
 
 .mt-0 {
   margin-top: 0px;

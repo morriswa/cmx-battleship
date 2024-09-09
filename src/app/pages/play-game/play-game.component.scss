@@ -10,11 +10,17 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: center;
   column-gap: 20px;
 }
 
 .app-ship-selector {
   max-width: 500px;
+}
+
+.game-state-panel {
+  @media (min-width: 900px) {
+    max-width: 20%;
+  }
 }

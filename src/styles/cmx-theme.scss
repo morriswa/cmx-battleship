@@ -27,6 +27,8 @@
   cursor: pointer;
   user-select: none;
 
+  background-color: $game-tile-background-color;
+
   border: solid $game-tile-border-width $game-tile-border-color;
   height: $game-tile-height;
   width: $game-tile-width;
@@ -121,11 +123,15 @@
   text-shadow: $game-text-shadow;
 }
 
+.game-info-text {
+  font-size: $font-size-med;
+  font-weight: $bold-font-weight;
+  overflow-wrap: normal;
+}
+
 .landing-page-text {
   font-size: $font-size-landing-page;
 }
-
-
 
 .gameboard-header-text {
   font-size: $game-tile-header-font-size;

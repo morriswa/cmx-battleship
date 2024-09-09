@@ -3,53 +3,56 @@
 
   <div class="app-title">
     <h1 class="game-subtitle">{{ currentMessage() }}</h1>
+    @if (game.loading) {
+      <!-- TODO add game loading animation -->
+    } @else if (game.active && !game.loading) {
 
-    <div class="flex-row">
+      <div class="flex-row col-gap-1">
+        <button class="game-button" (click)="handleExit()">Exit</button>
 
-      <div *ngIf="game.session?.game_state as state" class="flex-col">
-        <span>Ships remaining: {{ state.my_ships_remaining }}</span>
-        <span>Enemy ships remaining: {{ state.ships_remaining }}</span>
-        <span>Your hit tiles: {{ state.my_hit_tile_ids }}</span>
-        <span>Your healthy tiles: {{ state.my_miss_tile_ids }}</span>
+        <button
+          class="game-button"
+          (click)="handleStartGame()"
+          [disabled]="!shipSelection.readyToPlay"
+        >Play</button>
 
+        <button
+          *ngIf="game.phase==='goodg'"
+          class="game-button"
+          (click)="handleMakeSelection()"
+          [disabled]="!game.currentSelection || !game.activeTurn"
+        >Hit</button>
       </div>
 
-      <div class="flex-col">
-        @if (game.loading) {
-<!--          <p>get info</p>-->
-        } @else if (game.active && !game.loading) {
-
-          <div class="flex-row col-gap-1">
-            <button class="game-button" (click)="handleExit()">Exit</button>
-
-            <button
-              class="game-button"
-              (click)="handleStartGame()"
-              [disabled]="!shipSelection.readyToPlay"
-            >Play</button>
-
-            <button
-              *ngIf="game.phase==='goodg'"
-              class="game-button"
-              (click)="handleMakeSelection()"
-              [disabled]="!game.currentSelection || !game.activeTurn"
-            >Hit</button>
-          </div>
-
-
-
-
-        } @else {
-          <h1>{{ endGameMessage() }}</h1>
-          <button class="game-button" (click)="handleExit()">Exit</button>
-        }
-      </div>
-
-    </div>
-
+    } @else {
+      <h1>{{ endGameMessage() }}</h1>
+      <button class="game-button" (click)="handleExit()">Exit</button>
+    }
   </div>
 
   <div *ngIf="game.active" class="app-body mx-auto">
+
+    <div *ngIf="game.session?.game_state as state" class="mt-5 flex-row flex-wrap stretch-items game-info-text game-state-panel">
+
+      <span class="flex-grow mr-2">Ships remaining: {{ state.my_ships_remaining }}</span>
+
+      <span class="flex-grow mr-2">Enemy ships remaining: {{ state.ships_remaining }}</span>
+
+      <div class="flex-grow mr-2">
+        @if (state.my_hit_tile_ids.length===0) {
+          <span>No hit tiles</span>
+        } @else {
+          <span>Your hit tiles: </span>
+          <span>{{ state.my_hit_tile_ids.join(', ') }}</span>
+        }
+      </div>
+
+      <div class="flex-grow mr-2">
+        <span>Your healthy tiles: </span>
+        <span>{{ state.my_miss_tile_ids.join(', ') }}</span>
+      </div>
+
+    </div>
 
     @if (shipSelection.active && !game.doneWithSelection) {
       <div class="app-ship-selector flex-wrap mt-2">
