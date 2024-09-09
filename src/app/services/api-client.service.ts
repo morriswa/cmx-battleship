@@ -70,4 +70,10 @@ export class ApiClient {
   makeMove(currentTileSelection: string) {
     return this.request<void>('POST', `${this.endpoint}/game/active`, {'tile_id': currentTileSelection});
   }
+
+  async confirmValidSession(): Promise<boolean> {
+    return this.request<void>('GET', `${this.endpoint}/shealth`)
+      .then(()=>true)
+      .catch(()=>false);
+  }
 }

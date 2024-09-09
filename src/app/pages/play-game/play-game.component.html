@@ -4,7 +4,7 @@
   <div class="app-title">
     <h1 class="game-subtitle">{{ currentMessage() }}</h1>
     @if (game.loading) {
-      <!-- TODO add game loading animation -->
+      <!-- TODO add in-game loading animation -->
     } @else if (game.active && !game.loading) {
 
       <div class="flex-row col-gap-1">
@@ -32,6 +32,16 @@
 
   <div *ngIf="game.active" class="app-body mx-auto">
 
+    @if (shipSelection.active && !game.doneWithSelection) {
+      <div class="app-ship-selector flex-wrap mt-2">
+        @for (ship of [1,2,3,4,5].slice(0, $any(session.num_ships)); track ship) {
+          <app-game-ship [shipLength]="ship"/>
+        }
+      </div>
+    }
+
+    <app-gameboard class="app-gameboard"></app-gameboard>
+
     <div *ngIf="game.session?.game_state as state" class="mt-5 flex-row flex-wrap stretch-items game-info-text game-state-panel">
 
       <span class="flex-grow mr-2">Ships remaining: {{ state.my_ships_remaining }}</span>
@@ -53,16 +63,6 @@
       </div>
 
     </div>
-
-    @if (shipSelection.active && !game.doneWithSelection) {
-      <div class="app-ship-selector flex-wrap mt-2">
-        @for (ship of [1,2,3,4,5].slice(0, $any(session.num_ships)); track ship) {
-          <app-game-ship [shipLength]="ship"/>
-        }
-      </div>
-    }
-
-    <app-gameboard class="app-gameboard"></app-gameboard>
 
   </div>
 

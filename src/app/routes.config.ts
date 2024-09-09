@@ -1,9 +1,5 @@
 import {provideRouter, Routes} from "@angular/router";
-import {PlayGameComponent} from "./pages/play-game/play-game.component";
-import {AboutUsComponent} from "./pages/about-us/about-us.component";
-import { LandingPageComponent } from "./pages/landing-page/landing-page.component";
 import {UserSessionGuard} from "./guards/user-session.guard";
-import { LobbyComponent } from "./pages/lobby/lobby.component";
 import {EnvironmentProviders} from "@angular/core";
 import {ActiveGameGuard} from "./guards/active-game.guard";
 
@@ -11,21 +7,20 @@ import {ActiveGameGuard} from "./guards/active-game.guard";
 const routesConfig: Routes = [
   {
     path: "start",
-    component: LandingPageComponent,
+    loadComponent: ()=>import('src/app/pages/landing-page/landing-page.component')
+      .then(m=>m.LandingPageComponent)
   },
   {
     path: "lobby",
     canActivate: [UserSessionGuard],
-    component: LobbyComponent,
+    loadComponent: ()=>import('src/app/pages/lobby/lobby.component')
+      .then(m=>m.LobbyComponent)
   },
   {
     path: "play",
     canActivate: [UserSessionGuard, ActiveGameGuard],
-    component: PlayGameComponent,
-  },
-  {
-    path: "about",
-    component: AboutUsComponent,
+    loadComponent: ()=>import('src/app/pages/play-game/play-game.component')
+      .then(m=>m.PlayGameComponent)
   },
   {
     path: "",

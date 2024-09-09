@@ -1,16 +1,19 @@
 import {CanActivateFn, Router} from "@angular/router";
 import {inject} from "@angular/core";
-import {SessionAuthenticationService} from "../services/session-authentication.service";
+import {LobbyService} from "../services/lobby.service";
 
-export const UserSessionGuard: CanActivateFn = () => {
+export const UserSessionGuard: CanActivateFn = async () => {
 
-    const lobby = inject(SessionAuthenticationService);
-    const router = inject(Router);
+  const lobby = inject(LobbyService);
+  const router = inject(Router);
 
-    if (!lobby.active) {
-        router.navigate(['/'])
-        return false;
-    }
-
+  const isLoggedIn = await lobby.isLoggedIn();
+  if (isLoggedIn) {
+    await lobby.getAvailablePlayers();
     return true;
+  } else {
+    await lobby.leaveLobby();
+    await router.navigate(['/'])
+    return false;
+  }
 }

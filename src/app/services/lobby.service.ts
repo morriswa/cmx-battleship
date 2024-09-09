@@ -12,7 +12,18 @@ export class LobbyService {
 
   constructor() {
     const sessionInfoCache = localStorage.getItem("lobby-service.sessionInfo");
-    if (sessionInfoCache) this.sessionInfo.set(JSON.parse(sessionInfoCache));
+    if (sessionInfoCache) {
+      this.api.confirmValidSession()
+        .then((valid)=>{
+          if (valid) {
+            this.sessionInfo.set(JSON.parse(sessionInfoCache));
+          }
+          else {
+            this.session.end();
+            localStorage.removeItem("lobby-service.sessionInfo");
+          }
+        });
+    }
   }
 
   async gameStats(): Promise<OnlineStats> {
@@ -35,11 +46,12 @@ export class LobbyService {
   }
 
   async leaveLobby() {
-    const sessionInfo = this.sessionInfo();
-    if (!sessionInfo) return;
-    await this.api.endUserSession();
-    localStorage.removeItem("lobby-service.sessionInfo");
-    this.session.end();
+    try {
+      if (this.session.active) await this.api.endUserSession();
+    } finally {
+      localStorage.removeItem("lobby-service.sessionInfo");
+      this.session.end();
+    }
   }
 
   async getAvailablePlayers(): Promise<AvailablePlayer[] | undefined> {
@@ -57,4 +69,9 @@ export class LobbyService {
   async joinGame(game_request_id: number): Promise<void> {
     return this.api.joinGame(game_request_id)
   }
+
+  async isLoggedIn(): Promise<boolean> {
+    return this.api.confirmValidSession()
+  }
+
 }
