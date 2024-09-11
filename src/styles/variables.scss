@@ -16,8 +16,8 @@ $font-weight: 400;
 
 :root {
   // makes props available within ts after view init
-  --app-min-window-height: 700px;
-  --app-min-window-width: 600px;
+  --app-min-window-height: 2000px;
+  --app-min-window-width: 2000px;
 }
 
 $min-window-height: var(--app-min-window-height);
