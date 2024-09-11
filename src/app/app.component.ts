@@ -80,8 +80,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     if (widthPx <= 0) throw new Error('css property --app-min-window-width must be a positive integer')
     this.minWindowWidthPx = widthPx;
 
-    console.log(`${this.minWindowWidthPx}, ${this.minWindowHeightPx}`)
-
     this.refreshMobileSignal();
   }
 
