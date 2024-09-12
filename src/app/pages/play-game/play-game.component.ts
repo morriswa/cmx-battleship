@@ -24,7 +24,7 @@ import {sleep} from "../../utils";
     GameShipSpacerComponent,
     GameShipComponent,
   ],
-  standalone: true
+  standalone: true,
 })
 export class PlayGameComponent implements OnInit {
 

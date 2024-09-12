@@ -1,7 +1,7 @@
 
 @if (userSessions.sessionInfo(); as session) {
 
-  <div class="app-title">
+  <div class="app-title pixel-font">
     <h1 class="game-subtitle">{{ currentMessage() }}</h1>
     @if (game.loading) {
       <!-- TODO add in-game loading animation -->
@@ -11,14 +11,14 @@
         <button class="game-button" (click)="handleExit()">Exit</button>
 
         <button
-          class="game-button"
+          class="game-button color-primary"
           (click)="handleStartGame()"
           [disabled]="!shipSelection.readyToPlay"
         >Play</button>
 
         <button
           *ngIf="game.phase==='goodg'"
-          class="game-button"
+          class="game-button color-primary"
           (click)="handleMakeSelection()"
           [disabled]="!game.currentSelection || !game.activeTurn"
         >Hit</button>
@@ -30,7 +30,7 @@
     }
   </div>
 
-  <div *ngIf="game.active" class="app-body mx-auto">
+  <div *ngIf="game.active" class="app-body mx-auto pixel-font">
 
     @if (shipSelection.active && !game.doneWithSelection) {
       <div class="app-ship-selector flex-wrap mt-2">

@@ -1,6 +1,13 @@
 <div class="pixel-font">
 
-  <h1 style="text-align: center" class="pixel-font">Lobby</h1>
+  <h1 style="text-align: center" class="game-title">Lobby</h1>
+
+  <div class="flex-row mx-auto justify-content-center">
+    <button class="game-button" (click)="handleLogout()">Logout</button>
+    <button class="game-button">Quick Match</button>
+  </div>
+
+  <br>
 
   <div class="flex-row vw-70 mx-auto space-between-items">
 
@@ -17,7 +24,7 @@
       <div class="player-list">
         <div *ngFor="let player of availablePlayerCache(); trackBy: trackPlayerId" class="mt-2 flex-row space-between-items">
           <span>{{ player.player_name }}#{{ player.player_id }}</span>
-          <button class="game-button-2" (click)="handleCreateRequest(player.player_id)">Request</button>
+          <button class="game-button" (click)="handleCreateRequest(player.player_id)">Request</button>
         </div>
       </div>
     </div>
@@ -29,7 +36,7 @@
       <div class="player-list">
         <div *ngFor="let request of gameRequestCache(); trackBy: trackPlayerId" class="mt-2 flex-row space-between-items">
           <span>{{ request.player_name }}#{{ request.player_id }}</span>
-          <button class="game-button-2" (click)="handleJoinGame(request.game_request_id)">Accept</button>
+          <button class="game-button" (click)="handleJoinGame(request.game_request_id)">Accept</button>
         </div>
       </div>
     </div>

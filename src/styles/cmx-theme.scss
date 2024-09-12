@@ -9,25 +9,40 @@
 }
 
 .game-button {
-  padding: 10px;
-  background-color: $primary;
-  color: white;
-
+  padding: 8px 16px;
+  margin-right: 10px;
+  background-color: white;
   border: none;
-  outline: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+  font-family: $pixel-font-family;
 
-  &:disabled {
-    //background-color: darken($primary, 5%);
-    background-color: $surface-color;
-    color: grey;
+  &:hover {
+    background-color: darken(white, 10%);
+  }
+
+  &:focus {
+    outline: 2px solid darken(white, 15%);
+  }
+
+  &.color-primary {
+    &:disabled {
+      background-color: gray;
+    }
+    background-color: $primary;
   }
 }
+
 
 .game-input {
   padding: 10px;
   border: none;
   border-radius: 5px;
   margin-bottom: 10px;
+  font-family: $pixel-font-family;
+
 }
 
 .game-tile {
@@ -128,12 +143,11 @@
 
 .game-title {
   font-size: $font-size-xxl;
-  text-shadow: $game-text-shadow;
+  font-family: $pixel-font-family;
 }
 
 .game-subtitle {
   font-size: $font-size-lg;
-  text-shadow: $game-text-shadow;
 }
 
 .game-info-text {
