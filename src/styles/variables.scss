@@ -11,10 +11,20 @@ monospace;
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
 $pixel-font-family: 'Pixelify Sans', san-serif;
 
+// import bungee font
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Tint&family=Tiny5&display=swap');
+$bungee-font-family: 'Bungee Tint', san-serif;
+
+@font-face {
+    font-family: custom-font-1;
+    src: url("../assets/back-to-1982/BACKTO1982.TTF")
+}
+$custom-font-family: custom-font-1, san-serif;
+
 $bold-font-weight: 700;
 $font-weight: 400;
 
-$font-size-xxl: 100px;
+$font-size-xxl: 60px;
 $font-size-landing-page: 25px;
 $font-size-lg: 18px;
 $font-size: 14px;

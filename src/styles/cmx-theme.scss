@@ -101,10 +101,16 @@
 .pixel-font {
   font-family: $pixel-font-family;
 }
+.bungee-font {
+  font-family: $bungee-font-family;
+}
+.custom-font {
+  font-family: $custom-font-family;
+}
 
 .game-title {
   font-size: $font-size-xxl;
-  text-shadow: -5px 4px #4d5b85ff;
+  // text-shadow: -5px 4px #4d5b85ff;
 }
 
 .landing-page-text {
