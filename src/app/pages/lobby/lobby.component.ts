@@ -38,11 +38,11 @@ export class LobbyComponent implements OnInit {
       this.gameRequestCache.set(games);
 
       const gameState = await this.gameService.refreshGameSession();
-      if (gameState?.game_phase === 'select' as string) {
+      if (gameState?.game_phase === 'selct' as string) {
         this.router.navigate(['/play']);
         return;
       }
-      
+
       this.lobbyService.getAvailablePlayers().then((players: any[] | undefined) => {
         this.availablePlayerCache.set(players);
       });
