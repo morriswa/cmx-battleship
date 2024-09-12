@@ -123,6 +123,7 @@ export class PlayGameComponent implements OnInit {
       else if (!this.game.activeTurn) return "Your opponents turn!"
       else return " ";
     } else if (!this.game.doneWithSelection && this.shipSelection.active) {
+      if (this.shipSelection.error) return this.shipSelection.error;
       return `Please begin by placing your ${this.userSessions.sessionInfo()?.num_ships === '1' ? 'ship' : this.userSessions.sessionInfo()?.num_ships + ' ships'}...`
     }
         // <h3 class="error-text">{{ shipSelection.error ?? '&nbsp;' }}</h3>
