@@ -1,4 +1,172 @@
+$primary-color: #2c3e50;
+$secondary-color: #34495e;
+$accent-color: #e74c3c;
+$background-color: #ecf0f1;
+$button-color: rgb(216, 254, 255);  // Blue button color
+$button-hover-color: darken($button-color, 10%);
+$background-pink: rgb(255, 213, 214);
+$font-color-black: #000000;
 
-.player-col {
-    width: 48%;
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+
+.pixel-font {
+  font-family: 'Press Start 2P', cursive;
+  background-color: $background-color;
+  color: $primary-color;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;  // Adjust to ensure footer stays at the bottom
+  padding: 20px;
+
+
+  p {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+   
+    &:first-of-type {
+      font-size: 3rem;
+      margin-bottom: 30px;
+      color: $font-color-black;
+    }
+  }
+
+
+  button {
+    display: inline-block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: $button-color;
+    color: $font-color-black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+
+    &:hover {
+      background-color: $button-hover-color;
+    }
+
+
+    &:focus {
+      outline: 2px solid darken($button-color, 15%);
+    }
+  }
+
+
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 70vw;
+    margin: 0 auto;
+    flex-grow: 1;  // Ensure the flex-row takes up available space
+
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      width: 90vw;
+    }
+  }
+
+
+  .flex-col {
+    display: flex;
+    flex-direction: column;
+    background-color: $background-pink;
+    color: $font-color-black;
+    padding: 20px;
+    border-radius: 10px;
+    width: 45%;
+    max-height: 70vh;  // Set a max height for the columns
+    overflow-y: auto;  // Enable vertical scrolling
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+
+
+    @media (max-width: 768px) {
+      width: 100%;
+      max-height: none;  // Remove max height on small screens
+    }
+
+
+    .player-list, .request-list {
+      margin-top: 10px;
+
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+
+      &::-webkit-scrollbar-track {
+        background: lighten($secondary-color, 10%);
+        border-radius: 4px;
+      }
+
+
+      &::-webkit-scrollbar-thumb {
+        background: darken($secondary-color, 10%);
+        border-radius: 4px;
+      }
+    }
+
+
+    input {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+
+    button {
+      align-self: center;
+      padding: 8px 16px;
+      background-color: $button-color;
+      color: $font-color-black;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease;
+
+
+      &:hover {
+        background-color: darken($button-color, 10%);
+      }
+
+
+      &:focus {
+        outline: 2px solid darken($button-color, 15%);
+      }
+    }
+  }
+
+
+  .footer {
+    padding: 20px;
+    background-color: $primary-color;
+    color: white;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+
+    p {
+      margin: 0;
+      font-size: 1rem;
+    }
+  }
 }
+
