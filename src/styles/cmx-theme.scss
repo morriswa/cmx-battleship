@@ -70,7 +70,7 @@
 }
 
 .game-ship-section {
-  background-color: rgba(255, 25, 174, 0.29);
+  background-color: #8494a984;
   height: $game-tile-height + $game-tile-border-width + $game-tile-border-width;
   width: $game-tile-width + $game-tile-border-width + $game-tile-border-width;
 }
@@ -121,7 +121,6 @@
 
 .game-title {
   font-size: $font-size-xxl;
-  text-shadow: $game-text-shadow;
 }
 
 .game-subtitle {

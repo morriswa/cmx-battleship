@@ -1,0 +1,32 @@
+.pushable2 {
+    margin-left: -10px;
+    margin-top: -5px;
+    background: rgb(209, 179, 151);
+    border: none;
+    border-radius: 50%;
+    padding: 0;
+    cursor: pointer;
+  }
+  .front2 {
+    display: block;
+    padding: 1px 5px;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    background: #eac8a8ff;
+    color: white;
+    transform: translateY(-6px);
+    will-change: transform;
+    transition: transform 250ms;
+  }
+  
+  .pushable2:focus:not(:focus-visible) {
+    outline: none;
+  }
+  
+  .pushable2:hover .front {
+    transform: translateY(-6px);
+  }
+  
+  .pushable2:active .front {
+    transform: translateY(-2px);
+  }
