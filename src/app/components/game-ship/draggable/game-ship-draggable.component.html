@@ -4,7 +4,7 @@
   @for (shipSection of ['1','2','3','4','5'].slice(0, shipLength); track shipSection; let first = $first; let last = $last) {
     <div class="game-ship-section">
       @if (first && !last) {
-        <button (click)="rotate()">Rotate</button>
+        <button class="pushable2" (click)="rotate()"><span class="front2">↻</span></button>
       }
     </div>
   }
