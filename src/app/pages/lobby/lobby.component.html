@@ -1,42 +1,39 @@
-Lobby component .html
 <div class="pixel-font">
-    <p>Lobby</p>
- 
-    <button (click)="quickMatch()">Quick Match</button>
- 
-    <div class="flex-row vw-70 mx-auto align-items-center space-between-items">
- 
-      <div class="flex-col player-col">
-        <p>Online Players</p>
-       
-        <!-- Search Bar moved above the pseudo data -->
-        <p>Search for player:</p>
-        <input [formControl]="searchedPlayer" placeholder="Enter player name or ID">
- 
-        <!-- Pseudo Data Display -->
-        <div class="player-list">
-          <p *ngFor="let player of _testData; trackBy: trackPlayerId">
-            {{player.player_name}}#{{player.player_id}}
-          </p>
+  <p>Lobby</p>
+
+  <div class="flex-row vw-70 mx-auto align-items-center space-between-items">
+
+    <!-- Online Players Section -->
+    <div class="flex-col player-col">
+      <p>Online Players</p>
+
+      <p>Search for player:</p>
+      <input [formControl]="searchedPlayer" placeholder="Enter player name or ID">
+
+      <!-- Updated: Online Players List with Request Button -->
+      <div class="player-list">
+        <div *ngFor="let player of availablePlayerCache(); trackBy: trackPlayerId" class="player-item">
+          <span>{{ player.player_name }}#{{ player.player_id }}</span>
+          <button (click)="handleCreateRequest(player.player_id)">Request</button>
         </div>
- 
-        <!-- Join Button -->
-        <button (click)="onSubmit()">Join</button>
       </div>
- 
-      <div class="flex-col player-col">
-        <p>Requests</p>
-        <div class="request-list">
-          <p *ngFor="let request of _testRequestData; trackBy: trackPlayerId">
-            {{request.player_name}}#{{request.player_id}}
-          </p>
-        </div>
-      </div>  
- 
     </div>
- 
-    <!-- Footer Section -->
-    <footer class="footer">
-      <p>&copy; 2024 Battleship Game. All rights reserved.</p>
-    </footer>
+
+    <!-- Requests Section -->
+    <div class="flex-col player-col">
+      <p>Requests</p>
+      <div class="request-list">
+        <div *ngFor="let request of gameRequestCache(); trackBy: trackPlayerId" class="request-item">
+          <span>{{ request.player_name }}#{{ request.player_id }}</span>
+          <button (click)="handleJoinGame(request.game_request_id)">Accept</button>
+        </div>
+      </div>
+    </div>
+
   </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2024 Battleship Game. All rights reserved.</p>
+  </footer>
+</div>
