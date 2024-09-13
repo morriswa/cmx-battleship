@@ -37,10 +37,10 @@ $min-window-height: var(--app-min-window-height);
 $min-window-width: var(--app-min-window-width);
 
 $font-size-xxl: 60px;
-$font-size-xl: 64px;
+$font-size-xl: 55px;
 $font-size-lg: 32px;
 $font-size-subtitle: 24px;
-$font-size-landing-page: 25px;
+$font-size-landing-page: 15px;
 $font-size-med: 18px;
 $font-size: 14px;
 $font-size-small: 8px;
@@ -51,14 +51,14 @@ $secondary: #2f2f2f;
 $clear: rgba(0,0,0,0);
 $body-background-color: #A8BDD8;
 
-$surface-color: rgb(255, 211, 218);
+$surface-color: #eac8a8ff;
 $error-color: #ff3636;
 
 // game tile & header variables
-$game-tile-width: 40px;
-$game-tile-height: 40px;
+$game-tile-width: 65px;
+$game-tile-height: 65px;
 $game-tile-border-width: 1px;
-$game-tile-background-color: $surface-color;
+$game-tile-background-color: white;
 
 // game tile variables
 $game-tile-font-size: $font-size-med;

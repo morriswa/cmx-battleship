@@ -1,7 +1,7 @@
 import {Component, inject, OnInit, signal, WritableSignal} from "@angular/core";
 import {GameboardComponent} from "../../components/gameboard/gameboard.component";
 import {LobbyService} from "../../services/lobby.service";
-import {DecimalPipe, NgIf, NgStyle, NgTemplateOutlet} from "@angular/common";
+import {DecimalPipe, NgIf, NgOptimizedImage, NgStyle, NgTemplateOutlet} from "@angular/common";
 import {Router} from "@angular/router";
 import {ShipDragAndDropService} from "../../services/ship-drag-and-drop.service";
 import {GameShipSpacerComponent} from "../../components/game-ship/spacer/game-ship-spacer.component";
@@ -23,6 +23,7 @@ import {sleep} from "../../utils";
     NgTemplateOutlet,
     GameShipSpacerComponent,
     GameShipComponent,
+    NgOptimizedImage
   ],
   standalone: true,
 })

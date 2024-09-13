@@ -6,7 +6,7 @@ import {
 } from "../../components/radio-button-group/radio-button-group.component";
 import {LobbyService} from "../../services/lobby.service";
 import {Router} from "@angular/router";
-import {AsyncPipe, NgIf, NgOptimizedImage} from "@angular/common";
+import {AsyncPipe, NgClass, NgIf, NgOptimizedImage} from "@angular/common";
 import {OnlineStats} from "../../types/lobby.types";
 
 @Component({
@@ -14,7 +14,7 @@ import {OnlineStats} from "../../types/lobby.types";
     standalone: true,
     templateUrl: "./landing-page.component.html",
     styleUrl: "./landing-page.component.scss",
-  imports: [ReactiveFormsModule, RadioButtonGroupComponent, NgIf, AsyncPipe, NgOptimizedImage]
+  imports: [ReactiveFormsModule, RadioButtonGroupComponent, NgIf, NgClass, AsyncPipe, NgOptimizedImage]
 })
 export class LandingPageComponent implements OnInit{
     // services

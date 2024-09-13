@@ -43,25 +43,41 @@
 
 // button //
 
-.pushable {
+.big-red-game-button {
   margin-left: 750px;
   background: rgb(211, 169, 129);
   border: none;
   border-radius: 50%;
   padding: 0;
   cursor: pointer;
+  border: solid 3.5px black;
+
+  .big-red-game-button-pushable {
+    display: block;
+    padding: 20px 10px;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    background: #e3b489ff;
+    color: white;
+    transform: translateY(-6px);
+    border: solid 3.5px black;
+
+    &.disabled {
+      background-color: #e3b489ff;
+      //transform: translateY(0px);
+    }
+
+    &.ready {
+      &:active {
+        transform: translateY(0px);
+        transition: transform 250ms;
+      }
+    }
+  }
+
+ 
 }
-.front {
-  display: block;
-  padding: 20px 10px;
-  border-radius: 50%;
-  font-size: 1.25rem;
-  background: #e3b489ff;
-  color: white;
-  transform: translateY(-6px);
-  will-change: transform;
-  transition: transform 250ms;
-}
+
 
 .pushable:focus:not(:focus-visible) {
   outline: none;
@@ -75,3 +91,20 @@
   transform: translateY(-2px);
 }
 
+.first-spacer {
+  margin-top: 250px;
+}
+
+.second-spacer {
+  margin-top: 280px;
+}
+
+.third-spacer {
+  margin-top: 5px;
+}
+.fourth-spacer {
+  margin-top: 25px;
+}
+.fifth-spacer {
+  margin-top: -40px;
+}
