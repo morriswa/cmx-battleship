@@ -63,6 +63,9 @@ $height-thresh-1: 850px;
   z-index: -1;
   position: fixed;
 
+  @media (min-height: $height-thresh-1) and (max-width: $width-thresh-1) {
+    margin-top: 20vh;
+  }
   @media (min-width: $width-thresh-1) and (min-height: $height-thresh-1) {
     margin-left: 35px;
     height: 975px;
