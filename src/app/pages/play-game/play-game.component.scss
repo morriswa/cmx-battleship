@@ -32,34 +32,3 @@
   border-radius: 5%;
 }
 
-.bground-image {
-  top: 0;
-  position: fixed;
-  background-repeat: no-repeat;
-  object-fit: fill;
-  z-index: -1;
-  width: 100vw;
-  height: 100vh;
-}
-
-.right-cloud {
-  top: 0;
-  position: fixed;
-  background-repeat: no-repeat;
-  object-fit: fill;
-  z-index: -1;
-  width: 40vw;
-  height: auto;
-  margin-left: 1200px;
-  margin-top: 400px;
-}
-.left-cloud {
-  top: 0;
-  position: fixed;
-  background-repeat: no-repeat;
-  object-fit: fill;
-  z-index: -1;
-  width: 30vw;
-  height: auto;
-  margin-top: 200px;
-}

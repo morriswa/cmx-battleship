@@ -1,5 +1,18 @@
-<img class="bground-image" alt="clouds over ocean" ngSrc="assets/Ocean_8/1.png" height="324" width="576">
-<img class="bground-image" alt="clouds over ocean" ngSrc="assets/Ocean_8/2.png" height="324" width="576">
-<img class="bground-image-moving" alt="animated clouds over ocean" ngSrc="assets/Ocean_8/3.png" height="324" width="576">
-<img class="bground-image-moving-2" alt="animated clouds over ocean" ngSrc="assets/Ocean_8/4.png" height="324" width="576">
-<img class="bground-image" alt="clouds over ocean" ngSrc="assets/Ocean_8/5.png" height="324" width="576">
+
+<div style="position: fixed; z-index: -10">
+
+  <img class="render-fixed bground-image" alt="clouds over ocean" ngSrc="assets/Ocean_8/1.png" height="324" width="576" priority>
+
+  @switch (displayMode) {
+    @case ('cloudy') {
+      <img class="render-fixed bground-image-moving" alt="animated clouds over ocean" ngSrc="assets/Ocean_8/3.png" height="324" width="576">
+      <img class="render-fixed bground-image-moving-2" alt="animated clouds over ocean" ngSrc="assets/Ocean_8/4.png" height="324" width="576">
+      <img class="render-fixed bground-image" alt="clouds over ocean" ngSrc="assets/Ocean_8/5.png" height="324" width="576">
+    }
+    @default {
+      <img class="render-fixed right-cloud" alt="clouds over ocean" ngSrc="assets/image1.png" height="162" width="244">
+      <img class="render-fixed left-cloud" alt="clouds over ocean" ngSrc="assets/left.png" height="166" width="250">
+    }
+  }
+
+</div>

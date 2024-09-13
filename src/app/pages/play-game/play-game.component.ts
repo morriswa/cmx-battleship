@@ -9,6 +9,7 @@ import {GameShipDraggableComponent} from "../../components/game-ship/draggable/g
 import {GameShipComponent} from "../../components/game-ship/game-ship.component";
 import {ActiveGameService} from "../../services/active-game.service";
 import {sleep} from "../../utils";
+import {CloudBackgroundComponent} from "../../components/cloud-background/cloud-background.component";
 
 @Component({
   selector: "app-play-game",
@@ -23,7 +24,8 @@ import {sleep} from "../../utils";
     NgTemplateOutlet,
     GameShipSpacerComponent,
     GameShipComponent,
-    NgOptimizedImage
+    NgOptimizedImage,
+    CloudBackgroundComponent
   ],
   standalone: true,
 })
@@ -124,7 +126,6 @@ export class PlayGameComponent implements OnInit {
       else if (!this.game.activeTurn) return "Your opponents turn!"
       else return " ";
     } else if (!this.game.doneWithSelection && this.shipSelection.active) {
-      if (this.shipSelection.error) return this.shipSelection.error;
       return `Please begin by placing your ${this.userSessions.sessionInfo()?.num_ships === '1' ? 'ship' : this.userSessions.sessionInfo()?.num_ships + ' ships'}...`
     }
         // <h3 class="error-text">{{ shipSelection.error ?? '&nbsp;' }}</h3>

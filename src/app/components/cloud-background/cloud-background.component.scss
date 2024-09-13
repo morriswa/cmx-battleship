@@ -1,7 +1,5 @@
 
 .bground-image-moving {
-  position: fixed;
-  z-index: -2;
   background-repeat: no-repeat;
   object-fit: cover;
   width: 110vw;
@@ -10,8 +8,6 @@
 }
 
 .bground-image-moving-2 {
-  position: fixed;
-  z-index: -2;
   background-repeat: no-repeat;
   object-fit: cover;
   width: 110vw;
@@ -20,12 +16,26 @@
 }
 
 .bground-image {
-  position: fixed;
   background-repeat: no-repeat;
   object-fit: cover;
-  z-index: -3;
+  z-index: -11;
   width: 100vw;
   height: 100vh;
+}
+
+.right-cloud {
+  background-repeat: no-repeat;
+  object-fit: cover;
+  width: 40vw;
+  margin-left: 1200px;
+  margin-top: 400px;
+}
+
+.left-cloud {
+  background-repeat: no-repeat;
+  object-fit: cover;
+  width: 30vw;
+  margin-top: 200px;
 }
 
 @keyframes CloudAnimation {

@@ -5,13 +5,14 @@ import { sleep } from "src/app/utils";
 import { Router } from "@angular/router";
 import { ActiveGameService } from "../../services/active-game.service";
 import { CommonModule } from "@angular/common";
+import {CloudBackgroundComponent} from "../../components/cloud-background/cloud-background.component";
 
 @Component({
   selector: "app-lobby",
   standalone: true,
   templateUrl: "./lobby.component.html",
   styleUrls: ["./lobby.component.scss"],
-  imports: [ReactiveFormsModule, CommonModule]
+    imports: [ReactiveFormsModule, CommonModule, CloudBackgroundComponent]
 })
 
 export class LobbyComponent implements OnInit {
