@@ -1,66 +1,114 @@
+@use "src/styles/variables" as *;
+
+
+
+.game-title {
+  @media (min-width: 1100px) {
+    margin-top: 280px;
+    font-size: $font-size-xl;
+  }
+  @media ((max-width: 1100px) and (min-width: 700px))  {
+    margin-top: 265px;
+    font-size: $font-size-lg;
+  }
+}
+
+.second-spacer {
+  @media (min-width: 1100px) {
+    margin-top: 280px;
+  }
+  @media ((max-width: 1100px) and (min-width: 700px))  {
+    margin-top: 170px;
+  }
+}
+
+.third-spacer {
+  margin-top: 5px;
+}
+
+.ship-form-buttons {
+  @media (min-width: 1100px) {
+    font-size: $font-size-med;
+  }
+  @media ((max-width: 1100px) and (min-width: 700px))  {
+    font-size: $font-size-sm;
+
+    .radio-button-label {
+      margin-left: 0; // space from button to number label
+    }
+  }
+}
+
+.fourth-spacer {
+  @media (min-width: 1100px) {
+    margin-top: 25px;
+  }
+  @media (max-width: 1100px) and (min-width: 700px) {
+    margin-top: 20px;
+  }
+}
+
+.fifth-spacer {
+  margin-top: -40px;
+}
+
 .landing-page-image {
-    width: 1300px;
+  z-index: -1;
+  position: fixed;
+
+  @media (min-width: 1100px) {
+    margin-left: 35px;
+
     height: 975px;
-    z-index: -1;
-    position: fixed;
-    margin-top: -20px;
-    margin-left: 50px;
+  }
+  @media (max-width: 1100px) and (min-width: 700px) {
+    margin-top: 100px;
+    margin-left: 20px;
+
+    height: 600px;
+  }
 }
 
-.bground-image-moving {
-  position: fixed;
-  z-index: -2;
-  background-repeat: no-repeat;
-  object-fit: fill;
-  width: 110vw;
-  height: 100vh;
-  animation: TrialAnimation 20s infinite;
-}
-.bground-image-moving2 {
-  position: fixed;
-  z-index: -2;
-  background-repeat: no-repeat;
-  object-fit: fill;
-  width: 110vw;
-  height: 100vh;
-  animation: TrialAnimation 25s infinite;
+.landing-page-text {
+  @media (min-width: 1100px) {
+    font-size: $font-size-med;
+  }
+  @media (max-width: 1100px) and (min-width: 700px) {
+    font-size: $font-size-sm;
+  }
 }
 
-.bground-image {
-  position: fixed;
-  background-repeat: no-repeat;
-  object-fit: fill;
-  z-index: -3;
-  width: 100vw;
-  height: 100vh;
-}
 
-@keyframes TrialAnimation{
-  0% {right: -4vw}
-  50% {right: -6vw}
-  100% {right: -4vw}
-}
 
 // button //
 
 .big-red-game-button {
-  margin-left: 750px;
+  @media (min-width: 1100px) {
+    margin-left: 725px;
+    margin-top: 650px;
+    font-size: $font-size-med;
+  }
+  @media (max-width: 1100px) and (min-width: 700px) {
+    margin-left: 445px;
+    margin-top: 500px;
+    font-size: $font-size-sm;
+  }
+
   background: rgb(211, 169, 129);
-  border: none;
   border-radius: 50%;
   padding: 0;
   cursor: pointer;
-  border: solid 3.5px black;
+  border: solid 2px black;
+  position: fixed;
 
   .big-red-game-button-pushable {
     display: block;
     padding: 20px 10px;
     border-radius: 50%;
-    font-size: 1.25rem;
     background: #e3b489ff;
     color: white;
     transform: translateY(-6px);
-    border: solid 3.5px black;
+    border: solid 2px black;
 
     &.disabled {
       background-color: #e3b489ff;
@@ -74,37 +122,4 @@
       }
     }
   }
-
- 
-}
-
-
-.pushable:focus:not(:focus-visible) {
-  outline: none;
-}
-
-.pushable:hover .front {
-  transform: translateY(-6px);
-}
-
-.pushable:active .front {
-  transform: translateY(-2px);
-}
-
-.first-spacer {
-  margin-top: 250px;
-}
-
-.second-spacer {
-  margin-top: 280px;
-}
-
-.third-spacer {
-  margin-top: 5px;
-}
-.fourth-spacer {
-  margin-top: 25px;
-}
-.fifth-spacer {
-  margin-top: -40px;
 }

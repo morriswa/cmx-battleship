@@ -8,13 +8,14 @@ import {LobbyService} from "../../services/lobby.service";
 import {Router} from "@angular/router";
 import {AsyncPipe, NgClass, NgIf, NgOptimizedImage} from "@angular/common";
 import {OnlineStats} from "../../types/lobby.types";
+import {CloudBackgroundComponent} from "../../components/cloud-background/cloud-background.component";
 
 @Component({
     selector: "app-landing-page",
     standalone: true,
     templateUrl: "./landing-page.component.html",
     styleUrl: "./landing-page.component.scss",
-  imports: [ReactiveFormsModule, RadioButtonGroupComponent, NgIf, NgClass, AsyncPipe, NgOptimizedImage]
+  imports: [ReactiveFormsModule, RadioButtonGroupComponent, NgIf, NgClass, AsyncPipe, NgOptimizedImage, CloudBackgroundComponent]
 })
 export class LandingPageComponent implements OnInit{
     // services
