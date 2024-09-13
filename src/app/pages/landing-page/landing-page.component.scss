@@ -1,23 +1,30 @@
 @use "src/styles/variables" as *;
 
+$width-thresh-1: 1100px;
+$height-thresh-1: 850px;
 
+.first-spacer {
+  @media (min-height: $height-thresh-1) and (max-width: $width-thresh-1) {
+    margin-top: 20vh;
+  }
+}
 
 .game-title {
-  @media (min-width: 1100px) {
+  @media (min-width: $width-thresh-1) and (min-height: $height-thresh-1) {
     margin-top: 280px;
     font-size: $font-size-xl;
   }
-  @media ((max-width: 1100px) and (min-width: 700px))  {
-    margin-top: 265px;
+  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1)  {
+    margin-top: 170px;
     font-size: $font-size-lg;
   }
 }
 
 .second-spacer {
-  @media (min-width: 1100px) {
+  @media (min-width: $width-thresh-1) and (min-height: $height-thresh-1) {
     margin-top: 280px;
   }
-  @media ((max-width: 1100px) and (min-width: 700px))  {
+  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1)  {
     margin-top: 170px;
   }
 }
@@ -27,10 +34,10 @@
 }
 
 .ship-form-buttons {
-  @media (min-width: 1100px) {
+  @media (min-width: $width-thresh-1) and (min-height: $height-thresh-1) {
     font-size: $font-size-med;
   }
-  @media ((max-width: 1100px) and (min-width: 700px))  {
+  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1)  {
     font-size: $font-size-sm;
 
     .radio-button-label {
@@ -40,10 +47,10 @@
 }
 
 .fourth-spacer {
-  @media (min-width: 1100px) {
+  @media (min-width: $width-thresh-1) and (min-height: $height-thresh-1) {
     margin-top: 25px;
   }
-  @media (max-width: 1100px) and (min-width: 700px) {
+  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1)  {
     margin-top: 20px;
   }
 }
@@ -56,24 +63,21 @@
   z-index: -1;
   position: fixed;
 
-  @media (min-width: 1100px) {
+  @media (min-width: $width-thresh-1) and (min-height: $height-thresh-1) {
     margin-left: 35px;
-
     height: 975px;
   }
-  @media (max-width: 1100px) and (min-width: 700px) {
-    margin-top: 100px;
-    margin-left: 20px;
-
+  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1)  {
+    margin-left: 35px;
     height: 600px;
   }
 }
 
 .landing-page-text {
-  @media (min-width: 1100px) {
+  @media (min-width: $width-thresh-1) and (min-height: $height-thresh-1) {
     font-size: $font-size-med;
   }
-  @media (max-width: 1100px) and (min-width: 700px) {
+  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1)  {
     font-size: $font-size-sm;
   }
 }
@@ -83,16 +87,27 @@
 // button //
 
 .big-red-game-button {
-  @media (min-width: 1100px) {
+  @media (min-width: $width-thresh-1) and (min-height: $height-thresh-1) {
     margin-left: 725px;
-    margin-top: 650px;
     font-size: $font-size-med;
+
+    margin-top: 700px;
+
   }
-  @media (max-width: 1100px) and (min-width: 700px) {
-    margin-left: 445px;
-    margin-top: 500px;
+  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1)  {
+    margin-left: 465px;
     font-size: $font-size-sm;
+
+    margin-top: 600px;
+    @media (max-height: $height-thresh-1) or (min-width: $width-thresh-1) {
+      margin-top: 400px;
+    }
+    @media (min-height: $height-thresh-1) and (max-width: $width-thresh-1) {
+      margin-top: 600px;
+    }
   }
+
+
 
   background: rgb(211, 169, 129);
   border-radius: 50%;

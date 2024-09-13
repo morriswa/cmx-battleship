@@ -3,8 +3,9 @@
 
 <div class="pixel-font flex-col vw-90 mx-auto align-items-center">
     <!-- flex-col: creates a flex box in column direction  vw-90: content is width of 90% of the screen  mx-auto: make box centered   justify-content-center/align-items-center: center the content inside the flex box in x and y direction -->
-    <img class="landing-page-image" alt="game console with login settings" ngSrc="assets/twevth-iteration.svg" height="2903" width="3870" priority>
+    <img class="landing-page-image first-spacer" alt="game console with login settings" ngSrc="assets/twevth-iteration.svg" height="2903" width="3870" priority>
 
+    <div class="first-spacer"></div>
     <p class="pixel-font game-title">BATTLESHIP</p>
     <!-- game-title class is created in cmx-theme.scss and the size is in variables.scss -->
 
@@ -33,7 +34,6 @@
     <br>
 
 
-    <div class="fifth-spacer"></div>
     <div class="mt-1 pixel-font landing-page-text big-red-game-button" >
         <div (click)="onSubmit()" [ngClass]="{'disabled':!playerNameForm.valid||!shipForm.valid, 'ready': !(!playerNameForm.valid||!shipForm.valid)}" class="big-red-game-button-pushable">
             submit
