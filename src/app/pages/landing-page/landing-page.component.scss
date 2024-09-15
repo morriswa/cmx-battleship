@@ -1,107 +1,115 @@
+// Importing variables for consistent styling across the application
 @use "src/styles/variables" as *;
 
+// Thresholds for responsive design based on width and height
 $width-thresh-1: 1100px;
 $height-thresh-1: 850px;
 
+// Spacer class for managing vertical spacing in responsive layouts
 .first-spacer {
   @media (min-height: $height-thresh-1) and (max-width: $width-thresh-1) {
-    margin-top: 20vh;
+    margin-top: 20vh;  // Add vertical spacing based on viewport size
   }
 }
 
+// Game title styling for responsive layout, adjusting margin and font size
 .game-title {
   @media (min-width: $width-thresh-1) and (min-height: $height-thresh-1) {
-    margin-top: 280px;
-    font-size: $font-size-xl;
+    margin-top: 280px;   // More margin when screen size is larger
+    font-size: $font-size-xl; // Larger font size for larger screens
   }
-  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1)  {
-    margin-top: 170px;
-    font-size: $font-size-lg;
+  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1) {
+    margin-top: 170px;   // Smaller margin for smaller screens
+    font-size: $font-size-lg; // Smaller font size for smaller screens
   }
 }
 
+// Additional spacer classes to adjust margins responsively
 .second-spacer {
   @media (min-width: $width-thresh-1) and (min-height: $height-thresh-1) {
     margin-top: 280px;
   }
-  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1)  {
+  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1) {
     margin-top: 170px;
   }
 }
 
+// Minimal margin adjustment for smaller spacers
 .third-spacer {
   margin-top: 5px;
 }
 
+// Styling for ship form buttons, with font-size adjustments for responsiveness
 .ship-form-buttons {
   @media (min-width: $width-thresh-1) and (min-height: $height-thresh-1) {
-    font-size: $font-size-med;
+    font-size: $font-size-med;  // Medium font size for larger screens
   }
-  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1)  {
-    font-size: $font-size-sm;
+  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1) {
+    font-size: $font-size-sm;  // Smaller font size for smaller screens
 
+    // Adjust spacing between radio buttons and labels
     .radio-button-label {
-      margin-left: 0; // space from button to number label
+      margin-left: 0;
     }
   }
 }
 
+// Further spacers for adjusting spacing based on screen size
 .fourth-spacer {
   @media (min-width: $width-thresh-1) and (min-height: $height-thresh-1) {
     margin-top: 25px;
   }
-  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1)  {
+  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1) {
     margin-top: 20px;
   }
 }
 
+// Negative margin for fifth spacer to reduce space
 .fifth-spacer {
   margin-top: -40px;
 }
 
+// Styling for the landing page image, making it responsive and positioning it fixed
 .landing-page-image {
   z-index: -1;
   position: fixed;
 
   @media (min-height: $height-thresh-1) and (max-width: $width-thresh-1) {
-    margin-top: 20vh;
+    margin-top: 20vh;  // Margin for certain screen heights
   }
   @media (min-width: $width-thresh-1) and (min-height: $height-thresh-1) {
     margin-left: 35px;
-    height: 975px;
+    height: 975px;  // Larger height for bigger screens
   }
-  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1)  {
+  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1) {
     margin-left: 35px;
-    height: 600px;
+    height: 600px;  // Smaller height for smaller screens
   }
 }
 
+// Responsive styling for landing page text
 .landing-page-text {
   @media (min-width: $width-thresh-1) and (min-height: $height-thresh-1) {
     font-size: $font-size-med;
   }
-  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1)  {
+  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1) {
     font-size: $font-size-sm;
   }
 }
 
-
-
-// button //
-
+// Styling for the big red game button, with responsive adjustments
 .big-red-game-button {
   @media (min-width: $width-thresh-1) and (min-height: $height-thresh-1) {
-    margin-left: 725px;
+    margin-left: 725px;  // Positioning the button on larger screens
     font-size: $font-size-med;
-
     margin-top: 700px;
-
   }
-  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1)  {
-    margin-left: 465px;
+  @media (max-width: $width-thresh-1) or (max-height: $height-thresh-1) {
+    margin-left: 465px;  // Adjusting for smaller screens
     font-size: $font-size-sm;
-
     margin-top: 600px;
+
+    // Additional media queries for specific height and width
     @media (max-height: $height-thresh-1) or (min-width: $width-thresh-1) {
       margin-top: 400px;
     }
@@ -110,8 +118,7 @@ $height-thresh-1: 850px;
     }
   }
 
-
-
+  // Button appearance and behavior
   background: rgb(211, 169, 129);
   border-radius: 50%;
   padding: 0;
@@ -119,6 +126,7 @@ $height-thresh-1: 850px;
   border: solid 2px black;
   position: fixed;
 
+  // Inner part of the button
   .big-red-game-button-pushable {
     display: block;
     padding: 20px 10px;
@@ -128,15 +136,16 @@ $height-thresh-1: 850px;
     transform: translateY(-6px);
     border: solid 2px black;
 
+    // Disabled state styling
     &.disabled {
       background-color: #e3b489ff;
-      //transform: translateY(0px);
     }
 
+    // Ready state behavior when active
     &.ready {
       &:active {
         transform: translateY(0px);
-        transition: transform 250ms;
+        transition: transform 250ms;  // Smooth button press animation
       }
     }
   }

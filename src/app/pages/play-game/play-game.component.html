@@ -1,22 +1,33 @@
-<app-cloud-background displayMode="partly_cloudy"/>
+<!-- Cloud background component for visual effect -->
+<app-cloud-background displayMode="partly_cloudy"></app-cloud-background>
 
+<!-- Check if the user session information is available -->
 @if (userSessions.sessionInfo(); as session) {
 
+  <!-- Main title section for the game interface -->
   <div class="app-title pixel-font">
+    <!-- Display the current game message -->
     <h1 class="game-subtitle">{{ currentMessage() }}</h1>
+
+    <!-- Display loading animation if the game is in the loading state -->
     @if (game.loading) {
       <!-- TODO add in-game loading animation -->
-    } @else if (game.active && !game.loading) {
+    } 
+    <!-- When the game is active and not loading, display game controls -->
+    @else if (game.active && !game.loading) {
 
       <div class="flex-row col-gap-1">
+        <!-- Exit button to leave the game -->
         <button class="game-button" (click)="handleExit()">Exit</button>
 
+        <!-- Start the game button, disabled until the ship selection is ready -->
         <button
           class="game-button color-primary"
           (click)="handleStartGame()"
           [disabled]="!shipSelection.readyToPlay"
         >Play</button>
 
+        <!-- Hit button, available only during the specific phase ('goodg') of the game -->
         <button
           *ngIf="game.phase==='goodg'"
           class="game-button color-primary"
@@ -25,32 +36,42 @@
         >Hit</button>
       </div>
 
+    <!-- If the game is over, display an end-game message -->
     } @else {
       <h1>{{ endGameMessage() }}</h1>
+      <!-- Exit button to leave the game -->
       <button class="game-button" (click)="handleExit()">Exit</button>
     }
   </div>
 
-  <br>
+  <br> <!-- Line break for spacing -->
 
+  <!-- Game interface, shown if the game is active -->
   <div *ngIf="game.active" class="app-body mx-auto pixel-font">
 
+    <!-- Ship selection phase: display ship selector if ship selection is active and not done -->
     @if (shipSelection.active && !game.doneWithSelection) {
       <div class="app-ship-selector flex-wrap mt-2">
+        <!-- Display a game ship component for each ship the player can place -->
         @for (ship of [1,2,3,4,5].slice(0, $any(session.num_ships)); track ship) {
           <app-game-ship [shipLength]="ship"/>
         }
       </div>
     }
 
+    <!-- The game board component where the game is played -->
     <app-gameboard class="app-gameboard"></app-gameboard>
 
+    <!-- Game state panel to display current game statistics -->
     <div *ngIf="game.session?.game_state as state" class="mt-5 flex-row flex-wrap stretch-items game-info-text game-state-panel">
 
+      <!-- Display the number of the player's ships remaining -->
       <span class="flex-grow mr-2">Ships remaining: {{ state.my_ships_remaining }}</span>
 
+      <!-- Display the number of enemy ships remaining -->
       <span class="flex-grow mr-2">Enemy ships remaining: {{ state.ships_remaining }}</span>
 
+      <!-- Show the tiles where the player has hit enemy ships -->
       <div class="flex-grow mr-2">
         @if (state.my_hit_tile_ids.length===0) {
           <span>No hit tiles</span>
@@ -60,6 +81,7 @@
         }
       </div>
 
+      <!-- Show the tiles where the player's ships have missed -->
       <div class="flex-grow mr-2">
         <span>Your healthy tiles: </span>
         <span>{{ state.my_miss_tile_ids.join(', ') }}</span>
