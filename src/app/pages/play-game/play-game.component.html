@@ -1,5 +1,5 @@
 <!-- Cloud background component for visual effect -->
-<app-cloud-background displayMode="partly_cloudy"></app-cloud-background>
+<app-cloud-background displayMode="partly_cloudy"/>
 
 <!-- Check if the user session information is available -->
 @if (userSessions.sessionInfo(); as session) {
@@ -9,13 +9,8 @@
     <!-- Display the current game message -->
     <h1 class="game-subtitle">{{ currentMessage() }}</h1>
 
-    <!-- Display loading animation if the game is in the loading state -->
-    @if (game.loading) {
-      <!-- TODO add in-game loading animation -->
-    } 
     <!-- When the game is active and not loading, display game controls -->
-    @else if (game.active && !game.loading) {
-
+    @if (game.active && !game.loading) {
       <div class="flex-row col-gap-1">
         <!-- Exit button to leave the game -->
         <button class="game-button" (click)="handleExit()">Exit</button>
@@ -63,16 +58,16 @@
     <app-gameboard class="app-gameboard"></app-gameboard>
 
     <!-- Game state panel to display current game statistics -->
-    <div *ngIf="game.session?.game_state as state" class="mt-5 flex-row flex-wrap stretch-items game-info-text game-state-panel">
+    <div *ngIf="game.session?.game_state as state" class="game-state-panel">
 
       <!-- Display the number of the player's ships remaining -->
-      <span class="flex-grow mr-2">Ships remaining: {{ state.my_ships_remaining }}</span>
+      <span>Ships remaining: {{ state.my_ships_remaining }}</span>
 
       <!-- Display the number of enemy ships remaining -->
-      <span class="flex-grow mr-2">Enemy ships remaining: {{ state.ships_remaining }}</span>
+      <span>Enemy ships remaining: {{ state.ships_remaining }}</span>
 
       <!-- Show the tiles where the player has hit enemy ships -->
-      <div class="flex-grow mr-2">
+      <div>
         @if (state.my_hit_tile_ids.length===0) {
           <span>No hit tiles</span>
         } @else {
@@ -82,7 +77,7 @@
       </div>
 
       <!-- Show the tiles where the player's ships have missed -->
-      <div class="flex-grow mr-2">
+      <div>
         <span>Your healthy tiles: </span>
         <span>{{ state.my_miss_tile_ids.join(', ') }}</span>
       </div>

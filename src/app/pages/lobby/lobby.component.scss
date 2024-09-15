@@ -2,11 +2,13 @@
 
 // Styling for the player column section, applied to both the online players and requests columns
 .player-col {
+  display: flex;
+  flex-direction: column;
   background-color: $surface-color; // Sets the background color of the player section using a variable for flexibility
   padding: 20px; // Adds padding around the content inside the player columns
-  border-radius: 10px; // Rounds the corners of the player column to give it a modern look
+  border-radius: 10px; // Rounds the corners of the player column
   width: 100%; // Ensures the player column takes up the full width of its container
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Adds a subtle shadow for depth, with slight transparency for a soft effect
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Adds a subtle shadow for depth
 }
 
 // Styling for the footer section at the bottom of the page

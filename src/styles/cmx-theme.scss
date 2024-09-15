@@ -1,19 +1,15 @@
 @use "variables" as *;
+@use "tools" as *;
 
-.error-text {
-  color: $error-color;
-}
-
-.bold-text {
-  font-weight: $bold-font-weight;
-}
+$form-padding: 8px 16px;
 
 .game-button {
-  padding: 8px 16px;
+  padding: $form-padding;
   background-color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  user-select: none;
   font-size: 0.9rem;
   transition: background-color 0.3s ease;
   font-family: $pixel-font-family;
@@ -34,14 +30,18 @@
   }
 }
 
-
 .game-input {
-  padding: 10px;
-  border: none;
+  padding: $form-padding;
+  border: solid 2px $accent-color;
   border-radius: 5px;
   margin-bottom: 10px;
   font-family: $pixel-font-family;
 
+  outline: none;
+
+  &:focus {
+    border: solid 2px $primary;
+  }
 }
 
 .game-tile {
@@ -73,7 +73,6 @@
   background-color: blue;
 }
 
-
 .game-ship {
   cursor: grab;
   user-select: none;
@@ -100,56 +99,45 @@
   font-size: $game-tile-font-size;
 }
 
-.game-tile-your-ship {
-  background-color: orange;
-}
-
-.game-tile-your-ship-sank {
-  color: white;
-  background-color: #000000;
-}
-
 .game-tile-targeted {
-  background-color: #af0707;
+  background-color: $primary;
 }
 
 .game-tile-struck-enemy-ship {
   color: white;
-  background-color: #050559
+  background-color: $secondary;
 }
 
 .game-tile-missed-enemy-ship {
-  background-color: #8f8f8f
+  background-color: $neutral-color;
 }
 
 .game-ship-error {
   background-color: rgba(234, 16, 16, 0.35);
 }
 
-.game-tile-error {
-  background-color: $error-color;
-}
-
 .pixel-font {
   font-family: $pixel-font-family;
 }
-.bungee-font {
-  font-family: $bungee-font-family;
-}
-.custom-font {
-  font-family: $custom-font-family;
-}
-
-
 
 .game-subtitle {
   font-size: $font-size-lg;
 }
 
-.game-info-text {
+/* Styling for the game state panel, responsive to screen size */
+.game-state-panel {
+  @extend .mt-5, .flex-row, .flex-wrap, .stretch-items;
   font-size: $font-size-med;
   font-weight: $bold-font-weight;
   overflow-wrap: normal;
+
+  @media (min-width: 900px) { // Media query for screens wider than 900px
+    max-width: 20%; // Limit the width to 20% of the screen on larger displays
+  }
+
+  span {
+    @extend .flex-grow, .mr-2;
+  }
 }
 
 .landing-page-text {

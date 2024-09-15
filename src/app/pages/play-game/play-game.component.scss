@@ -22,13 +22,6 @@
   max-width: 500px; // Limit the width of the ship selector to 500px to maintain layout consistency
 }
 
-/* Styling for the game state panel, responsive to screen size */
-.game-state-panel {
-  @media (min-width: 900px) { // Media query for screens wider than 900px
-    max-width: 20%; // Limit the width to 20% of the screen on larger displays
-  }
-}
-
 /* Styling for the game board area */
 .app-gameboard {
   background-color: $surface-color; // Use a global surface color variable for consistency

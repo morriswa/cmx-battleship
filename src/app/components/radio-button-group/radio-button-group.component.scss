@@ -15,11 +15,11 @@
 .radio-button {
 
   padding: 10px;
-  border: solid 2px #A8BDD8;
+  border: solid 2px $accent-color;
   border-radius: 50%;
 
   &.activated-radio-button {
-    background-color: #92a4bc;
+    background-color: $accent-color;
   }
 }
 

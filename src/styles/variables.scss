@@ -1,40 +1,27 @@
 
-// font
-$font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-sans-serif;
 
-$code-font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-monospace;
-
-// import pixelfy font
-//@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
-//$pixel-font-family: 'Pixelify Sans', san-serif;
-
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-$pixel-font-family: 'Press Start 2P', san-serif;
-
-// import bungee font
-@import url('https://fonts.googleapis.com/css2?family=Bungee+Tint&family=Tiny5&display=swap');
-$bungee-font-family: 'Bungee Tint', san-serif;
-
-@font-face {
-    font-family: custom-font-1;
-    src: url("../assets/back-to-1982/BACKTO1982.TTF")
-}
-$custom-font-family: custom-font-1, san-serif;
-
-$bold-font-weight: 700;
-$font-weight: 400;
-
+// specify props available within ts after view init
 :root {
-  // makes props available within ts after view init
   --app-min-window-height: 500px;
   --app-min-window-width: 600px;
 }
 
+
+// window settings
 $min-window-height: var(--app-min-window-height);
 $min-window-width: var(--app-min-window-width);
+
+
+// font settings
+$font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+sans-serif;
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+$pixel-font-family: 'Press Start 2P', san-serif;
+
+$font-weight: 400;
+$bold-font-weight: 700;
 
 $font-size-xxl: 60px;
 $font-size-xl: 55px;
@@ -47,11 +34,12 @@ $font-size-sm: 10px;
 $font-size-xs: 8px;
 
 // colors
-$primary: #ff78f8;
-$secondary: #2f2f2f;
+$primary: #a82121;
+$secondary: #050559;
+$accent-color: #A8BDD8;
+$neutral-color: #8f8f8f;
 $clear: rgba(0,0,0,0);
 $body-background-color: #A8BDD8;
-
 $surface-color: #eac8a8ff;
 $error-color: #ff3636;
 
