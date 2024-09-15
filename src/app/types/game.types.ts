@@ -1,8 +1,10 @@
-
+//The GamePhase displays the state of the game and conclusion once game ends.
 export type GamePhase = 'new' | 'wait'| 'selct' | 'goodg' | 'p1win' | 'p2win' | 'nowin' | 'killd'
 
+//Displays player
 export type Player = 'p1' | 'p2'
 
+//Depending on the number of ships, once placed, it occupies those tiles.
 export class GameBoard {
   ship_1?: string[];
   ship_2?: string[];
@@ -19,6 +21,7 @@ export class GameBoard {
   }
 }
 
+//Displayed while playing how many ships remaining, if a ship at that tile has been hit or not, ect.
 export type GameState = {
   hit_tile_ids: string[]
   miss_tile_ids: string[]
@@ -28,6 +31,7 @@ export type GameState = {
   my_ships_remaining: number
 }
 
+//GameSession type displays the state of the game from one of the options of GamePhase and whose turn it is.
 export type GameSession = {
   game_phase: GamePhase;
   active_turn: Player;

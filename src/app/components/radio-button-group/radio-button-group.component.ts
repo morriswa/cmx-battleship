@@ -2,6 +2,12 @@ import {Component, Input, OnInit, signal, WritableSignal} from "@angular/core";
 import {NgClass} from "@angular/common";
 
 
+/*
+  This file is used to control the logic for the buttons on the https://www.morriswa.org/cmx/battleship/start webpage
+  The radio buttons give the user the exact number of ships [1-5].
+ */
+
+  //
 export type RadioButtonOptions = {
   value: any;
   label: string;

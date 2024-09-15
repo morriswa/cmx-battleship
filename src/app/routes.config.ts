@@ -3,6 +3,10 @@ import {UserSessionGuard} from "./guards/user-session.guard";
 import {EnvironmentProviders} from "@angular/core";
 import {ActiveGameGuard} from "./guards/active-game.guard";
 
+/* This file is used to handle the routes. By default the game starts on the "start" route.
+   After entering your name and selecting the number of ships, player will be sent to lobby.
+   Once a match is found, players begin playing on the play route.
+*/
 
 const routesConfig: Routes = [
   {
