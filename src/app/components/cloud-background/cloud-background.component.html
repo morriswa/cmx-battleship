@@ -1,16 +1,16 @@
 
 <div style="position: fixed; z-index: -10">
 
-  <img class="render-fixed bground-image" alt="clouds over ocean" ngSrc="assets/Ocean_8/1.png" height="324" width="576" priority>
+  <img class="render-fixed bground-image" alt="clouds over ocean" ngSrc="assets/Ocean_8/1.png" height="324" width="576" priority> <!-- background image with ocean and sky --> 
 
-  @switch (displayMode) {
-    @case ('cloudy') {
+  @switch (displayMode) { <!-- switch used to either display background full of clouds or background with only 2 clouds -->
+    @case ('cloudy') { <!-- cloudy background displayed on landing-page - load 4 pictures from assets -->
       <img class="render-fixed bground-image-moving-3" alt="animated clouds over ocean" ngSrc="assets/Ocean_8/2.png" height="324" width="576">
       <img class="render-fixed bground-image-moving" alt="animated clouds over ocean" ngSrc="assets/Ocean_8/3.png" height="324" width="576">
       <img class="render-fixed bground-image-moving-2" alt="animated clouds over ocean" ngSrc="assets/Ocean_8/4.png" height="324" width="576">
       <img class="render-fixed bground-image" alt="clouds over ocean" ngSrc="assets/Ocean_8/5.png" height="324" width="576">
     }
-    @default {
+    @default { <!-- two cloud background displayed on lobby and gameplay screen - load 2 pictures from assets -->
       <img class="render-fixed right-cloud" alt="clouds over ocean" ngSrc="assets/image1.png" height="162" width="244">
       <img class="render-fixed left-cloud" alt="clouds over ocean" ngSrc="assets/left.png" height="166" width="250">
     }
