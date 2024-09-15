@@ -1,34 +1,38 @@
-@use 'src/styles/variables' as *;
+@use 'src/styles/variables' as *; // Importing global style variables for consistent design
 
+/* Styling for the game title section */
 .app-title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: flex; // Flexbox for layout
+  flex-direction: column; // Arrange child elements (e.g., title, buttons) in a column
+  align-items: center; // Center-align the title and any content within this container
 }
 
+/* Styling for the main game body */
 .app-body {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: stretch;
-  justify-content: center;
-  column-gap: 20px;
+  display: flex; // Flexbox for layout
+  flex-direction: row; // Arrange child elements (e.g., gameboard, stats) in a row
+  flex-wrap: wrap; // Allow wrapping of content if there's not enough space
+  align-items: stretch; // Stretch child elements to match the height of the container
+  justify-content: center; // Center the child elements within the container
+  column-gap: 20px; // Space between columns (child elements)
 }
 
+/* Styling for the ship selector section */
 .app-ship-selector {
-  max-width: 500px;
+  max-width: 500px; // Limit the width of the ship selector to 500px to maintain layout consistency
 }
 
+/* Styling for the game state panel, responsive to screen size */
 .game-state-panel {
-  @media (min-width: 900px) {
-    max-width: 20%;
+  @media (min-width: 900px) { // Media query for screens wider than 900px
+    max-width: 20%; // Limit the width to 20% of the screen on larger displays
   }
 }
 
+/* Styling for the game board area */
 .app-gameboard {
-  background-color: $surface-color;
-  width: fit-content;
-  padding: 30px;
-  border-radius: 5%;
+  background-color: $surface-color; // Use a global surface color variable for consistency
+  width: fit-content; // The width automatically adjusts based on the content inside the gameboard
+  padding: 30px; // Padding inside the gameboard for spacing
+  border-radius: 5%; // Rounded corners for a softer look
 }
-

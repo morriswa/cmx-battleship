@@ -1,52 +1,71 @@
-<app-cloud-background displayMode="partly_cloudy"/>
+<!-- Cloud Background Component -->
+<app-cloud-background displayMode="partly_cloudy"></app-cloud-background>
+<!-- Displays a cloud background with the "partly_cloudy" mode -->
 
 <div class="pixel-font">
+  <!-- Main container with a pixelated font style -->
 
+  <!-- Lobby title -->
   <h1 style="text-align: center" class="game-title">Lobby</h1>
+  <!-- Displays the title of the page at the center -->
 
+  <!-- Button Row: Logout and Quick Match -->
   <div class="flex-row mx-auto justify-content-center col-gap-2">
     <button class="game-button" (click)="handleLogout()">Logout</button>
+    <!-- Logout button triggers the handleLogout method when clicked -->
     <button class="game-button">Quick Match</button>
+    <!-- Quick Match button (functionality not yet implemented) -->
   </div>
 
-  <br>
+  <br> <!-- Line break for spacing -->
 
+  <!-- Flex container for Players and Requests sections -->
   <div class="flex-row vw-70 mx-auto col-gap-2">
 
     <!-- Online Players Section -->
     <div class="flex-col player-col">
+      <!-- Section title -->
       <h3 class="game-subtitle">Players</h3>
 
-      <br>
+      <br> <!-- Line break for spacing -->
 
+      <!-- Search input for filtering players -->
       <p>Search for player:</p>
       <input class="mt-1 game-input" [formControl]="searchedPlayer" placeholder="Enter player name or ID">
+      <!-- Input bound to the searchedPlayer form control, allows users to search for a player -->
 
-      <!-- Updated: Online Players List with Request Button -->
+      <!-- List of online players with a Request button -->
       <div class="player-list">
         <div *ngFor="let player of availablePlayerCache(); trackBy: trackPlayerId" class="mt-2 flex-row space-between-items">
           <span>{{ player.player_name }}#{{ player.player_id }}</span>
+          <!-- Displays the player's name and ID -->
           <button class="game-button" (click)="handleCreateRequest(player.player_id)">Request</button>
+          <!-- Button to send a match request to the player -->
         </div>
       </div>
     </div>
 
-    <!-- Requests Section -->
+    <!-- Requests Section (List of match requests received) -->
     <div class="flex-col player-col">
+      <!-- Section title -->
       <h3 class="game-subtitle">Requests</h3>
 
+      <!-- List of match requests with an Accept button -->
       <div class="player-list">
         <div *ngFor="let request of gameRequestCache(); trackBy: trackPlayerId" class="mt-2 flex-row space-between-items">
           <span>{{ request.player_name }}#{{ request.player_id }}</span>
+          <!-- Displays the name and ID of the player who sent a match request -->
           <button class="game-button" (click)="handleJoinGame(request.game_request_id)">Accept</button>
+          <!-- Button to accept the match request -->
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- Footer -->
+  <!-- Footer section at the bottom of the page -->
   <div class="footer">
     <span>&copy; 2024 Battleship Game. All rights reserved.</span>
+    <!-- Displays copyright information -->
   </div>
 </div>
