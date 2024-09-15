@@ -1,9 +1,11 @@
+// keyframes used to animate clouds slightly to the left and right
 @keyframes CloudAnimation {
   0% {right: -5vw}
   50% {right: -6vw}
   100% {right: -5vw}
 }
 
+// class used to style the large clouds in front - they are set to animate faster to create dimension
 .bground-image-moving {
   background-repeat: no-repeat;
   object-fit: cover;
@@ -12,6 +14,8 @@
   animation: CloudAnimation 15s infinite;
 }
 
+
+// class used to style the small clouds in back - they are set to animate slower to create dimension
 .bground-image-moving-2 {
   background-repeat: no-repeat;
   object-fit: cover;
@@ -21,6 +25,7 @@
   z-index: -1;
 }
 
+// class used to style static sunset image in the back
 .bground-image-moving-3 {
   background-repeat: no-repeat;
   object-fit: cover;
@@ -30,6 +35,7 @@
   z-index: -1;
 }
 
+// class used to style static sunset images in the back
 .bground-image {
   background-repeat: no-repeat;
   object-fit: cover;
@@ -38,6 +44,7 @@
   height: 100vh;
 }
 
+// class used in default displaymode, displays the cloud on the bottom right
 .right-cloud {
   background-repeat: no-repeat;
   object-fit: cover;
@@ -46,6 +53,7 @@
   margin-top: 400px;
 }
 
+// class used in default displaymode, displays the cloud on the top left
 .left-cloud {
   background-repeat: no-repeat;
   object-fit: cover;
